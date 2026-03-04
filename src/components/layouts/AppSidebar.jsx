@@ -32,7 +32,6 @@ export function AppSidebar() {
                 </div>
             </SidebarHeader>
 
-            {/* Content: روابط التنقل */}
             <SidebarContent className={`${THEME.colors.primary} px-2 py-4 group-data-[collapsible=icon]:px-0`}>
                 <SidebarGroup>
                     <SidebarGroupContent>

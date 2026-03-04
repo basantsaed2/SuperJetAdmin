@@ -4,6 +4,7 @@ import LoginPage from "@/pages/auth/LoginPage";
 import ProtectedRoute from "@/routes/ProtectedRoute";
 import MainLayout from "@/components/layouts/MainLayout";
 import BusTypesPage from "@/pages/BusTypes/BusTypesPage";
+import BusTypeFormPage from "@/pages/BusTypes/BusTypeFormPage";
 
 const Dashboard = () => <div className="p-8">Dashboard Home</div>;
 
@@ -25,13 +26,18 @@ export const router = createBrowserRouter(
                     element: <ProtectedRoute />,
                     children: [
                         {
-                            // هنا المشكلة كانت: الـ MainLayout لازم يكون هو الـ element للأب
                             element: <MainLayout />,
                             children: [
                                 { index: true, element: <Navigate to="/dashboard" replace /> },
                                 { path: "dashboard", element: <Dashboard /> },
-                                { path: "bus_types", element: <BusTypesPage /> },
-                                { path: "buses", element: <div className="p-8">Buses</div> },
+                                                                { 
+                                    path: "bus_types", 
+                                    children: [
+                                        { index: true, element: <BusTypesPage /> }, 
+                                        { path: "add", element: <BusTypeFormPage /> }, 
+                                        { path: "edit/:id", element: <BusTypeFormPage /> }, 
+                                    ]
+                                },
                             ],
                         },
                     ],

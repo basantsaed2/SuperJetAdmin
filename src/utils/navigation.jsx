@@ -13,16 +13,16 @@ export const NAV_ITEMS = [
         icon: <Settings size={20} />,
         permission: null,
     },
-    {
-        title: "Buses Fleet",
-        path: "/buses",
-        icon: <Bus size={20} />,
-        permission: null,
-    },
-    {
-        title: "User Management",
-        path: "/staff",
-        icon: <Users size={20} />,
-        permission: null,
-    },
+    // {
+    //     title: "Buses Fleet",
+    //     path: "/buses",
+    //     icon: <Bus size={20} />,
+    //     permission: null,
+    // },
+    // {
+    //     title: "User Management",
+    //     path: "/staff",
+    //     icon: <Users size={20} />,
+    //     permission: null,
+    // },
 ];

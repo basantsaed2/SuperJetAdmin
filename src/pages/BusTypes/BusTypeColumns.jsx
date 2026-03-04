@@ -1,3 +1,4 @@
+// src/pages/BusTypes/BusTypeColumns.jsx
 import { Edit, Trash2, Eye } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -7,7 +8,6 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip"
 
-// بنعمل Export للدالة دي عشان نستخدمها في صفحة الـ BusTypesPage
 export const getBusTypeColumns = (onEdit, onDelete, onView) => [
     {
         accessorKey: "name",
@@ -38,6 +38,7 @@ export const getBusTypeColumns = (onEdit, onDelete, onView) => [
         cell: ({ row }) => (
             <div className="flex items-center gap-2">
                 <TooltipProvider>
+                    {/* View Action */}
                     <Tooltip delayDuration={300}>
                         <TooltipTrigger asChild>
                             <Button
@@ -49,11 +50,10 @@ export const getBusTypeColumns = (onEdit, onDelete, onView) => [
                                 <Eye className="h-4 w-4" />
                             </Button>
                         </TooltipTrigger>
-                        <TooltipContent>
-                            <p>View Details</p>
-                        </TooltipContent>
+                        <TooltipContent><p>View Details</p></TooltipContent>
                     </Tooltip>
 
+                    {/* Edit Action - يمرر الكائن بالكامل */}
                     <Tooltip delayDuration={300}>
                         <TooltipTrigger asChild>
                             <Button
@@ -65,11 +65,10 @@ export const getBusTypeColumns = (onEdit, onDelete, onView) => [
                                 <Edit className="h-4 w-4" />
                             </Button>
                         </TooltipTrigger>
-                        <TooltipContent>
-                            <p>Edit Type</p>
-                        </TooltipContent>
+                        <TooltipContent><p>Edit Type</p></TooltipContent>
                     </Tooltip>
 
+                    {/* Delete Action */}
                     <Tooltip delayDuration={300}>
                         <TooltipTrigger asChild>
                             <Button
@@ -81,9 +80,7 @@ export const getBusTypeColumns = (onEdit, onDelete, onView) => [
                                 <Trash2 className="h-4 w-4" />
                             </Button>
                         </TooltipTrigger>
-                        <TooltipContent>
-                            <p>Delete</p>
-                        </TooltipContent>
+                        <TooltipContent><p>Delete</p></TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
             </div>

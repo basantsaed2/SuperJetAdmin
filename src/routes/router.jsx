@@ -5,6 +5,8 @@ import ProtectedRoute from "@/routes/ProtectedRoute";
 import MainLayout from "@/components/layouts/MainLayout";
 import BusTypesPage from "@/pages/BusTypes/BusTypesPage";
 import BusTypeFormPage from "@/pages/BusTypes/BusTypeFormPage";
+import BusesPage from "@/pages/Buses/BusesPage";
+import BusesFormPage from "@/pages/Buses/BusesFormPage";
 
 const Dashboard = () => <div className="p-8">Dashboard Home</div>;
 
@@ -36,6 +38,14 @@ export const router = createBrowserRouter(
                                         { index: true, element: <BusTypesPage /> }, 
                                         { path: "add", element: <BusTypeFormPage /> }, 
                                         { path: "edit/:id", element: <BusTypeFormPage /> }, 
+                                    ]
+                                },
+                                { 
+                                    path: "buses", 
+                                    children: [
+                                        { index: true, element: <BusesPage /> }, 
+                                        { path: "add", element: <BusesFormPage /> }, 
+                                        { path: "edit/:id", element: <BusesFormPage /> }, 
                                     ]
                                 },
                             ],

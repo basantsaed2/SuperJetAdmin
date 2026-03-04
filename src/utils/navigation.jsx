@@ -1,10 +1,16 @@
-import { LayoutDashboard, Bus, Settings, Users, ShieldCheck, Wrench ,MapPin, Navigation, Warehouse } from "lucide-react";
+import { LayoutDashboard, Bus, Settings, Users, ShieldCheck, Wrench ,MapPin, Navigation, Warehouse, UserCircle } from "lucide-react";
 
 export const NAV_ITEMS = [
     {
         title: "dashboard",
         path: "/dashboard",
         icon: <LayoutDashboard size={20} />,
+        permission: null,
+    },
+    {
+        title: "users",
+        path: "/users",
+        icon: <UserCircle size={20} />,
         permission: null,
     },
     {
@@ -53,6 +59,12 @@ export const NAV_ITEMS = [
         title: "roles",
         path: "/roles",
         icon: <ShieldCheck size={20} />,
+        permission: null,
+    },
+    {
+        title: "admins",
+        path: "/admins",
+        icon: <Users size={20} />,
         permission: null,
     },
 ];

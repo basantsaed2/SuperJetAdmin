@@ -19,6 +19,10 @@ import GaragesPage from "@/pages/Garages/GaragesPage";
 import GarageFormPage from "@/pages/Garages/GarageFormPage";
 import RolesPage from "@/pages/Roles/RolesPage";
 import RoleFormPage from "@/pages/Roles/RoleFormPage";
+import AdminsPage from "@/pages/Admins/AdminsPage";
+import AdminFormPage from "@/pages/Admins/AdminFormPage";
+import UsersPage from "@/pages/Users/UsersPage";
+import UserFormPage from "@/pages/Users/UserFormPage";
 
 const Dashboard = () => <div className="p-8">Dashboard Home</div>;
 
@@ -106,6 +110,22 @@ export const router = createBrowserRouter(
                                         { index: true, element: <RolesPage /> }, 
                                         { path: "add", element: <RoleFormPage /> }, 
                                         { path: "edit/:id", element: <RoleFormPage /> }, 
+                                    ]
+                                },
+                                { 
+                                    path: "admins", 
+                                    children: [
+                                        { index: true, element: <AdminsPage /> }, 
+                                        { path: "add", element: <AdminFormPage /> }, 
+                                        { path: "edit/:id", element: <AdminFormPage /> }, 
+                                    ]
+                                },
+                                { 
+                                    path: "users", 
+                                    children: [
+                                        { index: true, element: <UsersPage /> }, 
+                                        { path: "add", element: <UserFormPage /> }, 
+                                        { path: "edit/:id", element: <UserFormPage /> }, 
                                     ]
                                 },
                             ],

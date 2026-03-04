@@ -81,7 +81,23 @@ const resources = {
       "active": "Active",
       "inactive": "Inactive",
       "selected": "Selected",
-      "this_field_is_required": "This field is required"
+      "this_field_is_required": "This field is required",
+      "maintenance_types": "Maintenance Types",
+      "manage_maintenance_types": "Manage maintenance categories",
+      "maintenance_type_name": "Maintenance Type Name",
+      "maintenance_type_name_placeholder": "e.g. Mechanics",
+      "edit_maintenance_type": "Edit Maintenance Type",
+      "add_new_maintenance_type": "Add New Maintenance Type",
+      "configure_maintenance_type": "Configure maintenance type",
+      "maintenances": "Maintenances",
+      "manage_maintenances": "Manage specific maintenance items",
+      "add_new_maintenance": "Add New Maintenance",
+      "edit_maintenance": "Edit Maintenance Details",
+      "maintenance_name": "Maintenance Name",
+      "maintenance_name_placeholder": "e.g. Engine Oil Change",
+      "select_maintenance_type": "Select Maintenance Type",
+      "create_maintenance": "Create Maintenance",
+      "configure_maintenance": "Configure maintenance record"
     }
   },
   ar: {
@@ -162,7 +178,23 @@ const resources = {
       "active": "نشط",
       "inactive": "غير نشط",
       "selected": "مختار",
-      "this_field_is_required": "هذا الحقل مطلوب"
+      "this_field_is_required": "هذا الحقل مطلوب",
+      "maintenance_types": "أنواع الصيانة",
+      "manage_maintenance_types": "إدارة فئات الصيانة",
+      "maintenance_type_name": "اسم نوع الصيانة",
+      "maintenance_type_name_placeholder": "مثال: ميكانيكا",
+      "edit_maintenance_type": "تعديل نوع الصيانة",
+      "add_new_maintenance_type": "إضافة نوع صيانة جديد",
+      "configure_maintenance_type": "تكوين نوع الصيانة",
+      "maintenances": "الصيانات",
+      "manage_maintenances": "إدارة عناصر الصيانة المحددة",
+      "add_new_maintenance": "إضافة صيانة جديدة",
+      "edit_maintenance": "تعديل تفاصيل الصيانة",
+      "maintenance_name": "اسم الصيانة",
+      "maintenance_name_placeholder": "مثال: تغيير زيت المحرك",
+      "select_maintenance_type": "اختر نوع الصيانة",
+      "create_maintenance": "إنشاء صيانة",
+      "configure_maintenance": "تكوين سجل الصيانة"
     }
   }
 };

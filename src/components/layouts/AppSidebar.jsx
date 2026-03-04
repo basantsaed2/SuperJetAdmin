@@ -41,7 +41,7 @@ export function AppSidebar() {
                 </div>
             </SidebarHeader>
 
-            <SidebarContent className={`${THEME.colors.primary} px-2 py-4 group-data-[collapsible=icon]:px-0`}>
+            <SidebarContent className={`${THEME.colors.primary} px-2 py-2 group-data-[collapsible=icon]:px-0`}>
                 <SidebarGroup>
                     <SidebarGroupContent>
                         <SidebarMenu className="gap-1.5">
@@ -53,7 +53,7 @@ export function AppSidebar() {
                                             className={({ isActive }) => {
                                                 const baseClasses = "flex items-center gap-3 px-2 md:px-4 py-3 rounded-lg transition-all duration-300 w-full group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:justify-center";
                                                 const activeClasses = `${THEME.colors.secondary} ${THEME.colors.accent} font-bold shadow-lg shadow-yellow-400/20 scale-[1.02]`;
-                                                const idleClasses = "text-white/60 hover:text-white hover:bg-white/10";
+                                                const idleClasses = "text-white hover:text-white hover:bg-white/10";
 
                                                 return `${baseClasses} ${isActive ? activeClasses : idleClasses}`;
                                             }}

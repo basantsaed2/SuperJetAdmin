@@ -7,6 +7,10 @@ import BusTypesPage from "@/pages/BusTypes/BusTypesPage";
 import BusTypeFormPage from "@/pages/BusTypes/BusTypeFormPage";
 import BusesPage from "@/pages/Buses/BusesPage";
 import BusesFormPage from "@/pages/Buses/BusesFormPage";
+import MaintenanceTypesPage from "@/pages/MaintenanceTypes/MaintenanceTypesPage";
+import MaintenanceTypesFormPage from "@/pages/MaintenanceTypes/MaintenanceTypesFormPage";
+import MaintenancesPage from "@/pages/Maintenances/MaintenancesPage";
+import MaintenancesFormPage from "@/pages/Maintenances/MaintenancesFormPage";
 
 const Dashboard = () => <div className="p-8">Dashboard Home</div>;
 
@@ -46,6 +50,22 @@ export const router = createBrowserRouter(
                                         { index: true, element: <BusesPage /> }, 
                                         { path: "add", element: <BusesFormPage /> }, 
                                         { path: "edit/:id", element: <BusesFormPage /> }, 
+                                    ]
+                                },
+                                { 
+                                    path: "maintenance_types", 
+                                    children: [
+                                        { index: true, element: <MaintenanceTypesPage /> }, 
+                                        { path: "add", element: <MaintenanceTypesFormPage /> }, 
+                                        { path: "edit/:id", element: <MaintenanceTypesFormPage /> }, 
+                                    ]
+                                },
+                                { 
+                                    path: "maintenances", 
+                                    children: [
+                                        { index: true, element: <MaintenancesPage /> }, 
+                                        { path: "add", element: <MaintenancesFormPage /> }, 
+                                        { path: "edit/:id", element: <MaintenancesFormPage /> }, 
                                     ]
                                 },
                             ],

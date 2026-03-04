@@ -1,28 +1,34 @@
-import { LayoutDashboard, Bus, Settings, Users, ShieldCheck } from "lucide-react";
+import { LayoutDashboard, Bus, Settings, Users, ShieldCheck, Wrench } from "lucide-react";
 
 export const NAV_ITEMS = [
     {
-        title: "Dashboard",
+        title: "dashboard",
         path: "/dashboard",
         icon: <LayoutDashboard size={20} />,
         permission: null,
     },
     {
-        title: "Bus Types",
+        title: "bus_types",
         path: "/bus_types",
         icon: <Settings size={20} />,
         permission: null,
     },
     {
-        title: "Buses",
+        title: "buses",
         path: "/buses",
         icon: <Bus size={20} />,
         permission: null,
     },
-    // {
-    //     title: "User Management",
-    //     path: "/staff",
-    //     icon: <Users size={20} />,
-    //     permission: null,
-    // },
+    {
+        title: "maintenance_types",
+        path: "/maintenance_types",
+        icon: <Settings size={20} />,
+        permission: null,
+    },
+    {
+        title: "maintenances",
+        path: "/maintenances",
+        icon: <Wrench size={20} />,
+        permission: null,
+    },
 ];

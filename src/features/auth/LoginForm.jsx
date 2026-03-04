@@ -39,7 +39,7 @@ export const LoginForm = () => {
     };
 
     return (
-        <div className="w-full max-w-md p-8">
+        <div className="w-full max-w-xl p-4 md:p-8">
             <div className="mb-8 text-center md:text-left">
                 <h2 className="text-3xl font-bold text-slate-800">Welcome Back</h2>
                 <p className="text-slate-500 mt-2">Superjet Fleet Management System</p>

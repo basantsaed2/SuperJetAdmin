@@ -97,7 +97,25 @@ const resources = {
       "maintenance_name_placeholder": "e.g. Engine Oil Change",
       "select_maintenance_type": "Select Maintenance Type",
       "create_maintenance": "Create Maintenance",
-      "configure_maintenance": "Configure maintenance record"
+      "configure_maintenance": "Configure maintenance record",
+      "cities": "Cities",
+      "manage_cities": "Manage city names",
+      "add_new_city": "Add New City",
+      "edit_city": "Edit City",
+      "configure_city": "Configure city details",
+      "city_name": "City Name",
+      "city_name_placeholder": "e.g. Cairo",
+      "zones": "Zones",
+      "manage_zones": "Manage specific areas and zones",
+      "add_new_zone": "Add New Zone",
+      "edit_zone": "Edit Zone",
+      "configure_zone": "Configure zone details",
+      "zone_name": "Zone Name",
+      "zone_name_placeholder": "e.g. Nasr City",
+      "city": "City",
+      "select_city": "Select City",
+      "create_city": "Create City",
+      "create_zone": "Create Zone"
     }
   },
   ar: {
@@ -194,7 +212,25 @@ const resources = {
       "maintenance_name_placeholder": "مثال: تغيير زيت المحرك",
       "select_maintenance_type": "اختر نوع الصيانة",
       "create_maintenance": "إنشاء صيانة",
-      "configure_maintenance": "تكوين سجل الصيانة"
+      "configure_maintenance": "تكوين سجل الصيانة",
+      "cities": "المدن",
+      "manage_cities": "إدارة أسماء المدن",
+      "add_new_city": "إضافة مدينة جديدة",
+      "edit_city": "تعديل المدينة",
+      "configure_city": "تكوين تفاصيل المدينة",
+      "city_name": "اسم المدينة",
+      "city_name_placeholder": "مثال: القاهرة",
+      "zones": "المناطق",
+      "manage_zones": "إدارة المناطق والأحياء المحددة",
+      "add_new_zone": "إضافة منطقة جديدة",
+      "edit_zone": "تعديل المنطقة",
+      "configure_zone": "تكوين تفاصيل المنطقة",
+      "zone_name": "اسم المنطقة",
+      "zone_name_placeholder": "مثال: مدينة نصر",
+      "city": "المدينة",
+      "select_city": "اختر المدينة",
+      "create_city": "إنشاء المدينة",
+      "create_zone": "إنشاء المنطقة"
     }
   }
 };

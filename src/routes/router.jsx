@@ -11,6 +11,10 @@ import MaintenanceTypesPage from "@/pages/MaintenanceTypes/MaintenanceTypesPage"
 import MaintenanceTypesFormPage from "@/pages/MaintenanceTypes/MaintenanceTypesFormPage";
 import MaintenancesPage from "@/pages/Maintenances/MaintenancesPage";
 import MaintenancesFormPage from "@/pages/Maintenances/MaintenancesFormPage";
+import CitiesPage from "@/pages/Cities/CitiesPage";
+import CityFormPage from "@/pages/Cities/CityFormPage";
+import ZonesPage from "@/pages/Zones/ZonesPage";
+import ZoneFormPage from "@/pages/Zones/ZoneFormPage";
 
 const Dashboard = () => <div className="p-8">Dashboard Home</div>;
 
@@ -66,6 +70,22 @@ export const router = createBrowserRouter(
                                         { index: true, element: <MaintenancesPage /> }, 
                                         { path: "add", element: <MaintenancesFormPage /> }, 
                                         { path: "edit/:id", element: <MaintenancesFormPage /> }, 
+                                    ]
+                                },
+                                { 
+                                    path: "cities", 
+                                    children: [
+                                        { index: true, element: <CitiesPage /> }, 
+                                        { path: "add", element: <CityFormPage /> }, 
+                                        { path: "edit/:id", element: <CityFormPage /> }, 
+                                    ]
+                                },
+                                { 
+                                    path: "zones", 
+                                    children: [
+                                        { index: true, element: <ZonesPage /> }, 
+                                        { path: "add", element: <ZoneFormPage /> }, 
+                                        { path: "edit/:id", element: <ZoneFormPage /> }, 
                                     ]
                                 },
                             ],

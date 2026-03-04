@@ -1,0 +1,51 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+}
+
+@theme {
+  --color-sidebar: #003366;
+  --color-sidebar-foreground: #ffffff;
+  --color-sidebar-primary: #FFCC00;
+  --color-sidebar-primary-foreground: #003366;
+  --color-sidebar-accent: rgba(255, 255, 255, 0.1);
+  --color-sidebar-accent-foreground: #ffffff;
+  --color-sidebar-border: rgba(255, 255, 255, 0.1);
+  --color-sidebar-ring: #FFCC00;
+
+  --color-background: #ffffff;
+  --color-foreground: #003366;
+  --color-primary: #003366;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #FFCC00;
+  --color-secondary-foreground: #003366;
+  --color-accent: #FFCC00;
+  --color-accent-foreground: #003366;
+  --color-border: #e2e8f0;
+  --color-input: #e2e8f0;
+  --color-ring: #003366;
+
+  --radius: 0.5rem;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+}

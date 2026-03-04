@@ -3,6 +3,7 @@ import App from "@/App";
 import LoginPage from "@/pages/auth/LoginPage";
 import ProtectedRoute from "@/routes/ProtectedRoute";
 import MainLayout from "@/components/layouts/MainLayout";
+import BusTypesPage from "@/pages/BusTypes/BusTypesPage";
 
 const Dashboard = () => <div className="p-8">Dashboard Home</div>;
 
@@ -29,7 +30,7 @@ export const router = createBrowserRouter(
                             children: [
                                 { index: true, element: <Navigate to="/dashboard" replace /> },
                                 { path: "dashboard", element: <Dashboard /> },
-                                { path: "bus-types", element: <div className="p-8">Bus Types</div> },
+                                { path: "bus_types", element: <BusTypesPage /> },
                                 { path: "buses", element: <div className="p-8">Buses</div> },
                             ],
                         },

@@ -9,7 +9,7 @@ export const NAV_ITEMS = [
     },
     {
         title: "Bus Types",
-        path: "/bus-types",
+        path: "/bus_types",
         icon: <Settings size={20} />,
         permission: null,
     },

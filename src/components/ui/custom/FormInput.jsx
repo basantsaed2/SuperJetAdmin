@@ -14,6 +14,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import { Search, X, Check, ChevronDown } from "lucide-react";
@@ -36,7 +37,6 @@ const SearchableSelect = ({ options, onValueChange, defaultValue, placeholder, t
       onOpenChange={(open) => {
         if (open) {
           setSearchTerm("");
-          // Focus input after a short delay for Radix to mount Content
           setTimeout(() => inputRef.current?.focus(), 50);
         }
       }}
@@ -68,7 +68,7 @@ const SearchableSelect = ({ options, onValueChange, defaultValue, placeholder, t
               </SelectItem>
             ))
           ) : (
-            <div className="p-4 text-center text-xs text-slate-400">
+            <div className="p-4 text-center text-xs text-slate-400 font-medium">
               {t('no_records_found')}
             </div>
           )}
@@ -167,7 +167,7 @@ const MultiSelect = ({ options, value = [], onChange, placeholder, t, hasError }
               </DropdownMenuCheckboxItem>
             ))
           ) : (
-            <div className="p-4 text-center text-xs text-slate-400">
+            <div className="p-4 text-center text-xs text-slate-400 font-medium">
               {t('no_records_found')}
             </div>
           )}
@@ -234,6 +234,25 @@ export const FormInput = ({
             t={t}
             hasError={hasError}
           />
+        );
+
+      case "switch":
+        const isChecked = watch(name) === "active";
+        return (
+          <div className="flex items-center gap-4 py-3 px-4 bg-slate-50/50 rounded-2xl border border-slate-100/50 shadow-inner group transition-all hover:bg-white hover:shadow-sm">
+            <Switch
+              checked={isChecked}
+              onCheckedChange={(checked) => 
+                setValue(name, checked ? "active" : "inactive", { shouldValidate: true })
+              }
+              {...props}
+            />
+            {placeholder && (
+              <span className="text-sm font-semibold text-slate-600 tracking-tight transition-colors">
+                {placeholder} (<span className={cn(isChecked ? "text-green-600" : "text-amber-600")}>{isChecked ? t('active') : t('inactive')}</span>)
+              </span>
+            )}
+          </div>
         );
 
       default:

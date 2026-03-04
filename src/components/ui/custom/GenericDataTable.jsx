@@ -26,7 +26,10 @@ export function GenericDataTable({ columns, data, isLoading }) {
     const [columnFilters, setColumnFilters] = React.useState([])
 
     // نحدد أول عمود يحتوي على داتا كعمود بحث افتراضي
-    const searchableColumns = columns.filter(col => col.accessorKey)
+    const searchableColumns = columns.filter(col => 
+        col.accessorKey && 
+        !col.accessorKey.toLowerCase().includes("image")
+    )
     const [searchColumn, setSearchColumn] = React.useState(searchableColumns[0]?.accessorKey || "")
 
     const table = useReactTable({
@@ -43,10 +46,8 @@ export function GenericDataTable({ columns, data, isLoading }) {
 
     return (
         <div className="space-y-4">
-            {/* شريط أدوات البحث */}
             <div className="flex items-center gap-2 p-1">
                 <Select value={searchColumn} onValueChange={(val) => {
-                    // تصفية البحث القديم عند تغيير العمود
                     table.getColumn(searchColumn)?.setFilterValue("")
                     setSearchColumn(val)
                 }}>
@@ -72,7 +73,6 @@ export function GenericDataTable({ columns, data, isLoading }) {
                 />
             </div>
 
-            {/* استخدام المكونات التي أرسلتِها */}
             <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
                 <Table>
                     <TableHeader className="bg-slate-50/50">

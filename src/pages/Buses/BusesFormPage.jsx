@@ -24,6 +24,7 @@ const busSchema = z.object({
   licenseExpiryDate: z.string().min(1, "Expiry date is required"),
   licenseImage: z.string().optional(),
   busImage: z.string().optional(),
+  status: z.enum(["active", "inactive"]).default("active"),
 });
 
 const BusesFormPage = () => {
@@ -57,6 +58,7 @@ const BusesFormPage = () => {
     handleSubmit,
     reset,
     setValue,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(busSchema),
@@ -69,6 +71,7 @@ const BusesFormPage = () => {
       licenseExpiryDate: "",
       licenseImage: "",
       busImage: "",
+      status: "active",
     },
   });
 
@@ -84,6 +87,7 @@ const BusesFormPage = () => {
         licenseExpiryDate: bus.licenseExpiryDate?.split('T')[0] || "",
         licenseImage: bus.licenseImage || "",
         busImage: bus.busImage || "",
+        status: bus.status || "active",
       });
       setBusImagePreview(bus.busImage);
       setLicenseImagePreview(bus.licenseImage);
@@ -201,6 +205,15 @@ const BusesFormPage = () => {
             type="date"
             register={register}
             errors={errors}
+          />
+
+          <FormInput
+            type="switch"
+            label={t('status')}
+            name="status"
+            setValue={setValue}
+            watch={watch}
+            placeholder={t('status')}
           />
         </div>
 

@@ -2,8 +2,11 @@
 import { LoginForm } from "@/features/auth/LoginForm";
 import AuthIllustration from "@/features/auth/AuthIllustration";
 import { THEME } from "@/utils/theme";
+import { useTranslation } from "react-i18next";
 
 const LoginPage = () => {
+    const { t } = useTranslation();
+
     return (
         <div className="min-h-screen flex md:flex-row">
             <div className={`hidden md:flex md:w-1/2 ${THEME.colors.primary} items-center justify-center p-12`}>
@@ -17,12 +20,12 @@ const LoginPage = () => {
 
                     <div className="flex items-center gap-3 mb-6">
                         <div className="h-[2px] w-8 bg-yellow-400"></div>
-                        <span className="text-xs uppercase tracking-[0.3em] font-bold text-yellow-400">Admin Panel</span>
+                        <span className="text-xs uppercase tracking-[0.3em] font-bold text-yellow-400">{t('admin_panel')}</span>
                         <div className="h-[2px] w-8 bg-yellow-400"></div>
                     </div>
 
                     <p className="text-blue-100 max-w-sm text-lg font-light leading-relaxed opacity-80">
-                        Efficiency in motion. Manage your entire fleet with precision and ease.
+                        {t('login_description')}
                     </p>
                 </div>
             </div>

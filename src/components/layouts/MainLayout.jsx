@@ -4,8 +4,17 @@ import { AppSidebar } from "./AppSidebar"
 import Navbar from "./Navbar"
 import { Outlet } from "react-router-dom"
 import { THEME } from "@/utils/theme"
+import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
 
 export default function MainLayout() {
+    const { i18n } = useTranslation();
+
+    useEffect(() => {
+        document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
+        document.documentElement.lang = i18n.language;
+    }, [i18n.language]);
+
     return (
         <SidebarProvider>
             <div className={`flex min-h-screen w-full bg-slate-50`}>

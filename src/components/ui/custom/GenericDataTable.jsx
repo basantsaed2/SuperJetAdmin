@@ -19,8 +19,10 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { THEME } from "@/utils/theme"
+import { useTranslation } from "react-i18next";
 
-export function GenericDataTable({ columns, data }) {
+export function GenericDataTable({ columns, data, isLoading }) {
+    const { t } = useTranslation();
     const [columnFilters, setColumnFilters] = React.useState([])
 
     // نحدد أول عمود يحتوي على داتا كعمود بحث افتراضي
@@ -49,7 +51,7 @@ export function GenericDataTable({ columns, data }) {
                     setSearchColumn(val)
                 }}>
                     <SelectTrigger className="w-[160px] bg-white border-slate-200 shadow-sm">
-                        <SelectValue placeholder="Search by..." />
+                        <SelectValue placeholder={t('search_by')} />
                     </SelectTrigger>
                     <SelectContent position="popper" className="z-[9999] bg-white">
                         {searchableColumns.map((col) => (
@@ -61,7 +63,7 @@ export function GenericDataTable({ columns, data }) {
                 </Select>
 
                 <Input
-                    placeholder={`Search in ${searchColumn}...`}
+                    placeholder={`${t('search_in')} ${t(searchColumn.toLowerCase())}...`}
                     value={(table.getColumn(searchColumn)?.getFilterValue()) ?? ""}
                     onChange={(event) =>
                         table.getColumn(searchColumn)?.setFilterValue(event.target.value)
@@ -103,7 +105,7 @@ export function GenericDataTable({ columns, data }) {
                         ) : (
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-32 text-center text-slate-400">
-                                    No records found.
+                                    {t('no_records_found')}
                                 </TableCell>
                             </TableRow>
                         )}
@@ -114,7 +116,7 @@ export function GenericDataTable({ columns, data }) {
             {/* Pagination Control */}
             <div className="flex items-center justify-between px-2">
                 <p className="text-xs text-slate-500">
-                    Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+                    {t('page')} {table.getState().pagination.pageIndex + 1} {t('of')} {table.getPageCount()}
                 </p>
                 <div className="flex items-center space-x-2">
                     <Button
@@ -124,7 +126,7 @@ export function GenericDataTable({ columns, data }) {
                         disabled={!table.getCanPreviousPage()}
                         className="h-8 text-xs"
                     >
-                        Previous
+                        {t('previous')}
                     </Button>
                     <Button
                         variant="outline"
@@ -133,7 +135,7 @@ export function GenericDataTable({ columns, data }) {
                         disabled={!table.getCanNextPage()}
                         className="h-8 text-xs"
                     >
-                        Next
+                        {t('next')}
                     </Button>
                 </div>
             </div>

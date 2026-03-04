@@ -19,7 +19,7 @@ export const LoginForm = () => {
     const loginMutation = usePost(
         "/api/admin/auth/login", 
         null, 
-        (data) => `Hello ${data.data?.user?.name || 'Admin'}, welcome back!`
+        (data) => `${t('hello')} ${data.data?.user?.name || 'Admin'}, ${t('welcome_back')}`
     );
 
     const { register, handleSubmit, formState: { errors } } = useForm({
@@ -45,25 +45,25 @@ export const LoginForm = () => {
     return (
         <div className="w-full max-w-xl p-4 md:p-8">
             <div className="mb-8 text-center md:text-left">
-                <h2 className="text-3xl font-bold text-slate-800">Welcome Back</h2>
-                <p className="text-slate-500 mt-2">Superjet Fleet Management System</p>
+                <h2 className="text-3xl font-bold text-slate-800">{t('welcome')}</h2>
+                <p className="text-slate-500 mt-2">{t('system_name')}</p>
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div>
-                    <label className="block text-sm font-medium mb-2">Admin Email</label>
+                    <label className="block text-sm font-medium mb-2">{t('email')}</label>
                     <input
                         {...register("email")}
                         type="email"
                         className={`w-full p-3 border rounded-lg focus:ring-2 outline-none transition ${errors.email ? "border-red-500 ring-red-200" : "focus:ring-blue-500"
                             }`}
-                        placeholder="admin@superjet.com"
+                        placeholder={t('email_placeholder')}
                     />
                     {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium mb-2">Password</label>
+                    <label className="block text-sm font-medium mb-2">{t('password')}</label>
                     <div className="relative">
                         <input
                             {...register("password")}
@@ -91,10 +91,10 @@ export const LoginForm = () => {
                     {loginMutation.isPending ? (
                         <span className="flex items-center gap-2">
                             <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                            Signing In...
+                            {t('signing_in')}
                         </span>
                     ) : (
-                        "Sign In"
+                        t('login')
                     )}
                 </button>
             </form>

@@ -3,9 +3,17 @@ import { Bell, UserCircle, LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { THEME } from "@/utils/theme";
+import { useTranslation } from "react-i18next";
+import { Globe } from "lucide-react";
 
 const Navbar = () => {
+    const { t, i18n } = useTranslation();
     const navigate = useNavigate();
+
+    const toggleLanguage = () => {
+        const newLang = i18n.language === "en" ? "ar" : "en";
+        i18n.changeLanguage(newLang);
+    };
     const adminName = JSON.parse(localStorage.getItem("admin_info"))?.name || "Admin";
 
     const handleLogout = () => {
@@ -24,12 +32,21 @@ const Navbar = () => {
             </div>
 
             <div className="flex items-center gap-3 md:gap-6">
-                <button className={`text-slate-400 hover:${THEME.colors.accent} transition`}>
+                <button 
+                    onClick={toggleLanguage}
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all font-bold text-sm"
+                    title={i18n.language === "en" ? "تغيير اللغة للعربية" : "Change language to English"}
+                >
+                    <Globe className="w-4 h-4 text-blue-500" />
+                    <span>{i18n.language === "en" ? "AR" : "EN"}</span>
+                </button>
+
+                <button title={t('notifications')} className={`text-slate-400 hover:${THEME.colors.accent} transition`}>
                     <Bell className="w-5 h-5 md:w-6 md:h-6" />
                 </button>
 
-                <div className="flex items-center gap-2 md:gap-3 border-l border-slate-200">
-                    <button onClick={handleLogout} title="Logout" className="text-red-400 hover:text-red-600 md:ml-2 p-1 md:p-2 transition">
+                <div className="flex items-center gap-2 md:gap-3 border-l border-slate-200 font-bold">
+                    <button onClick={handleLogout} title={t('logout')} className="text-red-400 hover:text-red-600 md:ml-2 p-1 md:p-2 transition">
                         <LogOut className="w-5 h-5 md:w-6 md:h-6" />
                     </button>
                 </div>

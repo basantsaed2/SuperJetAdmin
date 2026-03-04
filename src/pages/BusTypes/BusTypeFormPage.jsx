@@ -13,6 +13,7 @@ import { useGet } from "@/hooks/useGet";
 import axiosInstance from "@/api/axiosInstance";
 import { toast } from "sonner";
 import FormHeader from "@/components/ui/custom/FormHeader";
+import { useTranslation } from "react-i18next";
 
 // 1. تعريف الـ Validation Schema باستخدام Zod
 const busTypeSchema = z.object({
@@ -24,6 +25,7 @@ const busTypeSchema = z.object({
 });
 
 const BusTypeFormPage = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
   const isEditMode = Boolean(id);
@@ -67,10 +69,10 @@ const BusTypeFormPage = () => {
     try {
       if (isEditMode) {
         await axiosInstance.put(`/api/admin/busTypes/${id}`, formData);
-        toast.success("Bus Type updated successfully!");
+        toast.success(t('updated_successfully'));
       } else {
         await axiosInstance.post("/api/admin/busTypes", formData);
-        toast.success("New Bus Type created successfully!");
+        toast.success(t('created_successfully'));
       }
       navigate("/bus_types"); // العودة للجدول
     } catch (error) {
@@ -83,7 +85,7 @@ const BusTypeFormPage = () => {
     return (
       <div className="h-[60vh] flex flex-col items-center justify-center gap-4">
         <Loader2 className="animate-spin text-blue-900" size={40} />
-        <p className="text-slate-500 animate-pulse">Fetching bus type details...</p>
+        <p className="text-slate-500 animate-pulse">{t('loading_details')}...</p>
       </div>
     );
   }
@@ -92,8 +94,8 @@ const BusTypeFormPage = () => {
     return (
       <div className="h-[60vh] flex flex-col items-center justify-center text-center p-6">
         <AlertCircle className="text-red-500 mb-2" size={40} />
-        <h2 className="text-xl font-bold">Failed to load data</h2>
-        <Button variant="link" onClick={() => navigate("/bus_types")}>Back to list</Button>
+        <h2 className="text-xl font-bold">{t('failed_to_load')}</h2>
+        <Button variant="link" onClick={() => navigate("/bus_types")}>{t('back_to_list')}</Button>
       </div>
     );
   }
@@ -101,8 +103,8 @@ const BusTypeFormPage = () => {
   return (
     <div className="w-full space-y-6 py-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <FormHeader 
-        title={isEditMode ? "Edit Bus Category" : "Add New Fleet Type"}
-        subtitle={isEditMode ? `Updating ID: ${id}` : "Configure a new vehicle specification"}
+        title={isEditMode ? t('edit_bus_category') : t('add_new_fleet_type')}
+        subtitle={isEditMode ? `${t('updating_id')}: ${id}` : t('configure_new_vehicle')}
         onBackClick={() => navigate("/bus_types")} 
       />
 
@@ -113,30 +115,30 @@ const BusTypeFormPage = () => {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <FormInput
-            label="Bus Type Name"
+            label={t('name')}
             name="name"
             register={register}
             errors={errors}
-            placeholder="Enter bus type name"
+            placeholder={t('name_placeholder')}
           />
 
           <FormInput
-            label="Seating Capacity"
+            label={t('capacity')}
             name="capacity"
             type="number"
             register={register}
             errors={errors}
-            placeholder="Enter seating capacity"
+            placeholder={t('capacity_placeholder')}
           />
         </div>
 
         <FormInput
-          label="Detailed Description"
+          label={t('description')}
           name="description"
           type="textarea"
           register={register}
           errors={errors}
-          placeholder="Enter vehicle amenities (AC, WiFi, USB, etc.)"
+          placeholder={t('description_placeholder')}
           rows={5}
         />
 
@@ -148,7 +150,7 @@ const BusTypeFormPage = () => {
             className="h-9 px-6 text-slate-500 hover:text-slate-800 text-sm font-medium"
             onClick={() => navigate("/bus_types")}
           >
-            Cancel
+            {t('cancel')}
           </Button>
 
           <Button
@@ -162,7 +164,7 @@ const BusTypeFormPage = () => {
             ) : (
               <Save className="mr-2" size={16} />
             )}
-            {isEditMode ? "Save Changes" : "Create Type"}
+            {isEditMode ? t('save_changes') : t('create_type')}
           </Button>
         </div>
       </form>

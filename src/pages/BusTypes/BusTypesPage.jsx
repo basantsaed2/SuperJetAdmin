@@ -10,9 +10,11 @@ import { useGet } from "@/hooks/useGet";
 import { useDelete } from "@/hooks/useDelete";
 import PageHeader from "@/components/ui/custom/PageHeader";
 import DeleteConfirmDialog from "@/components/ui/custom/DeleteConfirmDialog";
-import { Plus, BusFront, RefreshCw } from "lucide-react";
+import { Plus, BusFront } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const BusTypesPage = () => {
+    const { t } = useTranslation();
     const navigate = useNavigate(); // 2. تعريف التوجيه
     const { data, isLoading, error, refetch } = useGet(["busTypes"], "/api/admin/busTypes");
     
@@ -46,8 +48,8 @@ const BusTypesPage = () => {
     };
 
     const columns = React.useMemo(
-        () => getBusTypeColumns(handleEdit, handleDeleteClick),
-        []
+        () => getBusTypeColumns(t, handleEdit, handleDeleteClick),
+        [t]
     );
 
     const busTypesData = React.useMemo(() => {
@@ -60,8 +62,8 @@ const BusTypesPage = () => {
             {/* Header */}
             <PageHeader 
                 icon={BusFront}
-                title="Bus Types"
-                subtitle="Manage fleet categories and seating capacities"
+                title={t('bus_types')}
+                subtitle={t('manage_fleet')}
                 actions={
                     <>
                         <Button 
@@ -69,7 +71,7 @@ const BusTypesPage = () => {
                             size="sm"
                             className={`${THEME.colors.secondary} ${THEME.colors.accent} font-bold shadow-md hover:opacity-90 hover:text-white h-9`}
                         >
-                            <Plus className="mr-2 h-4 w-4" /> Add New Type
+                            <Plus className="mr-2 h-4 w-4" /> {t('add_new_type')}
                         </Button>
                     </>
                 }
@@ -80,16 +82,16 @@ const BusTypesPage = () => {
                 {isLoading ? (
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/60 backdrop-blur-[1px] z-10">
                         <Loader2 className="h-8 w-8 animate-spin text-[#003366] mb-2" />
-                        <p className="text-sm font-medium text-slate-500">Loading fleet data...</p>
+                        <p className="text-sm font-medium text-slate-500">{t('loading')}...</p>
                     </div>
                 ) : error ? (
                     <div className="flex flex-col items-center justify-center h-64 text-center p-6">
                         <AlertCircle className="h-10 w-10 text-red-500 mb-2" />
-                        <h3 className="font-bold text-slate-800">Connection Error</h3>
+                        <h3 className="font-bold text-slate-800">{t('error')}</h3>
                         <p className="text-slate-500 text-sm mb-4 max-w-xs text-balance">
-                            {error?.response?.data?.message || error?.message || "Could not load data"}
+                            {error?.response?.data?.message || error?.message || t('could_not_load_data')}
                         </p>
-                        <Button variant="outline" onClick={() => refetch()}>Try Reconnecting</Button>
+                        <Button variant="outline" onClick={() => refetch()}>{t('retry')}</Button>
                     </div>
                 ) : (
                     <div className="p-2">
@@ -100,7 +102,7 @@ const BusTypesPage = () => {
 
             {!isLoading && !error && (
                 <p className="text-[11px] text-slate-400 px-2 uppercase tracking-wider">
-                    Total Records: <span className="font-bold text-slate-600">{busTypesData.length}</span>
+                    {t('total_records')}: <span className="font-bold text-slate-600">{busTypesData.length}</span>
                 </p>
             )}
 
@@ -111,6 +113,10 @@ const BusTypesPage = () => {
                 onConfirm={handleConfirmDelete}
                 itemName={itemToDelete?.name}
                 isLoading={deleteMutation.isPending}
+                title={t('confirm_delete')}
+                description={t('delete_warning')}
+                cancelText={t('cancel')}
+                confirmText={t('delete')}
             />
         </div>
     );

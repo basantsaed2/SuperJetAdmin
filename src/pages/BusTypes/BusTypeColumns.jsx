@@ -7,33 +7,33 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip"
 
-export const getBusTypeColumns = (onEdit, onDelete) => [
+export const getBusTypeColumns = (t, onEdit, onDelete) => [
     {
         accessorKey: "name",
-        header: "Bus Type",
+        header: t('name'),
         cell: ({ row }) => <span className="font-bold text-slate-700">{row.original.name}</span>,
     },
     {
         accessorKey: "capacity",
-        header: "Capacity",
+        header: t('capacity'),
         cell: ({ row }) => (
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
-                {row.original.capacity} Seats
+                {row.original.capacity} {t('seats')}
             </span>
         ),
     },
     {
         accessorKey: "description",
-        header: "Description",
+        header: t('description'),
         cell: ({ row }) => (
             <span className="text-slate-500 text-xs italic truncate max-w-[200px] block">
-                {row.original.description || "No description"}
+                {row.original.description || t('no_description')}
             </span>
         ),
     },
     {
         id: "actions",
-        header: "Actions",
+        header: t('actions'),
         cell: ({ row }) => (
             <div className="flex items-center gap-2">
                 <TooltipProvider>
@@ -49,7 +49,7 @@ export const getBusTypeColumns = (onEdit, onDelete) => [
                                 <Edit className="h-4 w-4" />
                             </Button>
                         </TooltipTrigger>
-                        <TooltipContent><p>Edit Type</p></TooltipContent>
+                        <TooltipContent><p>{t('edit')}</p></TooltipContent>
                     </Tooltip>
 
                     {/* Delete Action */}
@@ -64,7 +64,7 @@ export const getBusTypeColumns = (onEdit, onDelete) => [
                                 <Trash2 className="h-4 w-4" />
                             </Button>
                         </TooltipTrigger>
-                        <TooltipContent><p>Delete</p></TooltipContent>
+                        <TooltipContent><p>{t('delete')}</p></TooltipContent>
                     </Tooltip>
                 </TooltipProvider>
             </div>

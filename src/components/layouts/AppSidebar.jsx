@@ -13,13 +13,22 @@ import { NAV_ITEMS } from "@/utils/navigation"
 import { hasPermission } from "@/utils/permissions"
 import { NavLink } from "react-router-dom"
 import { THEME } from "@/utils/theme"
+import { useTranslation } from "react-i18next";
+import { t } from "i18next"
 
 export function AppSidebar() {
+    const { i18n } = useTranslation();
+    const isRtl = i18n.language === "ar";
     const adminInfo = JSON.parse(localStorage.getItem("admin_info") || "{}");
     const permissions = adminInfo.permissions || [];
 
     return (
-        <Sidebar variant="sidebar" collapsible="icon" className={`border-r border-blue-900/50 ${THEME.colors.primary}`}>
+        <Sidebar 
+            side={isRtl ? "right" : "left"}
+            variant="sidebar" 
+            collapsible="icon" 
+            className={`border-r border-blue-900/50 ${THEME.colors.primary}`}
+        >
             {/* Header: شعار سوبر جيت */}
             <SidebarHeader className={`p-0 h-16 border-b border-blue-900/50 ${THEME.colors.primary} flex justify-center`}>
                 <div className="flex items-center gap-3 px-6 group-data-[collapsible=icon]:px-0 group-data-[collapsible=icon]:justify-center font-black text-xl text-white">
@@ -51,7 +60,7 @@ export function AppSidebar() {
                                         >
                                             <span className="shrink-0">{item.icon}</span>
                                             <span className="group-data-[collapsible=icon]:hidden text-sm tracking-wide font-medium">
-                                                {item.title}
+                                                {t(item.title.toLowerCase().replace(/\s+/g, '_'))}
                                             </span>
                                         </NavLink>
                                     </SidebarMenuItem>

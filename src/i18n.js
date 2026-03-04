@@ -1,0 +1,135 @@
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+
+const resources = {
+  en: {
+    translation: {
+      "welcome": "Welcome Back",
+      "system_name": "Superjet Fleet Management System",
+      "logout": "Logout",
+      "login": "Sign In",
+      "email": "Admin Email",
+      "password": "Password",
+      "email_placeholder": "admin@superjet.com",
+      "signing_in": "Signing In...",
+      "bus_types": "Bus Types",
+      "manage_fleet": "Manage fleet categories and seating capacities",
+      "add_new_type": "Add New Type",
+      "edit_bus_category": "Edit Bus Category",
+      "add_new_fleet_type": "Add New Fleet Type",
+      "configure_new_vehicle": "Configure a new vehicle specification",
+      "updating_id": "Updating ID",
+      "save_changes": "Save Changes",
+      "create_type": "Create Type",
+      "cancel": "Cancel",
+      "name": "Name",
+      "capacity": "Capacity",
+      "description": "Description",
+      "actions": "Actions",
+      "edit": "Edit",
+      "delete": "Delete",
+      "confirm_delete": "Confirm Deletion",
+      "delete_warning": "Are you sure you want to delete this item? This action cannot be undone.",
+      "hello": "Hello",
+      "welcome_back": "welcome back!",
+      "admin_panel": "Admin Panel",
+      "login_description": "Efficiency in motion. Manage your entire fleet with precision and ease.",
+      "seats": "Seats",
+      "no_description": "No description",
+      "created_successfully": "Created successfully",
+      "updated_successfully": "Updated successfully",
+      "dashboard": "Dashboard",
+      "loading": "Loading",
+      "error": "Error",
+      "retry": "Retry",
+      "total_records": "Total Records",
+      "loading_details": "Loading details",
+      "failed_to_load": "Failed to load",
+      "back_to_list": "Back to list",
+      "name_placeholder": "e.g. Luxury VIP",
+      "capacity_placeholder": "e.g. 50",
+      "description_placeholder": "Add optional details...",
+      "could_not_load_data": "Could not load data",
+      "notifications": "Notifications",
+      "search_by": "Search by...",
+      "search_in": "Search in",
+      "no_records_found": "No records found.",
+      "page": "Page",
+      "of": "of",
+      "previous": "Previous",
+      "next": "Next"
+    }
+  },
+  ar: {
+    translation: {
+      "welcome": "مرحباً بك مجدداً",
+      "system_name": "نظام سوبر جيت لإدارة الأسطول",
+      "logout": "تسجيل الخروج",
+      "login": "تسجيل الدخول",
+      "email": "البريد الإلكتروني للمسؤول",
+      "password": "كلمة المرور",
+      "email_placeholder": "admin@superjet.com",
+      "signing_in": "جاري تسجيل الدخول...",
+      "bus_types": "أنواع الحافلات",
+      "manage_fleet": "إدارة فئات الأسطول وسعات المقاعد",
+      "add_new_type": "إضافة نوع جديد",
+      "edit_bus_category": "تعديل فئة الحافلة",
+      "add_new_fleet_type": "إضافة نوع أسطول جديد",
+      "configure_new_vehicle": "تكوين مواصفات مركبة جديدة",
+      "updating_id": "تحديث المعرف",
+      "save_changes": "حفظ التغييرات",
+      "create_type": "إنشاء النوع",
+      "cancel": "إلغاء",
+      "name": "الاسم",
+      "capacity": "السعة",
+      "description": "الوصف",
+      "actions": "الإجراءات",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "confirm_delete": "تأكيد الحذف",
+      "delete_warning": "هل أنت متأكد أنك تريد حذف هذا العنصر؟ لا يمكن التراجع عن هذا الإجراء.",
+      "hello": "أهلاً",
+      "welcome_back": "مرحباً بك مجدداً!",
+      "admin_panel": "لوحة التحكم",
+      "login_description": "الكفاءة في الحركة. أدر أسطولك بالكامل بدقة وسهولة.",
+      "seats": "مقاعد",
+      "no_description": "لا يوجد وصف",
+      "created_successfully": "تم الإنشاء بنجاح",
+      "updated_successfully": "تم التحديث بنجاح",
+      "dashboard": "لوحة المعلومات",
+      "loading": "جاري التحميل",
+      "error": "خطأ",
+      "retry": "إعادة المحاولة",
+      "total_records": "إجمالي السجلات",
+      "loading_details": "جاري تحميل التفاصيل",
+      "failed_to_load": "فشل التحميل",
+      "back_to_list": "العودة للقائمة",
+      "name_placeholder": "مثال: لوكشري في آي بي",
+      "capacity_placeholder": "مثال: 50",
+      "description_placeholder": "أضف تفاصيل اختيارية...",
+      "could_not_load_data": "تعذر تحميل البيانات",
+      "notifications": "الإشعارات",
+      "search_by": "البحث بواسطة...",
+      "search_in": "البحث في",
+      "no_records_found": "لم يتم العثور على سجلات.",
+      "page": "صفحة",
+      "of": "من",
+      "previous": "السابق",
+      "next": "التالي"
+    }
+  }
+};
+
+i18n
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    resources,
+    fallbackLng: 'en',
+    interpolation: {
+      escapeValue: false
+    }
+  });
+
+export default i18n;

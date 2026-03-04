@@ -1,4 +1,4 @@
-import { LayoutDashboard, Bus, Settings, Users, ShieldCheck, Wrench ,MapPin  } from "lucide-react";
+import { LayoutDashboard, Bus, Settings, Users, ShieldCheck, Wrench ,MapPin, Navigation } from "lucide-react";
 
 export const NAV_ITEMS = [
     {
@@ -40,7 +40,7 @@ export const NAV_ITEMS = [
     {
         title: "zones",
         path: "/zones",
-        icon: <MapPin size={20} />,
+        icon: <Navigation size={20} />,
         permission: null,
     },
 ];

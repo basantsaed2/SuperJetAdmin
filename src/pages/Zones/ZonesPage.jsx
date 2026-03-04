@@ -1,7 +1,7 @@
 // src/pages/Zones/ZonesPage.jsx
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { Loader2, AlertCircle, Plus, MapPin } from "lucide-react";
+import { Loader2, AlertCircle, Plus, Navigation } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GenericDataTable } from "@/components/ui/custom/GenericDataTable";
 import { getZonesColumns } from "./ZonesColumns";
@@ -58,7 +58,7 @@ const ZonesPage = () => {
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
             {/* Header */}
             <PageHeader 
-                icon={MapPin}
+                icon={Navigation}
                 title={t('zones')}
                 subtitle={t('manage_zones')}
                 actions={

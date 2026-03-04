@@ -17,7 +17,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
-import { Search, X, Check, ChevronDown } from "lucide-react";
+import { Search, X, Check, ChevronDown, CheckSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 // --- Searchable Single Select ---
@@ -100,6 +100,20 @@ const MultiSelect = ({ options, value = [], onChange, placeholder, t, hasError }
     onChange(newValue);
   };
 
+  const selectAll = () => {
+    const allValues = filteredOptions.map(opt => opt.value);
+    const areAllSelected = allValues.every(val => value.includes(val));
+    
+    if (areAllSelected) {
+      // If all filtered are selected, unselect them
+      onChange(value.filter(val => !allValues.includes(val)));
+    } else {
+      // Otherwise, select all filtered
+      const combined = [...new Set([...value, ...allValues])];
+      onChange(combined);
+    }
+  };
+
   const selectedLabels = options
     .filter(opt => value.includes(opt.value))
     .map(opt => opt.label);
@@ -124,7 +138,7 @@ const MultiSelect = ({ options, value = [], onChange, placeholder, t, hasError }
         >
           <div className="flex flex-wrap gap-1.5 items-center overflow-hidden">
             {value.length > 0 ? (
-              value.length > 2 ? (
+              value.length > 5 ? (
                 <span className="text-sm text-slate-700 font-semibold">{value.length} {t('selected')}</span>
               ) : (
                 selectedLabels.map(label => (
@@ -159,6 +173,24 @@ const MultiSelect = ({ options, value = [], onChange, placeholder, t, hasError }
               className="h-9 text-xs pl-9 pr-3 focus-visible:ring-0 focus-visible:ring-offset-0 bg-slate-100/50 border-transparent rounded-lg"
             />
           </div>
+          {filteredOptions.length > 0 && (
+            <div className="px-1 mt-1.5 pt-1.5 border-t border-slate-100/50">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  selectAll();
+                }}
+                className="w-full justify-start text-[10px] h-8 font-bold text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg px-2"
+              >
+                <CheckSquare className="w-3.5 h-3.5 mr-2" />
+                {filteredOptions.every(opt => value.includes(opt.value)) ? t('deselect_all') : t('select_all')}
+              </Button>
+            </div>
+          )}
         </div>
         <div className="p-1.5 max-h-[220px] overflow-y-auto font-sans">
           {filteredOptions.length > 0 ? (
@@ -168,7 +200,7 @@ const MultiSelect = ({ options, value = [], onChange, placeholder, t, hasError }
                 checked={value.includes(opt.value)}
                 onCheckedChange={() => toggleOption(opt.value)}
                 onSelect={(e) => e.preventDefault()}
-                className="text-sm py-2.5 px-3 rounded-lg focus:bg-blue-50 focus:text-blue-700 transition-colors cursor-pointer"
+                className="text-sm py-2.5 rounded-lg focus:bg-blue-50 focus:text-blue-700 transition-colors cursor-pointer"
               >
                 <div className="flex-1 font-medium">{opt.label}</div>
               </DropdownMenuCheckboxItem>

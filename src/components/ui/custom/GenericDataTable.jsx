@@ -25,7 +25,6 @@ export function GenericDataTable({ columns, data, isLoading }) {
     const { t } = useTranslation();
     const [columnFilters, setColumnFilters] = React.useState([])
 
-    // نحدد أول عمود يحتوي على داتا كعمود بحث افتراضي
     const searchableColumns = columns.filter(col => 
         col.accessorKey && 
         !col.accessorKey.toLowerCase().includes("image")

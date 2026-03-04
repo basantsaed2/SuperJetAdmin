@@ -107,7 +107,7 @@ const MaintenancesFormPage = () => {
   }
 
   return (
-    <div className="w-full space-y-6 py-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="w-full space-y-6 py-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <FormHeader 
         title={isEditMode ? t('edit_maintenance') : t('add_new_maintenance')}
         subtitle={isEditMode ? `${t('updating_id')}: ${id}` : t('configure_maintenance')}

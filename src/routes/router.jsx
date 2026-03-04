@@ -15,6 +15,10 @@ import CitiesPage from "@/pages/Cities/CitiesPage";
 import CityFormPage from "@/pages/Cities/CityFormPage";
 import ZonesPage from "@/pages/Zones/ZonesPage";
 import ZoneFormPage from "@/pages/Zones/ZoneFormPage";
+import GaragesPage from "@/pages/Garages/GaragesPage";
+import GarageFormPage from "@/pages/Garages/GarageFormPage";
+import RolesPage from "@/pages/Roles/RolesPage";
+import RoleFormPage from "@/pages/Roles/RoleFormPage";
 
 const Dashboard = () => <div className="p-8">Dashboard Home</div>;
 
@@ -86,6 +90,22 @@ export const router = createBrowserRouter(
                                         { index: true, element: <ZonesPage /> }, 
                                         { path: "add", element: <ZoneFormPage /> }, 
                                         { path: "edit/:id", element: <ZoneFormPage /> }, 
+                                    ]
+                                },
+                                { 
+                                    path: "garages", 
+                                    children: [
+                                        { index: true, element: <GaragesPage /> }, 
+                                        { path: "add", element: <GarageFormPage /> }, 
+                                        { path: "edit/:id", element: <GarageFormPage /> }, 
+                                    ]
+                                },
+                                { 
+                                    path: "roles", 
+                                    children: [
+                                        { index: true, element: <RolesPage /> }, 
+                                        { path: "add", element: <RoleFormPage /> }, 
+                                        { path: "edit/:id", element: <RoleFormPage /> }, 
                                     ]
                                 },
                             ],

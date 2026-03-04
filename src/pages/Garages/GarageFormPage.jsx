@@ -15,20 +15,21 @@ import { toast } from "sonner";
 import FormHeader from "@/components/ui/custom/FormHeader";
 import { useTranslation } from "react-i18next";
 
-const zoneSchema = z.object({
+const garageSchema = z.object({
   name: z.string().min(2, "Name is too short"),
   cityId: z.string().uuid("Please select a valid city"),
+  location: z.string().min(2, "Location is too short"),
 });
 
-const ZoneFormPage = () => {
+const GarageFormPage = () => {
   const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
   const isEditMode = Boolean(id);
 
   const { data: response, isLoading: isFetching, error: fetchError } = useGet(
-    ["zone", id],
-    `/api/admin/zones/${id}`,
+    ["garage", id],
+    `/api/admin/garages/${id}`,
     { enabled: isEditMode }
   );
 
@@ -54,19 +55,21 @@ const ZoneFormPage = () => {
     watch,
     formState: { errors, isSubmitting },
   } = useForm({
-    resolver: zodResolver(zoneSchema),
+    resolver: zodResolver(garageSchema),
     defaultValues: {
       name: "",
       cityId: "",
+      location: "",
     },
   });
 
   React.useEffect(() => {
-    if (isEditMode && response?.data?.zone) {
-      const zone = response.data.zone;
+    if (isEditMode && response?.data?.garage) {
+      const garage = response.data.garage;
       reset({
-        name: zone.name,
-        cityId: zone.cityId,
+        name: garage.name,
+        cityId: garage.cityId,
+        location: garage.location || "",
       });
     }
   }, [response, reset, isEditMode]);
@@ -74,13 +77,13 @@ const ZoneFormPage = () => {
   const onSubmit = async (formData) => {
     try {
       if (isEditMode) {
-        await axiosInstance.put(`/api/admin/zones/${id}`, formData);
+        await axiosInstance.put(`/api/admin/garages/${id}`, formData);
         toast.success(t('updated_successfully'));
       } else {
-        await axiosInstance.post("/api/admin/zones", formData);
+        await axiosInstance.post("/api/admin/garages", formData);
         toast.success(t('created_successfully'));
       }
-      navigate("/zones");
+      navigate("/garages");
     } catch (error) {
       const msg = error.response?.data?.message || "An error occurred";
       toast.error(msg);
@@ -101,7 +104,7 @@ const ZoneFormPage = () => {
       <div className="h-[60vh] flex flex-col items-center justify-center text-center p-6">
         <AlertCircle className="text-red-500 mb-2" size={40} />
         <h2 className="text-xl font-bold">{t('failed_to_load')}</h2>
-        <Button variant="link" onClick={() => navigate("/zones")}>{t('back_to_list')}</Button>
+        <Button variant="link" onClick={() => navigate("/garages")}>{t('back_to_list')}</Button>
       </div>
     );
   }
@@ -109,9 +112,9 @@ const ZoneFormPage = () => {
   return (
     <div className="w-full space-y-6 py-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <FormHeader 
-        title={isEditMode ? t('edit_zone') : t('add_new_zone')}
-        subtitle={isEditMode ? `${t('updating_id')}: ${id}` : t('configure_zone')}
-        onBackClick={() => navigate("/zones")} 
+        title={isEditMode ? t('edit_garage') : t('add_new_garage')}
+        subtitle={isEditMode ? `${t('updating_id')}: ${id}` : t('configure_garage')}
+        onBackClick={() => navigate("/garages")} 
       />
 
       <form 
@@ -124,7 +127,7 @@ const ZoneFormPage = () => {
             name="name"
             register={register}
             errors={errors}
-            placeholder={t('zone_name_placeholder')}
+            placeholder={t('garage_name_placeholder')}
           />
 
           <FormInput
@@ -139,6 +142,16 @@ const ZoneFormPage = () => {
             setValue={setValue}
             watch={watch}
           />
+
+          <div className="md:col-span-2">
+            <FormInput
+              label={t('location')}
+              name="location"
+              register={register}
+              errors={errors}
+              placeholder={t('location_placeholder')}
+            />
+          </div>
         </div>
 
         <div className="flex items-center justify-end gap-3 pt-6 border-t border-slate-50">
@@ -146,7 +159,7 @@ const ZoneFormPage = () => {
             type="button"
             variant="ghost"
             className="h-9 px-6 text-slate-500 hover:text-slate-800 text-sm font-medium"
-            onClick={() => navigate("/zones")}
+            onClick={() => navigate("/garages")}
           >
             {t('cancel')}
           </Button>
@@ -162,7 +175,7 @@ const ZoneFormPage = () => {
             ) : (
               <Save className="mr-2" size={16} />
             )}
-            {isEditMode ? t('save_changes') : t('create_zone')}
+            {isEditMode ? t('save_changes') : t('create_garage')}
           </Button>
         </div>
       </form>
@@ -170,4 +183,4 @@ const ZoneFormPage = () => {
   );
 };
 
-export default ZoneFormPage;
+export default GarageFormPage;

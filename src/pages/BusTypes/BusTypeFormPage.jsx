@@ -12,7 +12,7 @@ import { THEME } from "@/utils/theme";
 import { useGet } from "@/hooks/useGet";
 import axiosInstance from "@/api/axiosInstance";
 import { toast } from "sonner";
-import BusTypeFormHeader from "./components/BusTypeFormHeader";
+import FormHeader from "@/components/ui/custom/FormHeader";
 
 // 1. تعريف الـ Validation Schema باستخدام Zod
 const busTypeSchema = z.object({
@@ -79,7 +79,6 @@ const BusTypeFormPage = () => {
     }
   };
 
-  // حالة التحميل أثناء جلب بيانات التعديل
   if (isEditMode && isFetching) {
     return (
       <div className="h-[60vh] flex flex-col items-center justify-center gap-4">
@@ -89,7 +88,6 @@ const BusTypeFormPage = () => {
     );
   }
 
-  // حالة الخطأ في الجلب
   if (isEditMode && fetchError) {
     return (
       <div className="h-[60vh] flex flex-col items-center justify-center text-center p-6">
@@ -102,9 +100,9 @@ const BusTypeFormPage = () => {
 
   return (
     <div className="w-full space-y-6 py-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <BusTypeFormHeader 
-        isEditMode={isEditMode} 
-        id={id} 
+      <FormHeader 
+        title={isEditMode ? "Edit Bus Category" : "Add New Fleet Type"}
+        subtitle={isEditMode ? `Updating ID: ${id}` : "Configure a new vehicle specification"}
         onBackClick={() => navigate("/bus_types")} 
       />
 

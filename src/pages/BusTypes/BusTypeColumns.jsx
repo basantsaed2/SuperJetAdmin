@@ -1,5 +1,4 @@
-// src/pages/BusTypes/BusTypeColumns.jsx
-import { Edit, Trash2, Eye } from "lucide-react"
+import { Edit, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
     Tooltip,
@@ -8,7 +7,7 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip"
 
-export const getBusTypeColumns = (onEdit, onDelete, onView) => [
+export const getBusTypeColumns = (onEdit, onDelete) => [
     {
         accessorKey: "name",
         header: "Bus Type",
@@ -38,22 +37,7 @@ export const getBusTypeColumns = (onEdit, onDelete, onView) => [
         cell: ({ row }) => (
             <div className="flex items-center gap-2">
                 <TooltipProvider>
-                    {/* View Action */}
-                    <Tooltip delayDuration={300}>
-                        <TooltipTrigger asChild>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-8 w-8 text-slate-500 hover:text-slate-700 hover:bg-slate-100"
-                                onClick={() => onView(row.original)}
-                            >
-                                <Eye className="h-4 w-4" />
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent><p>View Details</p></TooltipContent>
-                    </Tooltip>
-
-                    {/* Edit Action - يمرر الكائن بالكامل */}
+                    {/* Edit Action */}
                     <Tooltip delayDuration={300}>
                         <TooltipTrigger asChild>
                             <Button
@@ -75,7 +59,7 @@ export const getBusTypeColumns = (onEdit, onDelete, onView) => [
                                 variant="ghost"
                                 size="icon"
                                 className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50"
-                                onClick={() => onDelete(row.original.id)}
+                                onClick={() => onDelete(row.original)}
                             >
                                 <Trash2 className="h-4 w-4" />
                             </Button>

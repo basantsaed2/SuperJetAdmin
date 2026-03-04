@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axiosInstance from '../api/axiosInstance';
 import { toast } from 'sonner';
 
-export const usePost = (url, queryKeyToInvalidate) => {
+export const usePost = (url, queryKeyToInvalidate, successMessage) => {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -11,8 +11,12 @@ export const usePost = (url, queryKeyToInvalidate) => {
             const { data } = await axiosInstance.post(url, newData);
             return data;
         },
-        onSuccess: () => {
-            toast.success('Created successfully');
+        onSuccess: (data) => {
+            const msg = typeof successMessage === 'function' 
+                ? successMessage(data) 
+                : successMessage || 'Created successfully';
+            toast.success(msg);
+            
             if (queryKeyToInvalidate) {
                 queryClient.invalidateQueries({ queryKey: queryKeyToInvalidate });
             }

@@ -1,10 +1,11 @@
-// src/features/auth/components/LoginForm.jsx
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { THEME } from "@/utils/theme";
 import { usePost } from "@/hooks/usePost";
 import { useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 
 const loginSchema = z.object({
     email: z.string().email("Invalid email address"),
@@ -13,8 +14,13 @@ const loginSchema = z.object({
 
 export const LoginForm = () => {
     const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
 
-    const loginMutation = usePost("/api/admin/auth/login");
+    const loginMutation = usePost(
+        "/api/admin/auth/login", 
+        null, 
+        (data) => `Hello ${data.data?.user?.name || 'Admin'}, welcome back!`
+    );
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: zodResolver(loginSchema),
@@ -23,8 +29,6 @@ export const LoginForm = () => {
     const onSubmit = (data) => {
         loginMutation.mutate(data, {
             onSuccess: (response) => {
-                console.log("Login Response:", response);
-                // Handle both flat and nested response structure
                 const data = response.data || response;
 
                 if (data.token) {
@@ -60,13 +64,22 @@ export const LoginForm = () => {
 
                 <div>
                     <label className="block text-sm font-medium mb-2">Password</label>
-                    <input
-                        {...register("password")}
-                        type="password"
-                        className={`w-full p-3 border rounded-lg focus:ring-2 outline-none transition ${errors.password ? "border-red-500 ring-red-200" : "focus:ring-blue-500"
-                            }`}
-                        placeholder="••••••••"
-                    />
+                    <div className="relative">
+                        <input
+                            {...register("password")}
+                            type={showPassword ? "text" : "password"}
+                            className={`w-full p-3 pr-10 border rounded-lg focus:ring-2 outline-none transition ${errors.password ? "border-red-500 ring-red-200" : "focus:ring-blue-500"
+                                }`}
+                            placeholder="••••••••"
+                        />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                        >
+                            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                        </button>
+                    </div>
                     {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
                 </div>
 

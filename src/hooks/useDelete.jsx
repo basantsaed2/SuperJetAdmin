@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axiosInstance from '../api/axiosInstance';
 import { toast } from 'sonner';
 
-export const useDelete = (url, queryKeyToInvalidate) => {
+export const useDelete = (url, queryKeyToInvalidate, successMessage) => {
     const queryClient = useQueryClient();
 
     return useMutation({
@@ -12,8 +12,12 @@ export const useDelete = (url, queryKeyToInvalidate) => {
             const { data } = await axiosInstance.delete(`${url}/${id}`);
             return data;
         },
-        onSuccess: () => {
-            toast.success('Deleted successfully');
+        onSuccess: (data) => {
+            const msg = typeof successMessage === 'function' 
+                ? successMessage(data) 
+                : successMessage || 'Deleted successfully';
+            toast.success(msg);
+            
             if (queryKeyToInvalidate) {
                 queryClient.invalidateQueries({ queryKey: queryKeyToInvalidate });
             }

@@ -7,33 +7,46 @@ import { GenericDataTable } from "@/components/ui/custom/GenericDataTable";
 import { getBusTypeColumns } from "./BusTypeColumns";
 import { THEME } from "@/utils/theme";
 import { useGet } from "@/hooks/useGet";
-import BusTypesHeader from "./components/BusTypesHeader";
+import { useDelete } from "@/hooks/useDelete";
+import PageHeader from "@/components/ui/custom/PageHeader";
+import DeleteConfirmDialog from "@/components/ui/custom/DeleteConfirmDialog";
+import { Plus, BusFront, RefreshCw } from "lucide-react";
 
 const BusTypesPage = () => {
     const navigate = useNavigate(); // 2. تعريف التوجيه
     const { data, isLoading, error, refetch } = useGet(["busTypes"], "/api/admin/busTypes");
+    
+    // Deletion State
+    const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
+    const [itemToDelete, setItemToDelete] = React.useState(null);
 
-    // دالة العرض (View)
-    const handleView = (item) => {
-        console.log("View:", item);
-        // إذا كان لديك صفحة عرض تفاصيل: navigate(`/bus_types/view/${item.id}`)
-    };
+    const deleteMutation = useDelete("/api/admin/busTypes", ["busTypes"]);
 
     // دالة التعديل (Edit) - التوجيه لمسار التعديل مع الـ ID
     const handleEdit = (item) => {
         navigate(`/bus_types/edit/${item.id}`);
     };
 
-    // دالة الحذف
-    const handleDelete = async (id) => {
-        if (window.confirm("Are you sure you want to delete this bus type?")) {
-            console.log("Deleting:", id);
-            // هنا يتم استدعاء api الحذف ثم refetch()
+    // دالة الحذف - تفتح الديالوج
+    const handleDeleteClick = (item) => {
+        setItemToDelete(item);
+        setDeleteDialogOpen(true);
+    };
+
+    const handleConfirmDelete = async () => {
+        if (!itemToDelete) return;
+        
+        try {
+            await deleteMutation.mutateAsync(itemToDelete.id);
+            setDeleteDialogOpen(false);
+            setItemToDelete(null);
+        } catch (error) {
+            console.error("Delete failed:", error);
         }
     };
 
     const columns = React.useMemo(
-        () => getBusTypeColumns(handleEdit, handleDelete, handleView),
+        () => getBusTypeColumns(handleEdit, handleDeleteClick),
         []
     );
 
@@ -45,10 +58,21 @@ const BusTypesPage = () => {
     return (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
             {/* Header */}
-            <BusTypesHeader 
-                isLoading={isLoading} 
-                refetch={refetch} 
-                onAddClick={() => navigate("/bus_types/add")} 
+            <PageHeader 
+                icon={BusFront}
+                title="Bus Types"
+                subtitle="Manage fleet categories and seating capacities"
+                actions={
+                    <>
+                        <Button 
+                            onClick={() => navigate("/bus_types/add")}
+                            size="sm"
+                            className={`${THEME.colors.secondary} ${THEME.colors.accent} font-bold shadow-md hover:opacity-90 hover:text-white h-9`}
+                        >
+                            <Plus className="mr-2 h-4 w-4" /> Add New Type
+                        </Button>
+                    </>
+                }
             />
 
             {/* Table Content */}
@@ -79,6 +103,15 @@ const BusTypesPage = () => {
                     Total Records: <span className="font-bold text-slate-600">{busTypesData.length}</span>
                 </p>
             )}
+
+            {/* Delete Confirmation Dialog */}
+            <DeleteConfirmDialog 
+                isOpen={deleteDialogOpen}
+                onClose={() => setDeleteDialogOpen(false)}
+                onConfirm={handleConfirmDelete}
+                itemName={itemToDelete?.name}
+                isLoading={deleteMutation.isPending}
+            />
         </div>
     );
 };

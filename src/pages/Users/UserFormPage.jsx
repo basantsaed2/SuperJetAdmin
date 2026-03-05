@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Save, Loader2, UserCircle, Key, UserCheck } from "lucide-react";
+import { Save, Loader2, UserCircle, Key, UserCheck, Warehouse } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FormInput } from "@/components/custom/FormInput";
 import { THEME } from "@/utils/theme";
@@ -18,9 +18,16 @@ const userSchema = z.object({
   name: z.string().min(2, "Name is too short"),
   phone: z.string().min(10, "Invalid phone number"),
   role: z.string().min(1, "Please select a role"),
+  garageId: z.string().optional(),
   hasAccount: z.boolean().default(false),
   username: z.string().optional(),
   password: z.string().optional()
+}).refine((data) => {
+  if (data.role === "security" && !data.garageId) return false;
+  return true;
+}, {
+  message: "Please select a garage for security role",
+  path: ["garageId"]
 }).refine((data) => {
   if (data.hasAccount) {
     return !!data.username && !!data.password;
@@ -37,7 +44,6 @@ const UserFormPage = () => {
   const navigate = useNavigate();
   const isEditMode = Boolean(id);
 
-  // Static Roles
   const roles = [
     { label: t('driver'), value: "driver" },
     { label: t('security'), value: "security" },
@@ -59,6 +65,7 @@ const UserFormPage = () => {
       name: "",
       phone: "",
       role: "",
+      garageId: "",
       hasAccount: false,
       username: "",
       password: ""
@@ -66,15 +73,27 @@ const UserFormPage = () => {
   });
 
   const hasAccount = watch("hasAccount");
+  const selectedRole = watch("role");
 
-  // Fetch User Data
+  const { data: garagesResponse } = useGet(
+    ["garages-selection"],
+    "/api/admin/garages/selection",
+    { enabled: selectedRole === "security" }
+  );
+
+  const garageOptions = React.useMemo(() => {
+    return garagesResponse?.data?.garages?.map(g => ({
+      label: g.name,
+      value: g.id
+    })) || [];
+  }, [garagesResponse]);
+
   const { data: userResponse, isLoading: isFetchingUser } = useGet(
     ["user", id],
     `/api/admin/users/${id}`,
     { enabled: isEditMode }
   );
 
-  // Load data for editing
   React.useEffect(() => {
     if (isEditMode && userResponse?.data) {
       const user = userResponse.data.user || userResponse.data;
@@ -82,36 +101,48 @@ const UserFormPage = () => {
         name: user.name || "",
         phone: user.phone || "",
         role: user.role || "",
+        garageId: user.garageId || user.garage?.id || "",
         hasAccount: !!user.hasAccount,
         username: user.username || "",
-        password: "" // Don't load password
+        password: ""
       });
     }
   }, [userResponse, reset, isEditMode]);
 
   const postMutation = usePost("/api/admin/users", ["users"]);
-  const updateMutation = useUpdate(`/api/admin/users/${id}`, ["users"]);
+
+  // التعديل 1: نمرر المسار الأساسي فقط بدون الـ ID
+  const updateMutation = useUpdate("/api/admin/users", ["users"]);
 
   const onSubmit = async (data) => {
-    // If hasAccount is false, ensure we don't send username/password
-    if (!data.hasAccount) {
-      delete data.username;
-      delete data.password;
-    } else if (isEditMode && !data.password) {
-      delete data.password;
+    const payload = { ...data };
+
+    if (payload.role !== "security") {
+      delete payload.garageId;
+    }
+
+    if (!payload.hasAccount) {
+      delete payload.username;
+      delete payload.password;
+    } else if (isEditMode && !payload.password) {
+      delete payload.password;
     }
 
     try {
-      if (isEditMode) {
-        await updateMutation.mutateAsync(data);
-        toast.success(t('updated_successfully'));
+      if (isEditMode && id) {
+        // التعديل 2: نمرر الكائن بالشكل الذي يتوقعه الـ Hook (id و updatedData)
+        await updateMutation.mutateAsync({
+          id: id,
+          updatedData: payload
+        });
       } else {
-        await postMutation.mutateAsync(data);
+        await postMutation.mutateAsync(payload);
         toast.success(t('created_successfully'));
       }
       navigate("/users");
     } catch (error) {
-      toast.error(error?.response?.data?.message || t('operation_failed'));
+      // الـ Hook يعالج الخطأ تلقائياً عبر Toasts، لذا لا حاجة لتكراره هنا إلا للـ logging
+      console.error("Submission error:", error);
     }
   };
 
@@ -134,7 +165,6 @@ const UserFormPage = () => {
       <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
         <form onSubmit={handleSubmit(onSubmit)} className="divide-y divide-slate-50">
 
-          {/* Basic Information */}
           <div className="p-6 md:p-8 space-y-8">
             <div className="flex items-center gap-3 mb-2">
               <div className="p-2 rounded-xl bg-blue-50 text-blue-600">
@@ -166,15 +196,34 @@ const UserFormPage = () => {
                 options={roles}
                 register={register}
                 value={watch("role")}
-                onChange={(val) => setValue("role", val, { shouldValidate: true })}
+                onChange={(val) => {
+                  setValue("role", val, { shouldValidate: true });
+                  if (val !== 'security') setValue("garageId", "");
+                }}
                 name="role"
                 errors={errors}
                 placeholder={t('select_role')}
               />
+
+              {selectedRole === "security" && (
+                <div className="animate-in fade-in slide-in-from-top-2 duration-300">
+                  <FormInput
+                    type="select"
+                    label={t('garage')}
+                    placeholder={t('select_garage')}
+                    name="garageId"
+                    options={garageOptions}
+                    register={register}
+                    value={watch("garageId")}
+                    onChange={(val) => setValue("garageId", val, { shouldValidate: true })}
+                    errors={errors}
+                    icon={<Warehouse size={14} />}
+                  />
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Account Settings */}
           <div className="p-6 md:p-8 space-y-8 bg-slate-50/30">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">

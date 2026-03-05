@@ -1,7 +1,13 @@
-import { Bus, ShieldCheck, Calendar } from "lucide-react"
+import { Bus, ShieldCheck, Calendar, Loader2 } from "lucide-react"
 import { cn } from "@/lib/utils"
-
-export const getBusesColumns = (t) => [
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
+export const getBusesColumns = (t, onStatusChange, updatingId) => [
     {
         accessorKey: "busImage",
         header: t('bus_image'),
@@ -93,18 +99,45 @@ export const getBusesColumns = (t) => [
         accessorKey: "status",
         header: t('status'),
         cell: ({ row }) => {
-            const status = row.original.status || 'active';
-            const isActive = status === 'active';
+            // تأكدي إن القيمة بتيجي صغيرة (lowerCase) عشان تطابق الـ values في الـ Select
+            const status = row.original.status?.toLowerCase() || 'active';
+            const id = row.original.id;
+            const isUpdating = updatingId === id;
 
             return (
-                <span className={cn(
-                    "inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border",
-                    isActive
-                        ? "bg-green-50 text-green-700 border-green-100"
-                        : "bg-slate-50 text-slate-500 border-slate-100"
-                )}>
-                    {t(status)}
-                </span>
+                <div className="flex items-center gap-2">
+                    <Select
+                        // التعديل الأساسي هنا: استخدمي value بدل defaultValue
+                        value={status}
+                        onValueChange={(newValue) => onStatusChange(id, newValue)}
+                        disabled={isUpdating}
+                    >
+                        <SelectTrigger className={cn(
+                            "h-8 w-[130px] text-[10px] font-bold uppercase tracking-wider border transition-all",
+                            status === 'active' && "bg-green-50 text-green-700 border-green-200",
+                            status === 'maintenance' && "bg-amber-50 text-amber-700 border-amber-200",
+                            status === 'inactive' && "bg-slate-50 text-slate-500 border-slate-200"
+                        )}>
+                            <div className="flex items-center gap-2">
+                                {isUpdating && <Loader2 className="h-3 w-3 animate-spin" />}
+                                {/* سيقوم SelectValue بعرض النص الموجود داخل الـ SelectItem المختار تلقائياً */}
+                                <SelectValue />
+                            </div>
+                        </SelectTrigger>
+
+                        <SelectContent className="bg-white z-[9999]">
+                            <SelectItem value="active" className="text-green-700 cursor-pointer">
+                                {t('active')}
+                            </SelectItem>
+                            <SelectItem value="maintenance" className="text-amber-700 cursor-pointer">
+                                {t('maintenance')}
+                            </SelectItem>
+                            <SelectItem value="inactive" className="text-slate-500 cursor-pointer">
+                                {t('inactive')}
+                            </SelectItem>
+                        </SelectContent>
+                    </Select>
+                </div>
             );
         },
     },

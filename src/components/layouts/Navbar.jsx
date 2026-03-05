@@ -11,7 +11,7 @@ const Navbar = () => {
     const navigate = useNavigate();
 
     const toggleLanguage = () => {
-        const newLang = i18n.language === "en" ? "ar" : "en";
+        const newLang = i18n.language === "ar" ? "en" : "ar";
         i18n.changeLanguage(newLang);
     };
     const adminName = JSON.parse(localStorage.getItem("admin_info"))?.name || "Admin";
@@ -32,13 +32,13 @@ const Navbar = () => {
             </div>
 
             <div className="flex items-center gap-3 md:gap-6">
-                <button 
+                <button
                     onClick={toggleLanguage}
                     className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all font-bold text-sm"
-                    title={i18n.language === "en" ? "تغيير اللغة للعربية" : "Change language to English"}
+                    title={i18n.language === "ar" ? "تغيير اللغة للعربية" : "Change language to English"}
                 >
                     <Globe className="w-4 h-4 text-blue-500" />
-                    <span>{i18n.language === "en" ? "AR" : "EN"}</span>
+                    <span>{i18n.language === "ar" ? "EN" : "AR"}</span>
                 </button>
 
                 <button title={t('notifications')} className={`text-slate-400 hover:${THEME.colors.accent} transition`}>

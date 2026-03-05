@@ -24,6 +24,8 @@ import AdminFormPage from "@/pages/Admins/AdminFormPage";
 import UsersPage from "@/pages/Users/UsersPage";
 import UserFormPage from "@/pages/Users/UserFormPage";
 import Dashboard from "@/pages/Dashboard/Dashboard";
+import GaragesStatsPage from "@/pages/Dashboard/GaragesStatsPage";
+import GarageBusesList from "@/pages/Dashboard/GarageBusesList";
 
 export const router = createBrowserRouter(
     [
@@ -31,13 +33,7 @@ export const router = createBrowserRouter(
             path: "/",
             element: <App />,
             children: [
-                // 1. Public Routes 
-                {
-                    path: "login",
-                    element: <LoginPage />,
-                },
-
-                // 2. Protected Routes
+                { path: "login", element: <LoginPage /> },
                 {
                     path: "",
                     element: <ProtectedRoute />,
@@ -46,7 +42,14 @@ export const router = createBrowserRouter(
                             element: <MainLayout />,
                             children: [
                                 { index: true, element: <Navigate to="/dashboard" replace /> },
-                                { path: "dashboard", element: <Dashboard /> },
+                                {
+                                    path: "dashboard",
+                                    children: [
+                                        { index: true, element: <Dashboard /> },
+                                        { path: "garages", element: <GaragesStatsPage /> },
+                                        { path: "garages/:id/buses", element: <GarageBusesList /> },
+                                    ]
+                                },
                                 {
                                     path: "bus_types",
                                     children: [

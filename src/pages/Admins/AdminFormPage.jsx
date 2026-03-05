@@ -87,7 +87,6 @@ const AdminFormPage = () => {
   const updateMutation = useUpdate(`/api/admin/admins/${id}`, ["admins"]);
 
   const onSubmit = async (data) => {
-    // If empty password in edit mode, remove it from data
     if (isEditMode && !data.password) {
       delete data.password;
     }
@@ -160,9 +159,10 @@ const AdminFormPage = () => {
             />
 
             <FormInput
-              type="searchable-select"
+              type="select"
               label={t('role')}
               options={roleOptions}
+              register={register}
               value={watch("roleId")}
               onChange={(val) => setValue("roleId", val, { shouldValidate: true })}
               name="roleId"
@@ -171,9 +171,10 @@ const AdminFormPage = () => {
             />
 
             <FormInput
-                type="searchable-select"
+                type="select"
                 label={t('admin_type')}
                 options={typeOptions}
+                register={register}
                 value={watch("type")}
                 onChange={(val) => setValue("type", val, { shouldValidate: true })}
                 name="type"

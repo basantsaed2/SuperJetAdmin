@@ -2,7 +2,6 @@ import axios from 'axios';
 
 // إنشاء النسخة المخصصة
 const axiosInstance = axios.create({
-    // سحب الرابط من ملف الـ .env
     baseURL: import.meta.env.VITE_API_BASE_URL,
     timeout: 10000, // لو السيرفر مبردش خلال 10 ثواني، الطلب يتلغي
     headers: {
@@ -29,13 +28,13 @@ axiosInstance.interceptors.request.use(
 
 // --- Interceptor للـ Response (لما الرد يرجع من السيرفر) ---
 axiosInstance.interceptors.response.use(
-    (response) => response, // لو الرد سليم، مرره عادي
+    (response) => response,
     (error) => {
         // لو السيرفر رد بـ 401 (يعني التوكن انتهت أو مش موجودة)
         if (error.response && error.response.status === 401) {
             console.error('Session expired. Redirecting to login...');
-            localStorage.removeItem('admin_token'); // مسح التوكن المنتهية
-            window.location.href = '/login'; // تحويله لصفحة اللوجن
+            localStorage.removeItem('admin_token');
+            window.location.href = '/login'; 
         }
         return Promise.reject(error);
     }

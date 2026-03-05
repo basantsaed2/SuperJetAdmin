@@ -26,11 +26,11 @@ const FormHeader = ({
           <h1 className="text-2xl font-bold text-[#003366] tracking-tight">
             {title}
           </h1>
-          {subtitle && (
+          {/* {subtitle && (
             <p className="text-sm text-slate-500 italic">
               {subtitle}
             </p>
-          )}
+          )} */}
         </div>
       </div>
     </div>

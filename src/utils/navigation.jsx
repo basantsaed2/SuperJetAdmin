@@ -7,10 +7,30 @@ export const NAV_ITEMS = [
         icon: <LayoutDashboard size={20} />,
         permission: null,
     },
+    // User & Access Management
+    {
+        title: "admins",
+        path: "/admins",
+        icon: <Users size={20} />,
+        permission: null,
+    },
     {
         title: "users",
         path: "/users",
         icon: <UserCircle size={20} />,
+        permission: null,
+    },
+    {
+        title: "roles",
+        path: "/roles",
+        icon: <ShieldCheck size={20} />,
+        permission: null,
+    },
+    // Fleet Management
+    {
+        title: "buses",
+        path: "/buses",
+        icon: <Bus size={20} />,
         permission: null,
     },
     {
@@ -19,10 +39,11 @@ export const NAV_ITEMS = [
         icon: <Settings size={20} />,
         permission: null,
     },
+    // Maintenance
     {
-        title: "buses",
-        path: "/buses",
-        icon: <Bus size={20} />,
+        title: "maintenances",
+        path: "/maintenances",
+        icon: <Wrench size={20} />,
         permission: null,
     },
     {
@@ -31,10 +52,11 @@ export const NAV_ITEMS = [
         icon: <Settings size={20} />,
         permission: null,
     },
+    // Infrastructure & Locations
     {
-        title: "maintenances",
-        path: "/maintenances",
-        icon: <Wrench size={20} />,
+        title: "garages",
+        path: "/garages",
+        icon: <Warehouse size={20} />,
         permission: null,
     },
     {
@@ -47,24 +69,6 @@ export const NAV_ITEMS = [
         title: "zones",
         path: "/zones",
         icon: <Navigation size={20} />,
-        permission: null,
-    },
-    {
-        title: "garages",
-        path: "/garages",
-        icon: <Warehouse size={20} />,
-        permission: null,
-    },
-    {
-        title: "roles",
-        path: "/roles",
-        icon: <ShieldCheck size={20} />,
-        permission: null,
-    },
-    {
-        title: "admins",
-        path: "/admins",
-        icon: <Users size={20} />,
         permission: null,
     },
 ];

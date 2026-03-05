@@ -4,14 +4,17 @@ import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X, AlertTriangle, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
-const DeleteConfirmDialog = ({ 
-  isOpen, 
-  onClose, 
-  onConfirm, 
-  itemName, 
-  isLoading = false 
+const DeleteConfirmDialog = ({
+  isOpen,
+  onClose,
+  onConfirm,
+  itemName,
+  isLoading = false
 }) => {
+  const { t } = useTranslation();
+
   return (
     <DialogPrimitive.Root open={isOpen} onOpenChange={onClose}>
       <DialogPrimitive.Portal>
@@ -21,14 +24,13 @@ const DeleteConfirmDialog = ({
             <div className="p-3 rounded-full bg-red-50 text-red-600">
               <AlertTriangle size={32} />
             </div>
-            
+
             <div className="space-y-2">
               <DialogPrimitive.Title className="text-xl font-bold text-slate-900">
-                Confirm Deletion
+                {t('confirm_delete')}
               </DialogPrimitive.Title>
               <DialogPrimitive.Description className="text-slate-500 text-sm">
-                Are you sure you want to delete <span className="font-bold text-slate-800">"{itemName}"</span>? 
-                This action cannot be undone and will permanently remove this item from the system.
+                {t('delete_item_warning', { name: itemName })}
               </DialogPrimitive.Description>
             </div>
 
@@ -39,7 +41,7 @@ const DeleteConfirmDialog = ({
                 disabled={isLoading}
                 className="flex-1 h-11 border-slate-200 hover:bg-slate-50 text-slate-600 font-semibold"
               >
-                Cancel
+                {t('cancel')}
               </Button>
               <Button
                 onClick={onConfirm}
@@ -49,7 +51,7 @@ const DeleteConfirmDialog = ({
                 {isLoading ? (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 ) : null}
-                Delete Now
+                {t('delete_now')}
               </Button>
             </div>
           </div>

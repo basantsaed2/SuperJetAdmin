@@ -63,7 +63,7 @@ const MaintenanceTypesFormPage = () => {
       }
       navigate("/maintenance_types");
     } catch (error) {
-      const msg = error.response?.data?.message || "An error occurred";
+      const msg = error.response?.data?.message || t("an_error_occurred");
       toast.error(msg);
     }
   };
@@ -89,14 +89,14 @@ const MaintenanceTypesFormPage = () => {
 
   return (
     <div className="w-full space-y-6 py-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <FormHeader 
+      <FormHeader
         title={isEditMode ? t('edit_maintenance_type') : t('add_new_maintenance_type')}
         subtitle={isEditMode ? `${t('updating_id')}: ${id}` : t('configure_maintenance_type')}
-        onBackClick={() => navigate("/maintenance_types")} 
+        onBackClick={() => navigate("/maintenance_types")}
       />
 
-      <form 
-        onSubmit={handleSubmit(onSubmit)} 
+      <form
+        onSubmit={handleSubmit(onSubmit)}
         className="bg-white p-4 md:p-8 rounded-3xl border border-slate-100 shadow-xl shadow-blue-900/5 space-y-6"
       >
         <FormInput

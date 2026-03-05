@@ -1,10 +1,12 @@
 // src/hooks/useDelete.jsx
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import axiosInstance from '../api/axiosInstance';
 import { toast } from 'sonner';
 
 export const useDelete = (url, queryKeyToInvalidate, successMessage) => {
     const queryClient = useQueryClient();
+    const { t } = useTranslation();
 
     return useMutation({
         mutationFn: async (id) => {
@@ -13,17 +15,17 @@ export const useDelete = (url, queryKeyToInvalidate, successMessage) => {
             return data;
         },
         onSuccess: (data) => {
-            const msg = typeof successMessage === 'function' 
-                ? successMessage(data) 
-                : successMessage || 'Deleted successfully';
+            const msg = typeof successMessage === 'function'
+                ? successMessage(data)
+                : successMessage || t('deleted_successfully');
             toast.success(msg);
-            
+
             if (queryKeyToInvalidate) {
                 queryClient.invalidateQueries({ queryKey: queryKeyToInvalidate });
             }
         },
         onError: (error) => {
-            const message = error.response?.data?.message || 'Failed to delete';
+            const message = error.response?.data?.message || t('failed_to_delete');
             toast.error(message);
         },
     });

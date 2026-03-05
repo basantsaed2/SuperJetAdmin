@@ -82,7 +82,7 @@ const MaintenancesFormPage = () => {
       }
       navigate("/maintenances");
     } catch (error) {
-      const msg = error.response?.data?.message || "An error occurred";
+      const msg = error.response?.data?.message || t("an_error_occurred");
       toast.error(msg);
     }
   };

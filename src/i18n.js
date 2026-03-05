@@ -298,7 +298,15 @@ const resources = {
       "no_description_available": "No description available",
       "maintenance_type": "Maintenance Type",
       "maintenance_type_required": "Please select maintenance type",
-      "name_min_length": "Name must be at least 3 characters"
+      "name_min_length": "Name must be at least 3 characters",
+      "delete_now": "Delete Now",
+      "deleted_successfully": "Deleted successfully",
+      "failed_to_delete": "Failed to delete",
+      "something_went_wrong": "Something went wrong",
+      "update_failed": "Update failed",
+      "delete_item_warning": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+      "operation_failed": "Operation failed",
+      "an_error_occurred": "An error occurred"
     }
   },
   ar: {
@@ -596,7 +604,15 @@ const resources = {
       "no_description_available": "لا يوجد وصف متاح",
       "maintenance_type": "نوع الصيانة",
       "maintenance_type_required": "يرجى اختيار نوع الصيانة",
-      "name_min_length": "يجب أن يكون الاسم 3 أحرف على الأقل"
+      "name_min_length": "يجب أن يكون الاسم 3 أحرف على الأقل",
+      "delete_now": "حذف الآن",
+      "deleted_successfully": "تم الحذف بنجاح",
+      "failed_to_delete": "فشل في الحذف",
+      "something_went_wrong": "حدث خطأ ما",
+      "update_failed": "فشل التحديث",
+      "delete_item_warning": "هل أنت متأكد أنك تريد حذف \"{{name}}\"؟ لا يمكن التراجع عن هذا الإجراء.",
+      "operation_failed": "فشلت العملية",
+      "an_error_occurred": "حدث خطأ ما"
     }
   }
 };

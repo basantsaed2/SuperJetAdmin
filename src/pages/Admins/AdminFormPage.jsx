@@ -115,7 +115,7 @@ const AdminFormPage = () => {
 
   return (
     <div className="w-full space-y-6 py-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <FormHeader 
+      <FormHeader
         title={isEditMode ? t('edit_admin') : t('add_new_admin')}
         subtitle={isEditMode ? `${t('updating_id')}: ${id}` : t('configure_admin')}
         onBackClick={() => navigate("/admins")}
@@ -142,12 +142,12 @@ const AdminFormPage = () => {
             />
 
             <FormInput
-                label={t('password')}
-                type="password"
-                placeholder={isEditMode ? t('leave_blank_to_keep_current') : t('enter_password')}
-                name="password"
-                register={register}
-                errors={errors}
+              label={t('password')}
+              type="password"
+              placeholder={isEditMode ? t('leave_blank_to_keep_current') : t('enter_password')}
+              name="password"
+              register={register}
+              errors={errors}
             />
 
             <FormInput
@@ -171,19 +171,27 @@ const AdminFormPage = () => {
             />
 
             <FormInput
-                type="select"
-                label={t('admin_type')}
-                options={typeOptions}
-                register={register}
-                value={watch("type")}
-                onChange={(val) => setValue("type", val, { shouldValidate: true })}
-                name="type"
-                errors={errors}
-                placeholder={t('select_type')}
+              type="select"
+              label={t('admin_type')}
+              options={typeOptions}
+              register={register}
+              value={watch("type")}
+              onChange={(val) => setValue("type", val, { shouldValidate: true })}
+              name="type"
+              errors={errors}
+              placeholder={t('select_type')}
             />
           </div>
 
-          <div className="flex justify-end pt-6 border-t border-slate-50">
+          <div className="flex justify-end items-center gap-3 pt-6 border-t border-slate-50">
+            <Button
+              type="button"
+              variant="ghost"
+              className="h-9 px-6 text-slate-500 hover:text-slate-800 text-sm font-medium"
+              onClick={() => navigate("/admins")}
+            >
+              {t('cancel')}
+            </Button>
             <Button
               type="submit"
               disabled={postMutation.isPending || updateMutation.isPending}

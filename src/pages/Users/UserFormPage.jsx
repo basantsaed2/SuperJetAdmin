@@ -22,13 +22,13 @@ const userSchema = z.object({
   username: z.string().optional(),
   password: z.string().optional()
 }).refine((data) => {
-    if (data.hasAccount) {
-        return !!data.username && !!data.password;
-    }
-    return true;
+  if (data.hasAccount) {
+    return !!data.username && !!data.password;
+  }
+  return true;
 }, {
-    message: "Username and password are required when creating an account",
-    path: ["username"]
+  message: "Username and password are required when creating an account",
+  path: ["username"]
 });
 
 const UserFormPage = () => {
@@ -98,7 +98,7 @@ const UserFormPage = () => {
       delete data.username;
       delete data.password;
     } else if (isEditMode && !data.password) {
-        delete data.password;
+      delete data.password;
     }
 
     try {
@@ -125,7 +125,7 @@ const UserFormPage = () => {
 
   return (
     <div className="w-full space-y-6 py-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <FormHeader 
+      <FormHeader
         title={isEditMode ? t('edit_user') : t('add_new_user')}
         subtitle={isEditMode ? `${t('updating_id')}: ${id}` : t('configure_user')}
         onBackClick={() => navigate("/users")}
@@ -133,93 +133,101 @@ const UserFormPage = () => {
 
       <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
         <form onSubmit={handleSubmit(onSubmit)} className="divide-y divide-slate-50">
-          
+
           {/* Basic Information */}
           <div className="p-6 md:p-8 space-y-8">
             <div className="flex items-center gap-3 mb-2">
-                <div className="p-2 rounded-xl bg-blue-50 text-blue-600">
-                    <UserCircle size={20} />
-                </div>
-                <h3 className="font-bold text-slate-800 tracking-tight">{t('basic_information')}</h3>
+              <div className="p-2 rounded-xl bg-blue-50 text-blue-600">
+                <UserCircle size={20} />
+              </div>
+              <h3 className="font-bold text-slate-800 tracking-tight">{t('basic_information')}</h3>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <FormInput
-                    label={t('full_name')}
-                    placeholder={t('enter_full_name')}
-                    name="name"
-                    register={register}
-                    errors={errors}
-                />
+              <FormInput
+                label={t('full_name')}
+                placeholder={t('enter_full_name')}
+                name="name"
+                register={register}
+                errors={errors}
+              />
 
-                <FormInput
-                    label={t('staff_phone')}
-                    placeholder={t('enter_phone_number')}
-                    name="phone"
-                    register={register}
-                    errors={errors}
-                />
+              <FormInput
+                label={t('staff_phone')}
+                placeholder={t('enter_phone_number')}
+                name="phone"
+                register={register}
+                errors={errors}
+              />
 
-                <FormInput
-                    type="select"
-                    label={t('role_label')}
-                    options={roles}
-                    register={register}
-                    value={watch("role")}
-                    onChange={(val) => setValue("role", val, { shouldValidate: true })}
-                    name="role"
-                    errors={errors}
-                    placeholder={t('select_role')}
-                />
+              <FormInput
+                type="select"
+                label={t('role_label')}
+                options={roles}
+                register={register}
+                value={watch("role")}
+                onChange={(val) => setValue("role", val, { shouldValidate: true })}
+                name="role"
+                errors={errors}
+                placeholder={t('select_role')}
+              />
             </div>
           </div>
 
           {/* Account Settings */}
           <div className="p-6 md:p-8 space-y-8 bg-slate-50/30">
             <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-xl bg-amber-50 text-amber-600">
-                        <UserCheck size={20} />
-                    </div>
-                    <div>
-                        <h3 className="font-bold text-slate-800 tracking-tight">{t('account_settings')}</h3>
-                        <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider mt-0.5">{t('enable_login_access')}</p>
-                    </div>
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-xl bg-amber-50 text-amber-600">
+                  <UserCheck size={20} />
                 </div>
-                <FormInput
-                    type="switch"
-                    name="hasAccount"
-                    register={register}
-                    setValue={setValue}
-                    watch={watch}
-                    className="mt-0"
-                />
+                <div>
+                  <h3 className="font-bold text-slate-800 tracking-tight">{t('account_settings')}</h3>
+                  <p className="text-[10px] text-slate-400 font-medium uppercase tracking-wider mt-0.5">{t('enable_login_access')}</p>
+                </div>
+              </div>
+              <FormInput
+                type="switch"
+                name="hasAccount"
+                register={register}
+                setValue={setValue}
+                watch={watch}
+                className="mt-0"
+              />
             </div>
 
             {hasAccount && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 animate-in slide-in-from-top-4 duration-500">
-                    <FormInput
-                        label={t('username')}
-                        placeholder={t('enter_username')}
-                        name="username"
-                        register={register}
-                        errors={errors}
-                        icon={<Key size={14} />}
-                    />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4 animate-in slide-in-from-top-4 duration-500">
+                <FormInput
+                  label={t('username')}
+                  placeholder={t('enter_username')}
+                  name="username"
+                  register={register}
+                  errors={errors}
+                  icon={<Key size={14} />}
+                />
 
-                    <FormInput
-                        label={t('password')}
-                        type="password"
-                        placeholder={isEditMode ? t('leave_blank_to_keep_current') : t('enter_password')}
-                        name="password"
-                        register={register}
-                        errors={errors}
-                    />
-                </div>
+                <FormInput
+                  label={t('password')}
+                  type="password"
+                  placeholder={isEditMode ? t('leave_blank_to_keep_current') : t('enter_password')}
+                  name="password"
+                  register={register}
+                  errors={errors}
+                />
+              </div>
             )}
           </div>
 
-          <div className="p-6 md:p-8 bg-white flex justify-end">
+          <div className="p-6 md:p-8 bg-white flex justify-end items-center gap-3">
+            <Button
+              type="button"
+              variant="ghost"
+              className="h-9 px-6 text-slate-500 hover:text-slate-800 text-sm font-medium"
+              onClick={() => navigate("/users")}
+            >
+              {t('cancel')}
+            </Button>
             <Button
               type="submit"
               disabled={postMutation.isPending || updateMutation.isPending}

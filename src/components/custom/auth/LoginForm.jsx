@@ -6,6 +6,7 @@ import { THEME } from "@/utils/theme";
 import { usePost } from "@/hooks/usePost";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const loginSchema = z.object({
     email: z.string().email("Invalid email address"),
@@ -15,7 +16,7 @@ const loginSchema = z.object({
 export const LoginForm = () => {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
-
+    const { t } = useTranslation();
     const loginMutation = usePost(
         "/api/admin/auth/login", 
         null, 

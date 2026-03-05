@@ -1,4 +1,5 @@
 import { Bus, ShieldCheck, Calendar, Loader2 } from "lucide-react"
+import i18n from "@/i18n"
 import { cn } from "@/lib/utils"
 import {
     Select,
@@ -107,6 +108,7 @@ export const getBusesColumns = (t, onStatusChange, updatingId) => [
             return (
                 <div className="flex items-center gap-2">
                     <Select
+                        dir={i18n.dir()}
                         // التعديل الأساسي هنا: استخدمي value بدل defaultValue
                         value={status}
                         onValueChange={(newValue) => onStatusChange(id, newValue)}

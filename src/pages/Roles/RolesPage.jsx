@@ -55,7 +55,7 @@ const RolesPage = () => {
     };
 
     const columns = React.useMemo(
-        () => getRolesColumns(t, handleEdit, handleDeleteClick, handleViewClick),
+        () => getRolesColumns(t),
         [t]
     );
 
@@ -102,7 +102,7 @@ const RolesPage = () => {
                     </div>
                 ) : (
                     <div className="p-2">
-                        <GenericDataTable columns={columns} data={rolesData} />
+                        <GenericDataTable columns={columns} data={rolesData} onEdit={handleEdit} onDelete={handleDeleteClick} onView={handleViewClick} />
                     </div>
                 )}
             </div>

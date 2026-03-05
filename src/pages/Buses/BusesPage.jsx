@@ -44,7 +44,7 @@ const BusesPage = () => {
     };
 
     const columns = React.useMemo(
-        () => getBusesColumns(t, handleEdit, handleDeleteClick),
+        () => getBusesColumns(t),
         [t]
     );
 
@@ -91,7 +91,7 @@ const BusesPage = () => {
                     </div>
                 ) : (
                     <div className="p-2">
-                        <GenericDataTable columns={columns} data={busesData} />
+                        <GenericDataTable columns={columns} data={busesData} onEdit={handleEdit} onDelete={handleDeleteClick} />
                     </div>
                 )}
             </div>

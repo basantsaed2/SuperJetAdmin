@@ -45,7 +45,7 @@ const GaragesPage = () => {
     };
 
     const columns = React.useMemo(
-        () => getGaragesColumns(t, handleEdit, handleDeleteClick),
+        () => getGaragesColumns(t),
         [t]
     );
 
@@ -92,7 +92,7 @@ const GaragesPage = () => {
                     </div>
                 ) : (
                     <div className="p-2">
-                        <GenericDataTable columns={columns} data={garagesData} />
+                        <GenericDataTable columns={columns} data={garagesData} onEdit={handleEdit} onDelete={handleDeleteClick} />
                     </div>
                 )}
             </div>

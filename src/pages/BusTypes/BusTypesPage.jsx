@@ -48,7 +48,7 @@ const BusTypesPage = () => {
     };
 
     const columns = React.useMemo(
-        () => getBusTypeColumns(t, handleEdit, handleDeleteClick),
+        () => getBusTypeColumns(t),
         [t]
     );
 
@@ -95,7 +95,7 @@ const BusTypesPage = () => {
                     </div>
                 ) : (
                     <div className="p-2">
-                        <GenericDataTable columns={columns} data={busTypesData} />
+                        <GenericDataTable columns={columns} data={busTypesData} onEdit={handleEdit} onDelete={handleDeleteClick} />
                     </div>
                 )}
             </div>

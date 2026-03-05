@@ -1,23 +1,16 @@
-import { Edit, Trash2, Bus, ShieldCheck, Calendar, Hash } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip"
+import { Bus, ShieldCheck, Calendar } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-export const getBusesColumns = (t, onEdit, onDelete) => [
+export const getBusesColumns = (t) => [
     {
         accessorKey: "busImage",
         header: t('bus_image'),
         cell: ({ row }) => (
             <div className="flex items-center justify-center w-12 h-10 bg-slate-100 rounded-lg overflow-hidden border border-slate-200">
                 {row.original.busImage ? (
-                    <img 
-                        src={row.original.busImage} 
-                        alt="Bus" 
+                    <img
+                        src={row.original.busImage}
+                        alt="Bus"
                         className="w-full h-full object-cover"
                     />
                 ) : (
@@ -87,7 +80,7 @@ export const getBusesColumns = (t, onEdit, onDelete) => [
             const expiryDate = row.original.licenseExpiryDate;
             const date = expiryDate ? new Date(expiryDate).toLocaleDateString() : '---';
             const isExpired = expiryDate && new Date(expiryDate) < new Date();
-            
+
             return (
                 <div className={cn("flex items-center gap-1.5", isExpired ? "text-red-500" : "text-slate-500")}>
                     <Calendar className="w-3.5 h-3.5" />
@@ -102,54 +95,17 @@ export const getBusesColumns = (t, onEdit, onDelete) => [
         cell: ({ row }) => {
             const status = row.original.status || 'active';
             const isActive = status === 'active';
-            
+
             return (
                 <span className={cn(
                     "inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border",
-                    isActive 
-                        ? "bg-green-50 text-green-700 border-green-100" 
+                    isActive
+                        ? "bg-green-50 text-green-700 border-green-100"
                         : "bg-slate-50 text-slate-500 border-slate-100"
                 )}>
                     {t(status)}
                 </span>
             );
         },
-    },
-    {
-        id: "actions",
-        header: t('actions'),
-        cell: ({ row }) => (
-            <div className="flex items-center gap-2">
-                <TooltipProvider>
-                    <Tooltip delayDuration={300}>
-                        <TooltipTrigger asChild>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-8 w-8 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                                onClick={() => onEdit(row.original)}
-                            >
-                                <Edit className="h-4 w-4" />
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent><p>{t('edit')}</p></TooltipContent>
-                    </Tooltip>
-
-                    <Tooltip delayDuration={300}>
-                        <TooltipTrigger asChild>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50"
-                                onClick={() => onDelete(row.original)}
-                            >
-                                <Trash2 className="h-4 w-4" />
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent><p>{t('delete')}</p></TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
-            </div>
-        ),
     },
 ]

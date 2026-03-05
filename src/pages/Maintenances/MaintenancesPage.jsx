@@ -45,7 +45,7 @@ const MaintenancesPage = () => {
     };
 
     const columns = React.useMemo(
-        () => getMaintenancesColumns(t, handleEdit, handleDeleteClick),
+        () => getMaintenancesColumns(t),
         [t]
     );
 
@@ -92,7 +92,7 @@ const MaintenancesPage = () => {
                     </div>
                 ) : (
                     <div className="p-2">
-                        <GenericDataTable columns={columns} data={maintenancesData} />
+                        <GenericDataTable columns={columns} data={maintenancesData} onEdit={handleEdit} onDelete={handleDeleteClick} />
                     </div>
                 )}
             </div>

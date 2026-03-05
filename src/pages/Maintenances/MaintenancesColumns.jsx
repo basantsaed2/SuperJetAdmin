@@ -1,13 +1,6 @@
-import { Edit, Trash2, Wrench } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip"
+import { Wrench } from "lucide-react"
 
-export const getMaintenancesColumns = (t, onEdit, onDelete) => [
+export const getMaintenancesColumns = (t) => [
     {
         accessorKey: "name",
         header: t('maintenance_name'),
@@ -27,45 +20,6 @@ export const getMaintenancesColumns = (t, onEdit, onDelete) => [
             <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
                 {row.original.maintenanceType?.name || '---'}
             </span>
-        ),
-    },
-    {
-        id: "actions",
-        header: t('actions'),
-        cell: ({ row }) => (
-            <div className="flex items-center gap-2">
-                <TooltipProvider>
-                    {/* Edit Action */}
-                    <Tooltip delayDuration={300}>
-                        <TooltipTrigger asChild>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-8 w-8 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                                onClick={() => onEdit(row.original)}
-                            >
-                                <Edit className="h-4 w-4" />
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent><p>{t('edit')}</p></TooltipContent>
-                    </Tooltip>
-
-                    {/* Delete Action */}
-                    <Tooltip delayDuration={300}>
-                        <TooltipTrigger asChild>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50"
-                                onClick={() => onDelete(row.original)}
-                            >
-                                <Trash2 className="h-4 w-4" />
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent><p>{t('delete')}</p></TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
-            </div>
         ),
     },
 ]

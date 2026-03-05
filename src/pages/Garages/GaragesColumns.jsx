@@ -1,13 +1,6 @@
-import { Edit, Trash2, Warehouse } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip"
+import { Warehouse } from "lucide-react"
 
-export const getGaragesColumns = (t, onEdit, onDelete) => [
+export const getGaragesColumns = (t) => [
     {
         accessorKey: "name",
         header: t('garage_name'),
@@ -34,45 +27,6 @@ export const getGaragesColumns = (t, onEdit, onDelete) => [
         header: t('location'),
         cell: ({ row }) => (
             <span className="text-slate-500 text-sm italic">{row.original.location || '---'}</span>
-        ),
-    },
-    {
-        id: "actions",
-        header: t('actions'),
-        cell: ({ row }) => (
-            <div className="flex items-center gap-2">
-                <TooltipProvider>
-                    {/* Edit Action */}
-                    <Tooltip delayDuration={300}>
-                        <TooltipTrigger asChild>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-8 w-8 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                                onClick={() => onEdit(row.original)}
-                            >
-                                <Edit className="h-4 w-4" />
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent><p>{t('edit')}</p></TooltipContent>
-                    </Tooltip>
-
-                    {/* Delete Action */}
-                    <Tooltip delayDuration={300}>
-                        <TooltipTrigger asChild>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50"
-                                onClick={() => onDelete(row.original)}
-                            >
-                                <Trash2 className="h-4 w-4" />
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent><p>{t('delete')}</p></TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
-            </div>
         ),
     },
 ]

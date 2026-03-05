@@ -45,7 +45,7 @@ const CitiesPage = () => {
     };
 
     const columns = React.useMemo(
-        () => getCitiesColumns(t, handleEdit, handleDeleteClick),
+        () => getCitiesColumns(t),
         [t]
     );
 
@@ -92,7 +92,7 @@ const CitiesPage = () => {
                     </div>
                 ) : (
                     <div className="p-2">
-                        <GenericDataTable columns={columns} data={citiesData} />
+                        <GenericDataTable columns={columns} data={citiesData} onEdit={handleEdit} onDelete={handleDeleteClick} />
                     </div>
                 )}
             </div>

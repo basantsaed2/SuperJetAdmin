@@ -45,7 +45,7 @@ const ZonesPage = () => {
     };
 
     const columns = React.useMemo(
-        () => getZonesColumns(t, handleEdit, handleDeleteClick),
+        () => getZonesColumns(t),
         [t]
     );
 
@@ -92,7 +92,7 @@ const ZonesPage = () => {
                     </div>
                 ) : (
                     <div className="p-2">
-                        <GenericDataTable columns={columns} data={zonesData} />
+                        <GenericDataTable columns={columns} data={zonesData} onEdit={handleEdit} onDelete={handleDeleteClick} />
                     </div>
                 )}
             </div>

@@ -14,26 +14,99 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table" // تأكدي من مسار ملفك الذي أرسلتيه
+} from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { THEME } from "@/utils/theme"
 import { useTranslation } from "react-i18next";
+import { Edit, Trash2, Eye } from "lucide-react";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 
-export function GenericDataTable({ columns, data, isLoading }) {
+export function GenericDataTable({ columns, data, isLoading, onEdit, onDelete, onView }) {
     const { t } = useTranslation();
     const [columnFilters, setColumnFilters] = React.useState([])
 
-    const searchableColumns = columns.filter(col => 
-        col.accessorKey && 
+    const searchableColumns = columns.filter(col =>
+        col.accessorKey &&
         !col.accessorKey.toLowerCase().includes("image")
     )
     const [searchColumn, setSearchColumn] = React.useState(searchableColumns[0]?.accessorKey || "")
 
+    // Build the actions column dynamically if any action handler is provided
+    const actionsColumn = React.useMemo(() => {
+        if (!onEdit && !onDelete && !onView) return null;
+        return {
+            id: "actions",
+            header: t('actions'),
+            cell: ({ row }) => (
+                <div className="flex items-center gap-1">
+                    <TooltipProvider>
+                        {onView && (
+                            <Tooltip delayDuration={300}>
+                                <TooltipTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-8 w-8 text-slate-500 hover:text-slate-700 hover:bg-slate-50"
+                                        onClick={() => onView(row.original)}
+                                    >
+                                        <Eye className="h-4 w-4" />
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent><p>{t('view')}</p></TooltipContent>
+                            </Tooltip>
+                        )}
+                        {onEdit && (
+                            <Tooltip delayDuration={300}>
+                                <TooltipTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-8 w-8 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                                        onClick={() => onEdit(row.original)}
+                                    >
+                                        <Edit className="h-4 w-4" />
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent><p>{t('edit')}</p></TooltipContent>
+                            </Tooltip>
+                        )}
+                        {onDelete && (
+                            <Tooltip delayDuration={300}>
+                                <TooltipTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50"
+                                        onClick={() => onDelete(row.original)}
+                                    >
+                                        <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent><p>{t('delete')}</p></TooltipContent>
+                            </Tooltip>
+                        )}
+                    </TooltipProvider>
+                </div>
+            ),
+        };
+    }, [onEdit, onDelete, onView, t]);
+
+    // Merge provided columns with the actions column
+    const mergedColumns = React.useMemo(() => {
+        if (!actionsColumn) return columns;
+        return [...columns, actionsColumn];
+    }, [columns, actionsColumn]);
+
     const table = useReactTable({
         data,
-        columns,
+        columns: mergedColumns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         onColumnFiltersChange: setColumnFilters,
@@ -103,7 +176,7 @@ export function GenericDataTable({ columns, data, isLoading }) {
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={columns.length} className="h-32 text-center text-slate-400">
+                                <TableCell colSpan={mergedColumns.length} className="h-32 text-center text-slate-400">
                                     {t('no_records_found')}
                                 </TableCell>
                             </TableRow>

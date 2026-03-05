@@ -44,7 +44,7 @@ const AdminsPage = () => {
     };
 
     const columns = React.useMemo(
-        () => getAdminsColumns(t, handleEdit, handleDeleteClick),
+        () => getAdminsColumns(t),
         [t]
     );
 
@@ -91,7 +91,7 @@ const AdminsPage = () => {
                     </div>
                 ) : (
                     <div className="p-2">
-                        <GenericDataTable columns={columns} data={adminsData} />
+                        <GenericDataTable columns={columns} data={adminsData} onEdit={handleEdit} onDelete={handleDeleteClick} />
                     </div>
                 )}
             </div>

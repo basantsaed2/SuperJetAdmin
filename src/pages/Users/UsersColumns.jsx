@@ -1,13 +1,6 @@
-import { Edit, Trash2, User, Key, Phone, Shield } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip"
+import { User, Key, Phone, Shield } from "lucide-react"
 
-export const getUsersColumns = (t, onEdit, onDelete) => [
+export const getUsersColumns = (t) => [
     {
         accessorKey: "name",
         header: t('name'),
@@ -55,48 +48,11 @@ export const getUsersColumns = (t, onEdit, onDelete) => [
         header: t('status'),
         cell: ({ row }) => (
             <div className={`inline-flex items-center px-2 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
-                row.original.hasAccount 
-                    ? "bg-green-50 text-green-600 border border-green-100" 
+                row.original.hasAccount
+                    ? "bg-green-50 text-green-600 border border-green-100"
                     : "bg-slate-50 text-slate-400 border border-slate-100"
             }`}>
                {row.original.hasAccount ? t('active') : t('inactive')}
-            </div>
-        ),
-    },
-    {
-        id: "actions",
-        header: t('actions'),
-        cell: ({ row }) => (
-            <div className="flex items-center gap-2">
-                <TooltipProvider>
-                    <Tooltip delayDuration={300}>
-                        <TooltipTrigger asChild>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-8 w-8 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                                onClick={() => onEdit(row.original)}
-                            >
-                                <Edit className="h-4 w-4" />
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent><p>{t('edit')}</p></TooltipContent>
-                    </Tooltip>
-
-                    <Tooltip delayDuration={300}>
-                        <TooltipTrigger asChild>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50"
-                                onClick={() => onDelete(row.original)}
-                            >
-                                <Trash2 className="h-4 w-4" />
-                            </Button>
-                        </TooltipTrigger>
-                        <TooltipContent><p>{t('delete')}</p></TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
             </div>
         ),
     },

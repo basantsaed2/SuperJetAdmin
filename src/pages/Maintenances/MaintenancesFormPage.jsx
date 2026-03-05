@@ -15,9 +15,9 @@ import { toast } from "sonner";
 import FormHeader from "@/components/custom/FormHeader";
 import { useTranslation } from "react-i18next";
 
-const maintenanceSchema = z.object({
-  name: z.string().min(3, "Name must be at least 3 characters"),
-  maintenanceTypeId: z.string().uuid("Please select a valid maintenance type"),
+const maintenanceSchema = (t) => z.object({
+  name: z.string().min(3, t("name_min_length")),
+  maintenanceTypeId: z.string().min(1, t("maintenance_type_required")),
 });
 
 const MaintenancesFormPage = () => {
@@ -54,7 +54,7 @@ const MaintenancesFormPage = () => {
     watch,
     formState: { errors, isSubmitting },
   } = useForm({
-    resolver: zodResolver(maintenanceSchema),
+    resolver: zodResolver(maintenanceSchema(t)),
     defaultValues: {
       name: "",
       maintenanceTypeId: "",

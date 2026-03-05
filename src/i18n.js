@@ -295,7 +295,10 @@ const resources = {
       "create_type": "Create Type",
       "additional_info": "Additional Information",
       "error_loading_data": "Error loading data",
-      "no_description_available": "No description available"
+      "no_description_available": "No description available",
+      "maintenance_type": "Maintenance Type",
+      "maintenance_type_required": "Please select maintenance type",
+      "name_min_length": "Name must be at least 3 characters"
     }
   },
   ar: {
@@ -590,7 +593,10 @@ const resources = {
       "create_type": "إنشاء نوع",
       "additional_info": "معلومات إضافية",
       "error_loading_data": "خطأ في تحميل البيانات",
-      "no_description_available": "لا يوجد وصف متاح"
+      "no_description_available": "لا يوجد وصف متاح",
+      "maintenance_type": "نوع الصيانة",
+      "maintenance_type_required": "يرجى اختيار نوع الصيانة",
+      "name_min_length": "يجب أن يكون الاسم 3 أحرف على الأقل"
     }
   }
 };

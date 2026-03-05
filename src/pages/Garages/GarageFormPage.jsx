@@ -7,12 +7,12 @@ import { Save, Loader2, AlertCircle } from "lucide-react";
 
 // Components & UI
 import { Button } from "@/components/ui/button";
-import { FormInput } from "@/components/ui/custom/FormInput";
+import { FormInput } from "@/components/custom/FormInput";
 import { THEME } from "@/utils/theme";
 import { useGet } from "@/hooks/useGet";
 import axiosInstance from "@/api/axiosInstance";
 import { toast } from "sonner";
-import FormHeader from "@/components/ui/custom/FormHeader";
+import FormHeader from "@/components/custom/FormHeader";
 import { useTranslation } from "react-i18next";
 
 const garageSchema = z.object({

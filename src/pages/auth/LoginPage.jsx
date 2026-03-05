@@ -1,6 +1,6 @@
 // src/pages/LoginPage.jsx
-import { LoginForm } from "@/features/auth/LoginForm";
-import AuthIllustration from "@/features/auth/AuthIllustration";
+import { LoginForm } from "@/components/custom/auth/LoginForm";
+import AuthIllustration from "@/components/custom/auth/AuthIllustration";
 import { THEME } from "@/utils/theme";
 import { useTranslation } from "react-i18next";
 

@@ -3,13 +3,13 @@ import * as React from "react";
 import { useNavigate } from "react-router-dom";
 import { Loader2, AlertCircle, Plus, Wrench } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { GenericDataTable } from "@/components/ui/custom/GenericDataTable";
+import { GenericDataTable } from "@/components/custom/GenericDataTable";
 import { getMaintenanceTypeColumns } from "./MaintenanceTypeColumns";
 import { THEME } from "@/utils/theme";
 import { useGet } from "@/hooks/useGet";
 import { useDelete } from "@/hooks/useDelete";
-import PageHeader from "@/components/ui/custom/PageHeader";
-import DeleteConfirmDialog from "@/components/ui/custom/DeleteConfirmDialog";
+import PageHeader from "@/components/custom/PageHeader";
+import DeleteConfirmDialog from "@/components/custom/DeleteConfirmDialog";
 import { useTranslation } from "react-i18next";
 
 const MaintenanceTypesPage = () => {

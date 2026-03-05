@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useFormContext } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -21,9 +22,15 @@ import { Search, X, Check, ChevronDown, CheckSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 // --- Searchable Single Select ---
-const SearchableSelect = ({ options, onValueChange, defaultValue, placeholder, t, hasError }) => {
+const SearchableSelect = ({ options, onValueChange, value, placeholder, t, hasError }) => {
   const [searchTerm, setSearchTerm] = React.useState("");
+  const [isOpen, setIsOpen] = React.useState(false);
   const inputRef = React.useRef(null);
+
+  const selectedOption = React.useMemo(() =>
+    options.find(opt => opt.value === value),
+    [options, value]
+  );
 
   const filteredOptions = React.useMemo(() =>
     options.filter(opt => opt.label.toLowerCase().includes(searchTerm.toLowerCase())),
@@ -31,25 +38,38 @@ const SearchableSelect = ({ options, onValueChange, defaultValue, placeholder, t
   );
 
   return (
-    <Select
-      onValueChange={onValueChange}
-      defaultValue={defaultValue}
+    <DropdownMenu
+      open={isOpen}
       onOpenChange={(open) => {
+        setIsOpen(open);
         if (open) {
           setSearchTerm("");
           setTimeout(() => inputRef.current?.focus(), 50);
         }
       }}
     >
-      <SelectTrigger className={cn(
-        "w-full min-h-[48px] h-[48px] px-4 bg-slate-50/50 border-slate-200 transition-all duration-300 rounded-xl shadow-sm",
-        "hover:border-blue-300 hover:bg-white hover:shadow-md",
-        "focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500 focus:shadow-lg focus:bg-white data-[state=open]:bg-white data-[state=open]:border-blue-500",
-        hasError && "border-red-500 focus:border-red-500 focus:ring-red-500/10"
-      )}>
-        <SelectValue placeholder={placeholder} />
-      </SelectTrigger>
-      <SelectContent side="bottom" position="popper" className="w-[var(--radix-select-trigger-width)] z-[150] bg-white/80 backdrop-blur-xl border-slate-200 p-0 shadow-2xl overflow-hidden rounded-2xl animate-in fade-in zoom-in-95 duration-200">
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="outline"
+          className={cn(
+            "w-full justify-between min-h-[48px] h-[48px] px-4 bg-slate-50/50 border-slate-200 transition-all duration-300 rounded-xl shadow-sm font-normal",
+            "hover:border-blue-300 hover:bg-white hover:shadow-md",
+            "focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500 focus:shadow-lg focus:bg-white data-[state=open]:bg-white data-[state=open]:border-blue-500",
+            hasError && "border-red-500 focus:border-red-500 focus:ring-red-500/10",
+            !selectedOption && "text-slate-500"
+          )}
+        >
+          <span className="truncate">
+            {selectedOption ? selectedOption.label : placeholder}
+          </span>
+          <ChevronDown className="h-4 w-4 opacity-40 shrink-0 ml-2 transition-transform duration-300 group-data-[state=open]:rotate-180" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        side="bottom"
+        align="start"
+        className="w-[var(--radix-dropdown-menu-trigger-width)] z-[150] bg-white/80 backdrop-blur-xl border-slate-200 p-0 shadow-2xl overflow-hidden rounded-2xl animate-in fade-in zoom-in-95 duration-200"
+      >
         <div className="sticky top-0 bg-white/50 backdrop-blur-md p-2 border-b border-slate-100 z-40">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -68,9 +88,23 @@ const SearchableSelect = ({ options, onValueChange, defaultValue, placeholder, t
         <div className="p-1.5 max-h-[220px] overflow-y-auto">
           {filteredOptions.length > 0 ? (
             filteredOptions.map((opt) => (
-              <SelectItem key={opt.value} value={opt.value} className="text-sm rounded-lg py-2 focus:bg-blue-50 focus:text-blue-700 transition-colors">
+              <div
+                key={opt.value}
+                onClick={() => {
+                  onValueChange(opt.value);
+                  setIsOpen(false);
+                }}
+                className={cn(
+                  "relative flex cursor-pointer select-none items-center rounded-lg px-3 py-2 text-sm outline-none transition-colors",
+                  "hover:bg-blue-50 hover:text-blue-700 focus:bg-blue-50 focus:text-blue-700",
+                  value === opt.value && "bg-blue-50 text-blue-700 font-medium"
+                )}
+              >
                 {opt.label}
-              </SelectItem>
+                {value === opt.value && (
+                  <Check className="ml-auto h-4 w-4" />
+                )}
+              </div>
             ))
           ) : (
             <div className="p-6 text-center text-xs text-slate-400 font-medium">
@@ -78,8 +112,8 @@ const SearchableSelect = ({ options, onValueChange, defaultValue, placeholder, t
             </div>
           )}
         </div>
-      </SelectContent>
-    </Select>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 
@@ -216,23 +250,41 @@ const MultiSelect = ({ options, value = [], onChange, placeholder, t, hasError }
   );
 };
 
-export const FormInput = ({
-  label,
-  name,
-  register,
-  errors,
-  type = "text",
-  placeholder,
-  options = [],
-  className,
-  rows = 3,
-  multiple = false,
-  setValue,
-  watch,
-  ...props
-}) => {
+export const FormInput = (props) => {
+  const {
+    label,
+    name,
+    register: propRegister,
+    errors: propErrors,
+    type = "text",
+    placeholder,
+    options = [],
+    className,
+    rows = 3,
+    multiple = false,
+    setValue: propSetValue,
+    watch: propWatch,
+    ...rest
+  } = props;
+
+  const formContext = useFormContext();
+  const register = propRegister || formContext?.register;
+  const watch = propWatch || formContext?.watch;
+  const setValue = propSetValue || formContext?.setValue;
+  const errors = propErrors || formContext?.formState?.errors;
+
   const { t } = useTranslation();
   const hasError = errors && errors[name];
+
+  // Sync internal state for visual update if external watch is not provided
+  const externalValue = watch ? watch(name) : undefined;
+  const [internalValue, setInternalValue] = useState(externalValue ?? props.defaultValue);
+
+  useEffect(() => {
+    if (externalValue !== undefined) {
+      setInternalValue(externalValue);
+    }
+  }, [externalValue]);
 
   const renderInput = () => {
     switch (type) {
@@ -252,14 +304,31 @@ export const FormInput = ({
           />
         );
 
-      case "select":
-        if (multiple && setValue && watch) {
-          const currentValue = watch(name) || [];
+      case "select": {
+        const displayValue = internalValue;
+
+        const handleSelectChange = (val) => {
+          setInternalValue(val);
+          // Update react-hook-form state
+          if (register && register(name)?.onChange) {
+            register(name).onChange({ target: { value: val, name } });
+          }
+          // Notify any custom parent onChange handler
+          if (props.onChange) {
+            props.onChange(val);
+          }
+        };
+
+        if (multiple && setValue) {
           return (
             <MultiSelect
               options={options}
-              value={currentValue}
-              onChange={(val) => setValue(name, val, { shouldValidate: true })}
+              value={Array.isArray(displayValue) ? displayValue : []}
+              onChange={(val) => {
+                setValue(name, val, { shouldValidate: true });
+                setInternalValue(val);
+                if (props.onChange) props.onChange(val);
+              }}
               placeholder={placeholder}
               t={t}
               hasError={hasError}
@@ -269,19 +338,17 @@ export const FormInput = ({
         return (
           <SearchableSelect
             options={options}
-            onValueChange={(value) => register(name).onChange({ target: { value, name } })}
-            defaultValue={props.defaultValue}
+            onValueChange={handleSelectChange}
+            value={displayValue}
             placeholder={placeholder}
             t={t}
             hasError={hasError}
           />
         );
+      }
 
-      case "switch":
-        const currentValue = watch(name);
-        // If the value is a boolean, treat it as true/false. 
-        // If it's the string "active" or "inactive", or something else, use the existing logic.
-        const isChecked = typeof currentValue === "boolean" ? currentValue : currentValue === "active";
+      case "switch": {
+        const isChecked = typeof internalValue === "boolean" ? internalValue : internalValue === "active";
 
         return (
           <div className={cn(
@@ -294,12 +361,15 @@ export const FormInput = ({
             <Switch
               checked={isChecked}
               onCheckedChange={(checked) => {
-                // Determine what value to set: boolean or string "active"/"inactive"
-                const newValue = typeof currentValue === "boolean" ? checked : (checked ? "active" : "inactive");
-                setValue(name, newValue, { shouldValidate: true });
+                const newValue = typeof internalValue === "boolean" ? checked : (checked ? "active" : "inactive");
+                setInternalValue(newValue);
+                if (setValue) {
+                  setValue(name, newValue, { shouldValidate: true });
+                }
+                if (props.onChange) props.onChange(newValue);
               }}
               className="data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-slate-300 shadow-lg"
-              {...props}
+              {...rest}
             />
             <div className="flex flex-col">
               {placeholder && (
@@ -316,12 +386,13 @@ export const FormInput = ({
             </div>
           </div>
         );
+      }
 
       default:
         return (
           <Input
             type={type}
-            {...register(name)}
+            {...(register ? register(name) : {})}
             placeholder={placeholder}
             className={cn(
               "w-full min-h-[48px] h-[48px] px-4 bg-slate-50/50 border-slate-200 shadow-sm transition-all duration-300 rounded-xl",
@@ -329,7 +400,7 @@ export const FormInput = ({
               "focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500 focus:shadow-lg focus:bg-white",
               hasError && "border-red-500 focus:border-red-500 focus:ring-red-500/10"
             )}
-            {...props}
+            {...rest}
           />
         );
     }

@@ -195,9 +195,9 @@ const UserFormPage = () => {
                 label={t('role_label')}
                 options={roles}
                 register={register}
-                value={watch("role")}
+                setValue={setValue}
+                watch={watch}
                 onChange={(val) => {
-                  setValue("role", val, { shouldValidate: true });
                   if (val !== 'security') setValue("garageId", "");
                 }}
                 name="role"
@@ -214,8 +214,8 @@ const UserFormPage = () => {
                     name="garageId"
                     options={garageOptions}
                     register={register}
-                    value={watch("garageId")}
-                    onChange={(val) => setValue("garageId", val, { shouldValidate: true })}
+                    setValue={setValue}
+                    watch={watch}
                     errors={errors}
                     icon={<Warehouse size={14} />}
                   />

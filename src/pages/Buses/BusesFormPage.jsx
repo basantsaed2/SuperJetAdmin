@@ -79,7 +79,7 @@ const BusesFormPage = () => {
     if (isEditMode && busResponse?.data?.bus) {
       const bus = busResponse.data.bus;
       reset({
-        busTypeId: bus.busTypeId,
+        busTypeId: bus.busTypeId || bus.busType?.id || "",
         plateNumber: bus.plateNumber,
         busNumber: bus.busNumber,
         maxSeats: bus.maxSeats,
@@ -144,14 +144,14 @@ const BusesFormPage = () => {
 
   return (
     <div className="w-full space-y-6 py-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <FormHeader 
+      <FormHeader
         title={isEditMode ? t('edit_bus') : t('add_new_bus')}
         subtitle={isEditMode ? `${t('updating_id')}: ${id}` : t('manage_buses')}
-        onBackClick={() => navigate("/buses")} 
+        onBackClick={() => navigate("/buses")}
       />
 
-      <form 
-        onSubmit={handleSubmit(onSubmit)} 
+      <form
+        onSubmit={handleSubmit(onSubmit)}
         className="bg-white p-4 md:p-8 rounded-3xl border border-slate-100 shadow-xl shadow-blue-900/5 space-y-8"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -160,10 +160,11 @@ const BusesFormPage = () => {
             label={t('bus_type')}
             name="busTypeId"
             register={register}
+            setValue={setValue}
+            watch={watch}
             errors={errors}
             options={busTypesOptions}
             placeholder={t('select_bus_type')}
-            defaultValue={busResponse?.data?.bus?.busTypeId}
           />
 
           <FormInput
@@ -223,22 +224,22 @@ const BusesFormPage = () => {
           <div className="space-y-3">
             <label className="text-sm font-semibold text-slate-700 block">{t('bus_image')}</label>
             <div className="relative group">
-               <div className="w-full h-48 rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center transition-all group-hover:border-blue-300 group-hover:bg-blue-50 overflow-hidden">
-                  {busImagePreview ? (
-                    <img src={busImagePreview} alt="Preview" className="w-full h-full object-cover" />
-                  ) : (
-                    <>
-                      <ImageIcon className="w-10 h-10 text-slate-300 mb-2" />
-                      <p className="text-xs text-slate-400 font-medium">Click to upload bus photo</p>
-                    </>
-                  )}
-                  <input 
-                    type="file" 
-                    accept="image/*" 
-                    className="absolute inset-0 opacity-0 cursor-pointer" 
-                    onChange={(e) => handleFileChange(e, "busImage", setBusImagePreview)}
-                  />
-               </div>
+              <div className="w-full h-48 rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center transition-all group-hover:border-blue-300 group-hover:bg-blue-50 overflow-hidden">
+                {busImagePreview ? (
+                  <img src={busImagePreview} alt="Preview" className="w-full h-full object-cover" />
+                ) : (
+                  <>
+                    <ImageIcon className="w-10 h-10 text-slate-300 mb-2" />
+                    <p className="text-xs text-slate-400 font-medium">Click to upload bus photo</p>
+                  </>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                  onChange={(e) => handleFileChange(e, "busImage", setBusImagePreview)}
+                />
+              </div>
             </div>
           </div>
 
@@ -246,22 +247,22 @@ const BusesFormPage = () => {
           <div className="space-y-3">
             <label className="text-sm font-semibold text-slate-700 block">{t('license_image')}</label>
             <div className="relative group">
-               <div className="w-full h-48 rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center transition-all group-hover:border-blue-300 group-hover:bg-blue-50 overflow-hidden">
-                  {licenseImagePreview ? (
-                    <img src={licenseImagePreview} alt="Preview" className="w-full h-full object-cover" />
-                  ) : (
-                    <>
-                      <FileText className="w-10 h-10 text-slate-300 mb-2" />
-                      <p className="text-xs text-slate-400 font-medium">Click to upload license scan</p>
-                    </>
-                  )}
-                  <input 
-                    type="file" 
-                    accept="image/*" 
-                    className="absolute inset-0 opacity-0 cursor-pointer" 
-                    onChange={(e) => handleFileChange(e, "licenseImage", setLicenseImagePreview)}
-                  />
-               </div>
+              <div className="w-full h-48 rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center transition-all group-hover:border-blue-300 group-hover:bg-blue-50 overflow-hidden">
+                {licenseImagePreview ? (
+                  <img src={licenseImagePreview} alt="Preview" className="w-full h-full object-cover" />
+                ) : (
+                  <>
+                    <FileText className="w-10 h-10 text-slate-300 mb-2" />
+                    <p className="text-xs text-slate-400 font-medium">Click to upload license scan</p>
+                  </>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                  onChange={(e) => handleFileChange(e, "licenseImage", setLicenseImagePreview)}
+                />
+              </div>
             </div>
           </div>
         </div>

@@ -68,7 +68,7 @@ const GarageFormPage = () => {
       const garage = response.data.garage;
       reset({
         name: garage.name,
-        cityId: garage.cityId,
+        cityId: garage.cityId || garage.city?.id || "",
         location: garage.location || "",
       });
     }
@@ -111,14 +111,14 @@ const GarageFormPage = () => {
 
   return (
     <div className="w-full space-y-6 py-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <FormHeader 
+      <FormHeader
         title={isEditMode ? t('edit_garage') : t('add_new_garage')}
         subtitle={isEditMode ? `${t('updating_id')}: ${id}` : t('configure_garage')}
-        onBackClick={() => navigate("/garages")} 
+        onBackClick={() => navigate("/garages")}
       />
 
-      <form 
-        onSubmit={handleSubmit(onSubmit)} 
+      <form
+        onSubmit={handleSubmit(onSubmit)}
         className="bg-white p-4 md:p-8 rounded-3xl border border-slate-100 shadow-xl shadow-blue-900/5 space-y-6"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -135,12 +135,12 @@ const GarageFormPage = () => {
             name="cityId"
             type="select"
             register={register}
+            setValue={setValue}
+            watch={watch}
             errors={errors}
             options={cityOptions}
             placeholder={t('select_city')}
             loading={isLoadingCities}
-            setValue={setValue}
-            watch={watch}
           />
 
           <div className="md:col-span-2">

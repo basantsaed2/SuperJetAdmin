@@ -66,7 +66,7 @@ const MaintenancesFormPage = () => {
       const maintenance = response.data.maintenance;
       reset({
         name: maintenance.name,
-        maintenanceTypeId: maintenance.maintenanceTypeId,
+        maintenanceTypeId: maintenance.maintenanceTypeId || maintenance.maintenanceType?.id || "",
       });
     }
   }, [response, reset, isEditMode]);
@@ -108,14 +108,14 @@ const MaintenancesFormPage = () => {
 
   return (
     <div className="w-full space-y-6 py-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <FormHeader 
+      <FormHeader
         title={isEditMode ? t('edit_maintenance') : t('add_new_maintenance')}
         subtitle={isEditMode ? `${t('updating_id')}: ${id}` : t('configure_maintenance')}
-        onBackClick={() => navigate("/maintenances")} 
+        onBackClick={() => navigate("/maintenances")}
       />
 
-      <form 
-        onSubmit={handleSubmit(onSubmit)} 
+      <form
+        onSubmit={handleSubmit(onSubmit)}
         className="bg-white p-4 md:p-8 rounded-3xl border border-slate-100 shadow-xl shadow-blue-900/5 space-y-6"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -132,12 +132,12 @@ const MaintenancesFormPage = () => {
             name="maintenanceTypeId"
             type="select"
             register={register}
+            setValue={setValue}
+            watch={watch}
             errors={errors}
             options={maintenanceTypesOptions}
             placeholder={t('select_maintenance_type')}
             loading={isLoadingTypes}
-            setValue={setValue}
-            watch={watch}
           />
         </div>
 

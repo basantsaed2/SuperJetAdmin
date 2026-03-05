@@ -12,7 +12,7 @@ const Dashboard = () => {
     const stats = data?.data?.dashboard;
 
     // حالة التحميل (عشان لو الداتا لسه بتيجي)
-    if (isLoading) return <div className="p-6 text-center">Loading...</div>;
+    if (isLoading) return <div className="p-6 text-center">{t('loading')}...</div>;
 
     return (
         <div className="p-6 space-y-8 animate-in fade-in duration-500">

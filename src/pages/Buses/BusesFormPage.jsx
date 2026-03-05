@@ -230,7 +230,7 @@ const BusesFormPage = () => {
                 ) : (
                   <>
                     <ImageIcon className="w-10 h-10 text-slate-300 mb-2" />
-                    <p className="text-xs text-slate-400 font-medium">Click to upload bus photo</p>
+                    <p className="text-xs text-slate-400 font-medium">{t('click_to_upload_bus_photo')}</p>
                   </>
                 )}
                 <input
@@ -253,7 +253,7 @@ const BusesFormPage = () => {
                 ) : (
                   <>
                     <FileText className="w-10 h-10 text-slate-300 mb-2" />
-                    <p className="text-xs text-slate-400 font-medium">Click to upload license scan</p>
+                    <p className="text-xs text-slate-400 font-medium">{t('click_to_upload_license_scan')}</p>
                   </>
                 )}
                 <input
@@ -289,7 +289,7 @@ const BusesFormPage = () => {
             ) : (
               <Save className="mr-2" size={18} />
             )}
-            {isEditMode ? t('save_changes') : t('create_type')}
+            {isEditMode ? t('save_changes') : t('add_bus')}
           </Button>
         </div>
       </form>

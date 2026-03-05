@@ -102,15 +102,15 @@ const BusTypeFormPage = () => {
 
   return (
     <div className="w-full space-y-6 py-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
-      <FormHeader 
+      <FormHeader
         title={isEditMode ? t('edit_bus_category') : t('add_new_fleet_type')}
         subtitle={isEditMode ? `${t('updating_id')}: ${id}` : t('configure_new_vehicle')}
-        onBackClick={() => navigate("/bus_types")} 
+        onBackClick={() => navigate("/bus_types")}
       />
 
       {/* Form Container */}
-      <form 
-        onSubmit={handleSubmit(onSubmit)} 
+      <form
+        onSubmit={handleSubmit(onSubmit)}
         className="bg-white p-4 md:p-8 rounded-3xl border border-slate-100 shadow-xl shadow-blue-900/5 space-y-6"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -164,7 +164,7 @@ const BusTypeFormPage = () => {
             ) : (
               <Save className="mr-2" size={16} />
             )}
-            {isEditMode ? t('save_changes') : t('create_type')}
+            {isEditMode ? t('save_changes') : t('create_fleet_type')}
           </Button>
         </div>
       </form>

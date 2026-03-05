@@ -161,9 +161,10 @@ const UserFormPage = () => {
                 />
 
                 <FormInput
-                    type="searchable-select"
+                    type="select"
                     label={t('role_label')}
                     options={roles}
+                    register={register}
                     value={watch("role")}
                     onChange={(val) => setValue("role", val, { shouldValidate: true })}
                     name="role"
@@ -188,6 +189,7 @@ const UserFormPage = () => {
                 <FormInput
                     type="switch"
                     name="hasAccount"
+                    register={register}
                     setValue={setValue}
                     watch={watch}
                     className="mt-0"

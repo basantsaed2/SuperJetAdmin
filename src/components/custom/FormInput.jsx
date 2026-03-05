@@ -278,7 +278,11 @@ export const FormInput = ({
         );
 
       case "switch":
-        const isChecked = watch(name) === "active";
+        const currentValue = watch(name);
+        // If the value is a boolean, treat it as true/false. 
+        // If it's the string "active" or "inactive", or something else, use the existing logic.
+        const isChecked = typeof currentValue === "boolean" ? currentValue : currentValue === "active";
+        
         return (
           <div className={cn(
             "flex items-center gap-4 py-3.5 px-5 transition-all duration-300 rounded-2xl border",
@@ -289,9 +293,11 @@ export const FormInput = ({
           )}>
             <Switch
               checked={isChecked}
-              onCheckedChange={(checked) => 
-                setValue(name, checked ? "active" : "inactive", { shouldValidate: true })
-              }
+              onCheckedChange={(checked) => {
+                // Determine what value to set: boolean or string "active"/"inactive"
+                const newValue = typeof currentValue === "boolean" ? checked : (checked ? "active" : "inactive");
+                setValue(name, newValue, { shouldValidate: true });
+              }}
               className="data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-slate-300 shadow-lg"
               {...props}
             />

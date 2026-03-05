@@ -3,12 +3,30 @@ import { LoginForm } from "@/components/custom/auth/LoginForm";
 import AuthIllustration from "@/components/custom/auth/AuthIllustration";
 import { THEME } from "@/utils/theme";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
 
 const LoginPage = () => {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+
+    const toggleLanguage = () => {
+        const newLang = i18n.language === 'ar' ? 'en' : 'ar';
+        i18n.changeLanguage(newLang);
+        document.dir = newLang === 'ar' ? 'rtl' : 'ltr';
+    };
 
     return (
-        <div className="min-h-screen flex md:flex-row">
+        <div className="min-h-screen flex md:flex-row relative">
+            {/* Language Switcher */}
+            <div className="absolute top-6 rtl:left-6 ltr:right-6 z-50">
+                <Button
+                    variant="outline"
+                    onClick={toggleLanguage}
+                    className="bg-primary text-white backdrop-blur-md border-slate-200 shadow-sm hover:shadow-md transition-all rounded-full px-5 font-bold"
+                >
+                    {i18n.language === 'ar' ? 'English' : 'العربية'}
+                </Button>
+            </div>
+
             <div className={`hidden md:flex md:w-1/2 ${THEME.colors.primary} items-center justify-center p-12`}>
                 <div className="text-white text-center flex flex-col items-center">
 

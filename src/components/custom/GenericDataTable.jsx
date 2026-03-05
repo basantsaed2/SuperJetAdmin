@@ -190,7 +190,7 @@ export function GenericDataTable({ columns, data, isLoading, onEdit, onDelete, o
                 <p className="text-xs text-slate-500">
                     {t('page')} {table.getState().pagination.pageIndex + 1} {t('of')} {table.getPageCount()}
                 </p>
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                     <Button
                         variant="outline"
                         size="sm"

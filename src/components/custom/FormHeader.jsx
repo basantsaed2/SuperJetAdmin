@@ -3,23 +3,23 @@ import React from "react";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-const FormHeader = ({ 
-  title, 
-  subtitle, 
+const FormHeader = ({
+  title,
+  subtitle,
   onBackClick,
-  className = "" 
+  className = ""
 }) => {
   return (
     <div className={`flex items-center justify-between ${className}`}>
       <div className="flex items-center gap-4">
         {onBackClick && (
-          <Button 
-            variant="outline" 
-            size="icon" 
+          <Button
+            variant="outline"
+            size="icon"
             className="rounded-full shadow-sm hover:bg-slate-50 h-9 w-9"
             onClick={onBackClick}
           >
-            <ArrowLeft size={18} />
+            <ArrowLeft size={18} className="rtl-mirror" />
           </Button>
         )}
         <div>

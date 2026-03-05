@@ -295,7 +295,7 @@ export const FormInput = (props) => {
             placeholder={placeholder}
             rows={rows}
             className={cn(
-              "bg-slate-50/50 border-slate-200 shadow-sm transition-all duration-300 rounded-xl p-4 min-h-[120px]",
+              "bg-slate-50/50 border-slate-200 shadow-sm transition-all duration-300 rounded-xl p-4 min-h-[120px] text-start",
               "hover:border-blue-300 hover:bg-white hover:shadow-md",
               "focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500 focus:shadow-lg focus:bg-white",
               hasError && "border-red-500 focus:border-red-500 focus:ring-red-500/10"
@@ -395,7 +395,7 @@ export const FormInput = (props) => {
             {...(register ? register(name) : {})}
             placeholder={placeholder}
             className={cn(
-              "w-full min-h-[48px] h-[48px] px-4 bg-slate-50/50 border-slate-200 shadow-sm transition-all duration-300 rounded-xl",
+              "w-full h-[48px] px-4 bg-slate-50/50 border-slate-200 shadow-sm transition-all duration-300 rounded-xl text-start",
               "hover:border-blue-300 hover:bg-white hover:shadow-md",
               "focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500 focus:shadow-lg focus:bg-white",
               hasError && "border-red-500 focus:border-red-500 focus:ring-red-500/10"

@@ -1,8 +1,9 @@
-import { Bus, Activity, Wrench } from "lucide-react";
+import { Bus, Activity, Wrench, LayoutDashboard } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom"; // شلنا الـ Outlet
 import { useGet } from "@/hooks/useGet";
 import StatCard from "./StatCard";
+import FormHeader from "@/components/custom/FormHeader";
 
 const Dashboard = () => {
     const { t } = useTranslation();
@@ -14,20 +15,27 @@ const Dashboard = () => {
     if (isLoading) return <div className="p-6 text-center">Loading...</div>;
 
     return (
-        <div className="p-6 space-y-8">
-            <div>
-                <h1 className="text-2xl font-bold text-[#003366]">{t('fleet_overview')}</h1>
-                <p className="text-slate-500">{t('real_time_monitoring')}</p>
-            </div>
+        <div className="p-6 space-y-8 animate-in fade-in duration-500">
+            <FormHeader
+                title={
+                    <div className="flex items-center gap-3">
+                        <div className="p-2 rounded-xl bg-blue-50 text-blue-600">
+                            <LayoutDashboard size={24} />
+                        </div>
+                        {t('control_panel')}
+                    </div>
+                }
+                subtitle={t('monitoring_subtitle')}
+            />
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {/* كارت كل الأتوبيسات */}
                 <StatCard
                     title={t('total_buses')}
                     value={stats?.totalBuses || 0}
                     icon={Bus}
                     colorClass="bg-blue-100"
-
+                    onClick={() => navigate("/buses")}
                 />
                 {/* كارت الأتوبيسات النشطة */}
                 <StatCard
@@ -39,7 +47,7 @@ const Dashboard = () => {
                 />
                 {/* كارت أتوبيسات الصيانة */}
                 <StatCard
-                    title={t('maintenance')}
+                    title={t('maintenance_buses')}
                     value={stats?.maintenanceBuses || 0}
                     icon={Wrench}
                     colorClass="bg-orange-100"

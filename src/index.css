@@ -48,4 +48,9 @@
   body {
     @apply bg-background text-foreground antialiased;
   }
+
+  /* RTL Support */
+  [dir="rtl"] .rtl-mirror {
+    transform: scaleX(-1);
+  }
 }

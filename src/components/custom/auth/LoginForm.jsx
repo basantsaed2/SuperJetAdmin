@@ -18,8 +18,8 @@ export const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const { t } = useTranslation();
     const loginMutation = usePost(
-        "/api/admin/auth/login", 
-        null, 
+        "/api/admin/auth/login",
+        null,
         (data) => `${t('hello')} ${data.data?.user?.name || 'Admin'}, ${t('welcome_back')}`
     );
 
@@ -45,7 +45,7 @@ export const LoginForm = () => {
 
     return (
         <div className="w-full max-w-xl p-4 md:p-8">
-            <div className="mb-8 text-center md:text-left">
+            <div className="mb-8 text-center md:text-start">
                 <h2 className="text-3xl font-bold text-slate-800">{t('welcome')}</h2>
                 <p className="text-slate-500 mt-2">{t('system_name')}</p>
             </div>
@@ -69,14 +69,14 @@ export const LoginForm = () => {
                         <input
                             {...register("password")}
                             type={showPassword ? "text" : "password"}
-                            className={`w-full p-3 pr-10 border rounded-lg focus:ring-2 outline-none transition ${errors.password ? "border-red-500 ring-red-200" : "focus:ring-blue-500"
+                            className={`w-full p-3 rtl:pl-10 ltr:pr-10 text-start border rounded-lg focus:ring-2 outline-none transition ${errors.password ? "border-red-500 ring-red-200" : "focus:ring-blue-500"
                                 }`}
                             placeholder="••••••••"
                         />
                         <button
                             type="button"
                             onClick={() => setShowPassword(!showPassword)}
-                            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                            className="absolute rtl:left-3 ltr:right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
                         >
                             {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                         </button>

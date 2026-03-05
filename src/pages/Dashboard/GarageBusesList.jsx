@@ -1,15 +1,17 @@
 import * as React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useGet } from "@/hooks/useGet";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Loader2, Bus } from "lucide-react";
+import { Loader2, Bus, Warehouse } from "lucide-react";
 import { GenericDataTable } from "@/components/custom/GenericDataTable";
 import BusDetailsModalContent from "./BusDetailsModalContent";
+import FormHeader from "@/components/custom/FormHeader";
 
 const GarageBusesList = () => {
     const { id } = useParams();
     const { t } = useTranslation();
+    const navigate = useNavigate();
     const [selectedBusId, setSelectedBusId] = React.useState(null);
     const [isModalOpen, setIsModalOpen] = React.useState(false);
 
@@ -58,7 +60,16 @@ const GarageBusesList = () => {
     );
 
     return (
-        <div className="p-4 space-y-4">
+        <div className="p-4 space-y-4 animate-in fade-in duration-500">
+            <FormHeader
+                title={
+                    <div className="flex items-center gap-2">
+                        <Warehouse className="h-5 w-5 text-blue-600" />
+                        {t('garages')}
+                    </div>
+                }
+                onBackClick={() => navigate("/dashboard/garages")}
+            />
             <GenericDataTable
                 columns={columns}
                 data={data?.data?.buses || []}

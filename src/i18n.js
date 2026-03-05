@@ -207,7 +207,21 @@ const resources = {
       "organizationservices": "Org Services",
       "payments": "Payments",
       "paymentmethods": "Payment Methods",
-      "plans": "Plans"
+      "plans": "Plans",
+      "control_panel": "System Statistics",
+      "monitoring_subtitle": "Real-time overview of your operations",
+      "total_buses": "Total Buses",
+      "active_buses": "Active Buses",
+      "maintenance_buses": "Buses in Maintenance",
+      "garages_distribution": "Garages Distribution",
+      "total_capacity": "Total Capacity",
+      "service": "Service",
+      "bus_details": "Bus Details",
+      "last_check_in": "Last Check-in",
+      "english": "English",
+      "arabic": "العربية",
+      "maintenance": "Maintenance",
+      "inactive": "Inactive"
     }
   },
   ar: {
@@ -414,7 +428,21 @@ const resources = {
       "organizationservices": "خدمات المؤسسة",
       "payments": "المدفوعات",
       "paymentmethods": "طرق الدفع",
-      "plans": "الخطط"
+      "plans": "الخطط",
+      "control_panel": "إحصائيات النظام",
+      "monitoring_subtitle": "نظرة عامة لحظية على العمليات",
+      "total_buses": "إجمالي الحافلات",
+      "active_buses": "الحافلات النشطة",
+      "maintenance_buses": "حافلات في الصيانة",
+      "garages_distribution": "توزيع الجراجات",
+      "total_capacity": "السعة الإجمالية",
+      "service": "في الخدمة",
+      "bus_details": "تفاصيل الحافلة",
+      "last_check_in": "آخر تسجيل دخول",
+      "english": "English",
+      "arabic": "العربية",
+      "maintenance": "صيانة",
+      "inactive": "غير نشط"
     }
   }
 };
@@ -424,7 +452,8 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: 'en',
+    lng: 'ar',
+    fallbackLng: 'ar',
     interpolation: {
       escapeValue: false
     }

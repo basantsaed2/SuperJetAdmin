@@ -23,8 +23,7 @@ import AdminsPage from "@/pages/Admins/AdminsPage";
 import AdminFormPage from "@/pages/Admins/AdminFormPage";
 import UsersPage from "@/pages/Users/UsersPage";
 import UserFormPage from "@/pages/Users/UserFormPage";
-
-const Dashboard = () => <div className="p-8">Dashboard Home</div>;
+import Dashboard from "@/pages/Dashboard/Dashboard";
 
 export const router = createBrowserRouter(
     [
@@ -48,84 +47,84 @@ export const router = createBrowserRouter(
                             children: [
                                 { index: true, element: <Navigate to="/dashboard" replace /> },
                                 { path: "dashboard", element: <Dashboard /> },
-                                                                { 
-                                    path: "bus_types", 
+                                {
+                                    path: "bus_types",
                                     children: [
-                                        { index: true, element: <BusTypesPage /> }, 
-                                        { path: "add", element: <BusTypeFormPage /> }, 
-                                        { path: "edit/:id", element: <BusTypeFormPage /> }, 
+                                        { index: true, element: <BusTypesPage /> },
+                                        { path: "add", element: <BusTypeFormPage /> },
+                                        { path: "edit/:id", element: <BusTypeFormPage /> },
                                     ]
                                 },
-                                { 
-                                    path: "buses", 
+                                {
+                                    path: "buses",
                                     children: [
-                                        { index: true, element: <BusesPage /> }, 
-                                        { path: "add", element: <BusesFormPage /> }, 
-                                        { path: "edit/:id", element: <BusesFormPage /> }, 
+                                        { index: true, element: <BusesPage /> },
+                                        { path: "add", element: <BusesFormPage /> },
+                                        { path: "edit/:id", element: <BusesFormPage /> },
                                     ]
                                 },
-                                { 
-                                    path: "maintenance_types", 
+                                {
+                                    path: "maintenance_types",
                                     children: [
-                                        { index: true, element: <MaintenanceTypesPage /> }, 
-                                        { path: "add", element: <MaintenanceTypesFormPage /> }, 
-                                        { path: "edit/:id", element: <MaintenanceTypesFormPage /> }, 
+                                        { index: true, element: <MaintenanceTypesPage /> },
+                                        { path: "add", element: <MaintenanceTypesFormPage /> },
+                                        { path: "edit/:id", element: <MaintenanceTypesFormPage /> },
                                     ]
                                 },
-                                { 
-                                    path: "maintenances", 
+                                {
+                                    path: "maintenances",
                                     children: [
-                                        { index: true, element: <MaintenancesPage /> }, 
-                                        { path: "add", element: <MaintenancesFormPage /> }, 
-                                        { path: "edit/:id", element: <MaintenancesFormPage /> }, 
+                                        { index: true, element: <MaintenancesPage /> },
+                                        { path: "add", element: <MaintenancesFormPage /> },
+                                        { path: "edit/:id", element: <MaintenancesFormPage /> },
                                     ]
                                 },
-                                { 
-                                    path: "cities", 
+                                {
+                                    path: "cities",
                                     children: [
-                                        { index: true, element: <CitiesPage /> }, 
-                                        { path: "add", element: <CityFormPage /> }, 
-                                        { path: "edit/:id", element: <CityFormPage /> }, 
+                                        { index: true, element: <CitiesPage /> },
+                                        { path: "add", element: <CityFormPage /> },
+                                        { path: "edit/:id", element: <CityFormPage /> },
                                     ]
                                 },
-                                { 
-                                    path: "zones", 
+                                {
+                                    path: "zones",
                                     children: [
-                                        { index: true, element: <ZonesPage /> }, 
-                                        { path: "add", element: <ZoneFormPage /> }, 
-                                        { path: "edit/:id", element: <ZoneFormPage /> }, 
+                                        { index: true, element: <ZonesPage /> },
+                                        { path: "add", element: <ZoneFormPage /> },
+                                        { path: "edit/:id", element: <ZoneFormPage /> },
                                     ]
                                 },
-                                { 
-                                    path: "garages", 
+                                {
+                                    path: "garages",
                                     children: [
-                                        { index: true, element: <GaragesPage /> }, 
-                                        { path: "add", element: <GarageFormPage /> }, 
-                                        { path: "edit/:id", element: <GarageFormPage /> }, 
+                                        { index: true, element: <GaragesPage /> },
+                                        { path: "add", element: <GarageFormPage /> },
+                                        { path: "edit/:id", element: <GarageFormPage /> },
                                     ]
                                 },
-                                { 
-                                    path: "roles", 
+                                {
+                                    path: "roles",
                                     children: [
-                                        { index: true, element: <RolesPage /> }, 
-                                        { path: "add", element: <RoleFormPage /> }, 
-                                        { path: "edit/:id", element: <RoleFormPage /> }, 
+                                        { index: true, element: <RolesPage /> },
+                                        { path: "add", element: <RoleFormPage /> },
+                                        { path: "edit/:id", element: <RoleFormPage /> },
                                     ]
                                 },
-                                { 
-                                    path: "admins", 
+                                {
+                                    path: "admins",
                                     children: [
-                                        { index: true, element: <AdminsPage /> }, 
-                                        { path: "add", element: <AdminFormPage /> }, 
-                                        { path: "edit/:id", element: <AdminFormPage /> }, 
+                                        { index: true, element: <AdminsPage /> },
+                                        { path: "add", element: <AdminFormPage /> },
+                                        { path: "edit/:id", element: <AdminFormPage /> },
                                     ]
                                 },
-                                { 
-                                    path: "users", 
+                                {
+                                    path: "users",
                                     children: [
-                                        { index: true, element: <UsersPage /> }, 
-                                        { path: "add", element: <UserFormPage /> }, 
-                                        { path: "edit/:id", element: <UserFormPage /> }, 
+                                        { index: true, element: <UsersPage /> },
+                                        { path: "add", element: <UserFormPage /> },
+                                        { path: "edit/:id", element: <UserFormPage /> },
                                     ]
                                 },
                             ],

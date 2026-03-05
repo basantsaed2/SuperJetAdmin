@@ -25,14 +25,14 @@ const SearchableSelect = ({ options, onValueChange, defaultValue, placeholder, t
   const [searchTerm, setSearchTerm] = React.useState("");
   const inputRef = React.useRef(null);
 
-  const filteredOptions = React.useMemo(() => 
+  const filteredOptions = React.useMemo(() =>
     options.filter(opt => opt.label.toLowerCase().includes(searchTerm.toLowerCase())),
     [options, searchTerm]
   );
 
   return (
-    <Select 
-      onValueChange={onValueChange} 
+    <Select
+      onValueChange={onValueChange}
       defaultValue={defaultValue}
       onOpenChange={(open) => {
         if (open) {
@@ -88,7 +88,7 @@ const MultiSelect = ({ options, value = [], onChange, placeholder, t, hasError }
   const [searchTerm, setSearchTerm] = React.useState("");
   const inputRef = React.useRef(null);
 
-  const filteredOptions = React.useMemo(() => 
+  const filteredOptions = React.useMemo(() =>
     options.filter(opt => opt.label.toLowerCase().includes(searchTerm.toLowerCase())),
     [options, searchTerm]
   );
@@ -103,7 +103,7 @@ const MultiSelect = ({ options, value = [], onChange, placeholder, t, hasError }
   const selectAll = () => {
     const allValues = filteredOptions.map(opt => opt.value);
     const areAllSelected = allValues.every(val => value.includes(val));
-    
+
     if (areAllSelected) {
       // If all filtered are selected, unselect them
       onChange(value.filter(val => !allValues.includes(val)));
@@ -154,9 +154,9 @@ const MultiSelect = ({ options, value = [], onChange, placeholder, t, hasError }
           <ChevronDown className="h-4 w-4 opacity-40 shrink-0 ml-2 group-data-[state=open]:rotate-180 transition-transform" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent 
-        side="bottom" 
-        align="start" 
+      <DropdownMenuContent
+        side="bottom"
+        align="start"
         className="w-[var(--radix-dropdown-menu-trigger-width)] z-[150] bg-white/80 backdrop-blur-xl border-slate-200 p-0 shadow-2xl overflow-hidden rounded-2xl animate-in fade-in zoom-in-95 duration-200"
       >
         <div className="sticky top-0 bg-white/50 backdrop-blur-md p-2 border-b border-slate-100 z-40">
@@ -282,12 +282,12 @@ export const FormInput = ({
         // If the value is a boolean, treat it as true/false. 
         // If it's the string "active" or "inactive", or something else, use the existing logic.
         const isChecked = typeof currentValue === "boolean" ? currentValue : currentValue === "active";
-        
+
         return (
           <div className={cn(
             "flex items-center gap-4 py-3.5 px-5 transition-all duration-300 rounded-2xl border",
-            isChecked 
-              ? "bg-green-50/20 border-green-100/50 shadow-sm" 
+            isChecked
+              ? "bg-green-50/20 border-green-100/50 shadow-sm"
               : "bg-slate-50/50 border-slate-100 shadow-inner",
             "hover:shadow-md hover:bg-white active:scale-[0.98]"
           )}>

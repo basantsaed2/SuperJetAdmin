@@ -45,6 +45,14 @@ const Dashboard = () => {
                     colorClass="bg-green-100"
 
                 />
+                {/* كارت الأتوبيسات  الغير النشطة */}
+                <StatCard
+                    title={t('inactive_buses')}
+                    value={stats?.inactiveBuses || 0}
+                    icon={Activity}
+                    colorClass="bg-red-100"
+
+                />
                 {/* كارت أتوبيسات الصيانة */}
                 <StatCard
                     title={t('maintenance_buses')}

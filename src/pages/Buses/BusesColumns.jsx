@@ -1,14 +1,9 @@
-import { Bus, ShieldCheck, Calendar, Loader2 } from "lucide-react"
+import { Bus, ShieldCheck, Calendar, QrCode, Image as ImageIcon } from "lucide-react"
 import i18n from "@/i18n"
 import { cn } from "@/lib/utils"
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-export const getBusesColumns = (t, onStatusChange, updatingId) => [
+// ... imports ...
+
+export const getBusesColumns = (t, onQrClick) => [
     {
         accessorKey: "busImage",
         header: t('bus_image'),
@@ -22,6 +17,26 @@ export const getBusesColumns = (t, onStatusChange, updatingId) => [
                     />
                 ) : (
                     <Bus className="w-5 h-5 text-slate-400" />
+                )}
+            </div>
+        ),
+    },
+    {
+        accessorKey: "qrCode",
+        header: t('qr_code'),
+        cell: ({ row }) => (
+            <div
+                className="flex items-center justify-center w-12 h-10 bg-slate-50 rounded-lg overflow-hidden border border-slate-200 cursor-zoom-in group hover:bg-white transition-colors"
+                onClick={() => onQrClick && onQrClick(row.original.qrCode)}
+            >
+                {row.original.qrCode ? (
+                    <img
+                        src={row.original.qrCode}
+                        alt="QR"
+                        className="w-full h-full object-contain p-1 group-hover:scale-110 transition-transform"
+                    />
+                ) : (
+                    <QrCode className="w-5 h-5 text-slate-300" />
                 )}
             </div>
         ),

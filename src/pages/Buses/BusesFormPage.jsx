@@ -115,10 +115,12 @@ const BusesFormPage = () => {
   const onSubmit = async (data) => {
     const payload = { ...data };
 
-    if (!(payload.busImage instanceof File)) {
+    // Only send the image if it's a new one (base64)
+    // If it's a URL, it hasn't changed, so we can omit it to avoid unnecessary data
+    if (typeof payload.busImage === 'string' && !payload.busImage.startsWith('data:')) {
       delete payload.busImage;
     }
-    if (!(payload.licenseImage instanceof File)) {
+    if (typeof payload.licenseImage === 'string' && !payload.licenseImage.startsWith('data:')) {
       delete payload.licenseImage;
     }
 

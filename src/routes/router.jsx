@@ -3,6 +3,7 @@ import App from "@/App";
 import LoginPage from "@/pages/auth/LoginPage";
 import ProtectedRoute from "@/routes/ProtectedRoute";
 import MainLayout from "@/components/layouts/MainLayout";
+import NotFound from "@/pages/Error/NotFound";
 import BusTypesPage from "@/pages/BusTypes/BusTypesPage";
 import BusTypeFormPage from "@/pages/BusTypes/BusTypeFormPage";
 import BusesPage from "@/pages/Buses/BusesPage";
@@ -53,6 +54,7 @@ export const router = createBrowserRouter(
                                 },
                                 {
                                     path: "bus_types",
+                                    element: <ProtectedRoute moduleName="bus_types" />,
                                     children: [
                                         { index: true, element: <BusTypesPage /> },
                                         { path: "add", element: <BusTypeFormPage /> },
@@ -61,6 +63,7 @@ export const router = createBrowserRouter(
                                 },
                                 {
                                     path: "buses",
+                                    element: <ProtectedRoute moduleName="buses" />,
                                     children: [
                                         { index: true, element: <BusesPage /> },
                                         { path: "add", element: <BusesFormPage /> },
@@ -69,6 +72,7 @@ export const router = createBrowserRouter(
                                 },
                                 {
                                     path: "maintenance_types",
+                                    element: <ProtectedRoute moduleName="maintenance_types" />,
                                     children: [
                                         { index: true, element: <MaintenanceTypesPage /> },
                                         { path: "add", element: <MaintenanceTypesFormPage /> },
@@ -77,6 +81,7 @@ export const router = createBrowserRouter(
                                 },
                                 {
                                     path: "maintenances",
+                                    element: <ProtectedRoute moduleName="maintenances" />,
                                     children: [
                                         { index: true, element: <MaintenancesPage /> },
                                         { path: "add", element: <MaintenancesFormPage /> },
@@ -85,6 +90,7 @@ export const router = createBrowserRouter(
                                 },
                                 {
                                     path: "cities",
+                                    element: <ProtectedRoute moduleName="City" />,
                                     children: [
                                         { index: true, element: <CitiesPage /> },
                                         { path: "add", element: <CityFormPage /> },
@@ -93,6 +99,7 @@ export const router = createBrowserRouter(
                                 },
                                 {
                                     path: "zones",
+                                    element: <ProtectedRoute moduleName="Zone" />,
                                     children: [
                                         { index: true, element: <ZonesPage /> },
                                         { path: "add", element: <ZoneFormPage /> },
@@ -101,6 +108,7 @@ export const router = createBrowserRouter(
                                 },
                                 {
                                     path: "garages",
+                                    element: <ProtectedRoute moduleName="pickup_points" />,
                                     children: [
                                         { index: true, element: <GaragesPage /> },
                                         { path: "add", element: <GarageFormPage /> },
@@ -109,6 +117,7 @@ export const router = createBrowserRouter(
                                 },
                                 {
                                     path: "roles",
+                                    element: <ProtectedRoute moduleName="roles" />,
                                     children: [
                                         { index: true, element: <RolesPage /> },
                                         { path: "add", element: <RoleFormPage /> },
@@ -117,6 +126,7 @@ export const router = createBrowserRouter(
                                 },
                                 {
                                     path: "admins",
+                                    element: <ProtectedRoute moduleName="admins" />,
                                     children: [
                                         { index: true, element: <AdminsPage /> },
                                         { path: "add", element: <AdminFormPage /> },
@@ -125,6 +135,7 @@ export const router = createBrowserRouter(
                                 },
                                 {
                                     path: "users",
+                                    element: <ProtectedRoute moduleName="admins" />, // Inherits from admins
                                     children: [
                                         { index: true, element: <UsersPage /> },
                                         { path: "add", element: <UserFormPage /> },
@@ -133,10 +144,12 @@ export const router = createBrowserRouter(
                                 },
                                 {
                                     path: "reports",
+                                    element: <ProtectedRoute moduleName="maintenances" />,
                                     children: [
                                         { path: "maintenance", element: <MaintenanceReport /> },
                                     ]
                                 },
+                                { path: "*", element: <NotFound /> }
                             ],
                         },
                     ],

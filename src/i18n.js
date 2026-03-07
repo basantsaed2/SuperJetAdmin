@@ -345,7 +345,15 @@ const resources = {
       "license_number_required": "License number is required",
       "expiry_date_required": "Expiry date is required",
       "password_too_short": "Password must be at least 6 characters",
-      "type_required": "Please select type"
+      "type_required": "Please select type",
+      "access_denied": "Access Denied",
+      "unauthorized_message": "You do not have permission to view this page. Please contact your system administrator if you believe this is an error.",
+      "go_back": "Go Back",
+      "go_home": "Go to Dashboard",
+      "page_not_found": "Page Not Found",
+      "page_not_found_message": "The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.",
+      "back_to_dashboard": "Back to Dashboard",
+      "export_pdf": "Export PDF"
     }
   },
   ar: {
@@ -690,7 +698,15 @@ const resources = {
       "license_number_required": "رقم الرخصة مطلوب",
       "expiry_date_required": "تاريخ الانتهاء مطلوب",
       "password_too_short": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
-      "type_required": "يرجى اختيار النوع"
+      "type_required": "يرجى اختيار النوع",
+      "access_denied": "عذراً، الوصول مرفوض",
+      "unauthorized_message": "ليس لديك الصلاحية لعرض هذه الصفحة. يرجى التواصل مع مدير النظام إذا كنت تعتقد أن هذا خطأ.",
+      "go_back": "العودة للخلف",
+      "go_home": "العودة للوحة المعومات",
+      "page_not_found": "الصفحة غير موجودة",
+      "page_not_found_message": "ربما تمت إزالة الصفحة التي تبحث عنها، أو تم تغيير اسمها، أو أنها غير متاحة مؤقتاً.",
+      "back_to_dashboard": "العودة للوحة المعلومات",
+      "export_pdf": "تحميل PDF"
     }
   }
 };

@@ -1,7 +1,10 @@
 import * as React from "react";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 import {
     FileText,
     Download,
+    FileSpreadsheet,
     Warehouse,
     Wrench,
     Bus,
@@ -114,6 +117,47 @@ const MaintenanceReport = () => {
         document.body.removeChild(link);
     };
 
+    const handleExportPDF = () => {
+        if (reports.length === 0) return;
+
+        const doc = new jsPDF();
+
+        // Add Title
+        doc.setFontSize(20);
+        doc.text(t('maintenance_report'), 14, 22);
+
+        // Prepare table data
+        const headers = [[
+            t('bus_number'),
+            t('plate_number'),
+            t('bus_type'),
+            t('driver_name'),
+            t('garage'),
+            t('check_in_time')
+        ]];
+
+        const data = reports.map(r => [
+            r.busNumber,
+            r.plateNumber,
+            r.busType,
+            r.driverName || '---',
+            r.garageName,
+            r.checkInTime ? new Date(r.checkInTime).toLocaleString() : '---'
+        ]);
+
+        // AutoTable plugin
+        autoTable(doc, {
+            startY: 30,
+            head: headers,
+            body: data,
+            theme: 'striped',
+            headStyles: { fillColor: [0, 51, 102] }, // Matches THEME primary color
+            styles: { fontSize: 8, font: "helvetica" },
+        });
+
+        doc.save(`maintenance_report_${new Date().toISOString().split('T')[0]}.pdf`);
+    };
+
     return (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500 pb-10">
             <PageHeader
@@ -121,14 +165,24 @@ const MaintenanceReport = () => {
                 title={t('maintenance_report')}
                 subtitle={t('monitor_bus_maintenance_status')}
                 actions={
-                    <Button
-                        onClick={handleExportExcel}
-                        disabled={reports.length === 0}
-                        size="sm"
-                        className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-md h-9 transition-all active:scale-95"
-                    >
-                        <Download className="mr-2 h-4 w-4" /> {t('export_excel')}
-                    </Button>
+                    <div className="flex gap-2">
+                        <Button
+                            onClick={handleExportExcel}
+                            disabled={reports.length === 0}
+                            size="sm"
+                            className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-md h-9 transition-all active:scale-95"
+                        >
+                            <FileSpreadsheet className="mr-2 h-4 w-4" /> {t('export_excel')}
+                        </Button>
+                        {/* <Button
+                            onClick={handleExportPDF}
+                            disabled={reports.length === 0}
+                            size="sm"
+                            className="bg-rose-600 hover:bg-rose-700 text-white font-bold shadow-md h-9 transition-all active:scale-95"
+                        >
+                            <Download className="mr-2 h-4 w-4" /> {t('export_pdf', 'Export PDF')}
+                        </Button> */}
+                    </div>
                 }
             />
 

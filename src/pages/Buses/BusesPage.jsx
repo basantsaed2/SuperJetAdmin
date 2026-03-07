@@ -7,7 +7,7 @@ import { getBusesColumns } from "./BusesColumns";
 import { THEME } from "@/utils/theme";
 import { useGet } from "@/hooks/useGet";
 import { useDelete } from "@/hooks/useDelete";
-import { useUpdate } from "@/hooks/useUpdate"; // 1. استيراد الـ Hook الجديد
+// تم حذف useUpdate من هنا
 import PageHeader from "@/components/custom/PageHeader";
 import DeleteConfirmDialog from "@/components/custom/DeleteConfirmDialog";
 import { useTranslation } from "react-i18next";
@@ -18,27 +18,6 @@ const BusesPage = () => {
 
     // لجلب البيانات
     const { data, isLoading, error, refetch } = useGet(["buses"], "/api/admin/buses");
-
-    // حالة لمتابعة أي صف بيحصل له تحديث حالياً (عشان الـ Loader الصغير)
-    const [updatingId, setUpdatingId] = React.useState(null);
-
-    // 2. تعريف الـ Update Mutation
-    const updateMutation = useUpdate(
-        "/api/admin/buses",
-        ["buses"],
-        t('bus_updated_successfully')
-    );
-
-    // 3. دالة معالجة تغيير الـ Status
-    const handleStatusChange = (id, newStatus) => {
-        setUpdatingId(id); // بنعلم على الـ ID ده إنه بيحمل
-        updateMutation.mutate(
-            { id, updatedData: { status: newStatus } },
-            {
-                onSettled: () => setUpdatingId(null) // بنشيل الـ Loader لما يخلص (نجاح أو فشل)
-            }
-        );
-    };
 
     // Deletion State
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
@@ -65,10 +44,10 @@ const BusesPage = () => {
         }
     };
 
-    // 4. تمرير الـ handler والـ updatingId لملف الـ Columns
+    // تم تعديل الـ columns لتأخذ الـ t فقط، وحذف الـ handlers
     const columns = React.useMemo(
-        () => getBusesColumns(t, handleStatusChange, updatingId),
-        [t, updatingId] // بنحدث الـ columns لو الـ updatingId اتغير
+        () => getBusesColumns(t),
+        [t]
     );
 
     const busesData = React.useMemo(() => {
@@ -96,7 +75,6 @@ const BusesPage = () => {
             <div className="bg-white rounded-xl shadow-sm border border-slate-100 min-h-[300px] relative overflow-hidden">
                 {isLoading ? (
                     <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/60 backdrop-blur-[1px] z-10">
-
                         <p className="text-sm font-medium text-slate-500">{t('loading')}...</p>
                     </div>
                 ) : error ? (
@@ -107,7 +85,6 @@ const BusesPage = () => {
                     </div>
                 ) : (
                     <div className="p-2">
-                        {/* 5. الجدول هيعرض الـ columns الجديدة اللي فيها الـ Select */}
                         <GenericDataTable
                             columns={columns}
                             data={busesData}

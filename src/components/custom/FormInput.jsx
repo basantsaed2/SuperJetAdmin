@@ -67,7 +67,7 @@ const SearchableSelect = ({ options, onValueChange, value, placeholder, t, hasEr
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        side="bottom"
+        side="bottom" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
         align={i18n.dir() === "rtl" ? "end" : "start"}
         className="w-[var(--radix-dropdown-menu-trigger-width)] z-[150] bg-white/80 backdrop-blur-xl border-slate-200 p-0 shadow-2xl overflow-hidden rounded-2xl animate-in fade-in zoom-in-95 duration-200"
       >
@@ -190,7 +190,7 @@ const MultiSelect = ({ options, value = [], onChange, placeholder, t, hasError }
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        side="bottom"
+        side="bottom" dir={i18n.language === 'ar' ? 'rtl' : 'ltr'}
         align={i18n.dir() === "rtl" ? "end" : "start"}
         className="w-[var(--radix-dropdown-menu-trigger-width)] z-[150] bg-white/80 backdrop-blur-xl border-slate-200 p-0 shadow-2xl overflow-hidden rounded-2xl animate-in fade-in zoom-in-95 duration-200"
       >

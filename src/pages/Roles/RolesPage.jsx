@@ -1,7 +1,7 @@
 // src/pages/Roles/RolesPage.jsx
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { Loader2, AlertCircle, Plus, ShieldCheck } from "lucide-react";
+import { Loader2, AlertCircle, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GenericDataTable } from "@/components/custom/GenericDataTable";
 import { getRolesColumns } from "./RolesColumns";
@@ -12,12 +12,15 @@ import PageHeader from "@/components/custom/PageHeader";
 import DeleteConfirmDialog from "@/components/custom/DeleteConfirmDialog";
 import RolePermissionsDialog from "@/components/custom/RolePermissionsDialog";
 import { useTranslation } from "react-i18next";
+import { usePermissions } from "@/hooks/usePermissions";
 
 const RolesPage = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const { canEdit, canDelete } = usePermissions();
+    const moduleName = "roles";
     const { data, isLoading, error, refetch } = useGet(["roles"], "/api/admin/roles");
-    
+
     // View State
     const [viewDialogOpen, setViewDialogOpen] = React.useState(false);
     const [itemToView, setItemToView] = React.useState(null);
@@ -44,7 +47,7 @@ const RolesPage = () => {
 
     const handleConfirmDelete = async () => {
         if (!itemToDelete) return;
-        
+
         try {
             await deleteMutation.mutateAsync(itemToDelete.id);
             setDeleteDialogOpen(false);
@@ -67,21 +70,13 @@ const RolesPage = () => {
     return (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
             {/* Header */}
-            <PageHeader 
+            <PageHeader
                 icon={ShieldCheck}
                 title={t('roles')}
                 subtitle={t('manage_roles')}
-                actions={
-                    <>
-                        <Button 
-                            onClick={() => navigate("/roles/add")}
-                            size="sm"
-                            className={`${THEME.colors.secondary} ${THEME.colors.accent} font-bold shadow-md hover:opacity-90 hover:text-white h-9`}
-                        >
-                            <Plus className="mr-2 h-4 w-4" /> {t('add_new_role')}
-                        </Button>
-                    </>
-                }
+                addPath="/roles/add"
+                addText={t('add_new_role')}
+                moduleName={moduleName}
             />
 
             {/* Table Content */}
@@ -102,7 +97,13 @@ const RolesPage = () => {
                     </div>
                 ) : (
                     <div className="p-2">
-                        <GenericDataTable columns={columns} data={rolesData} onEdit={handleEdit} onDelete={handleDeleteClick} onView={handleViewClick} />
+                        <GenericDataTable
+                            columns={columns}
+                            data={rolesData}
+                            onEdit={canEdit(moduleName) ? handleEdit : null}
+                            onDelete={canDelete(moduleName) ? handleDeleteClick : null}
+                            onView={handleViewClick}
+                        />
                     </div>
                 )}
             </div>
@@ -114,14 +115,14 @@ const RolesPage = () => {
             )}
 
             {/* View Dialog */}
-            <RolePermissionsDialog 
+            <RolePermissionsDialog
                 isOpen={viewDialogOpen}
                 onClose={() => setViewDialogOpen(false)}
                 role={itemToView}
             />
 
             {/* Delete Confirmation Dialog */}
-            <DeleteConfirmDialog 
+            <DeleteConfirmDialog
                 isOpen={deleteDialogOpen}
                 onClose={() => setDeleteDialogOpen(false)}
                 onConfirm={handleConfirmDelete}

@@ -12,70 +12,70 @@ export const NAV_ITEMS = [
         title: "admins",
         path: "/admins",
         icon: <Users size={20} />,
-        permission: null,
+        permission: "admins",
     },
     {
         title: "users",
         path: "/users",
         icon: <UserCircle size={20} />,
-        permission: null,
+        permission: "admins",
     },
     {
         title: "roles",
         path: "/roles",
         icon: <ShieldCheck size={20} />,
-        permission: null,
+        permission: "roles",
     },
     // Fleet Management
     {
         title: "buses",
         path: "/buses",
         icon: <Bus size={20} />,
-        permission: null,
+        permission: "buses",
     },
     {
         title: "bus_types",
         path: "/bus_types",
         icon: <Settings size={20} />,
-        permission: null,
+        permission: "bus_types",
     },
     // Maintenance
     {
         title: "maintenances",
         path: "/maintenances",
         icon: <Wrench size={20} />,
-        permission: null,
+        permission: "maintenances",
     },
     {
         title: "maintenance_types",
         path: "/maintenance_types",
         icon: <Settings size={20} />,
-        permission: null,
+        permission: "maintenance_types",
     },
     // Infrastructure & Locations
     {
         title: "garages",
         path: "/garages",
         icon: <Warehouse size={20} />,
-        permission: null,
+        permission: "pickup_points",
     },
     {
         title: "cities",
         path: "/cities",
         icon: <MapPin size={20} />,
-        permission: null,
+        permission: "City",
     },
     {
         title: "zones",
         path: "/zones",
         icon: <Navigation size={20} />,
-        permission: null,
+        permission: "Zone",
     },
     // Reports
     {
         title: "reports",
         path: "/reports/maintenance",
         icon: <FileText size={20} />,
-        permission: null,
+        permission: "maintenances",
     },
 ];

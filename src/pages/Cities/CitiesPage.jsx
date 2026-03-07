@@ -1,7 +1,7 @@
 // src/pages/Cities/CitiesPage.jsx
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { Loader2, AlertCircle, Plus, MapPin } from "lucide-react";
+import { Loader2, AlertCircle, MapPin, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GenericDataTable } from "@/components/custom/GenericDataTable";
 import { getCitiesColumns } from "./CitiesColumns";
@@ -11,12 +11,15 @@ import { useDelete } from "@/hooks/useDelete";
 import PageHeader from "@/components/custom/PageHeader";
 import DeleteConfirmDialog from "@/components/custom/DeleteConfirmDialog";
 import { useTranslation } from "react-i18next";
+import { usePermissions } from "@/hooks/usePermissions";
 
 const CitiesPage = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const { canEdit, canDelete } = usePermissions();
+    const moduleName = "City";
     const { data, isLoading, error, refetch } = useGet(["cities"], "/api/admin/cities");
-    
+
     // Deletion State
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
     const [itemToDelete, setItemToDelete] = React.useState(null);
@@ -34,7 +37,7 @@ const CitiesPage = () => {
 
     const handleConfirmDelete = async () => {
         if (!itemToDelete) return;
-        
+
         try {
             await deleteMutation.mutateAsync(itemToDelete.id);
             setDeleteDialogOpen(false);
@@ -57,21 +60,13 @@ const CitiesPage = () => {
     return (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
             {/* Header */}
-            <PageHeader 
+            <PageHeader
                 icon={MapPin}
                 title={t('cities')}
                 subtitle={t('manage_cities')}
-                actions={
-                    <>
-                        <Button 
-                            onClick={() => navigate("/cities/add")}
-                            size="sm"
-                            className={`${THEME.colors.secondary} ${THEME.colors.accent} font-bold shadow-md hover:opacity-90 hover:text-white h-9`}
-                        >
-                            <Plus className="mr-2 h-4 w-4" /> {t('add_new_city')}
-                        </Button>
-                    </>
-                }
+                addPath="/cities/add"
+                addText={t('add_new_city')}
+                moduleName={moduleName}
             />
 
             {/* Table Content */}
@@ -92,7 +87,12 @@ const CitiesPage = () => {
                     </div>
                 ) : (
                     <div className="p-2">
-                        <GenericDataTable columns={columns} data={citiesData} onEdit={handleEdit} onDelete={handleDeleteClick} />
+                        <GenericDataTable
+                            columns={columns}
+                            data={citiesData}
+                            onEdit={canEdit(moduleName) ? handleEdit : null}
+                            onDelete={canDelete(moduleName) ? handleDeleteClick : null}
+                        />
                     </div>
                 )}
             </div>
@@ -104,7 +104,7 @@ const CitiesPage = () => {
             )}
 
             {/* Delete Confirmation Dialog */}
-            <DeleteConfirmDialog 
+            <DeleteConfirmDialog
                 isOpen={deleteDialogOpen}
                 onClose={() => setDeleteDialogOpen(false)}
                 onConfirm={handleConfirmDelete}

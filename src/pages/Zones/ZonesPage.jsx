@@ -1,7 +1,7 @@
 // src/pages/Zones/ZonesPage.jsx
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { Loader2, AlertCircle, Plus, Navigation } from "lucide-react";
+import { Loader2, AlertCircle, Navigation } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GenericDataTable } from "@/components/custom/GenericDataTable";
 import { getZonesColumns } from "./ZonesColumns";
@@ -11,12 +11,15 @@ import { useDelete } from "@/hooks/useDelete";
 import PageHeader from "@/components/custom/PageHeader";
 import DeleteConfirmDialog from "@/components/custom/DeleteConfirmDialog";
 import { useTranslation } from "react-i18next";
+import { usePermissions } from "@/hooks/usePermissions";
 
 const ZonesPage = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const { canEdit, canDelete } = usePermissions();
+    const moduleName = "Zone";
     const { data, isLoading, error, refetch } = useGet(["zones"], "/api/admin/zones");
-    
+
     // Deletion State
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
     const [itemToDelete, setItemToDelete] = React.useState(null);
@@ -34,7 +37,7 @@ const ZonesPage = () => {
 
     const handleConfirmDelete = async () => {
         if (!itemToDelete) return;
-        
+
         try {
             await deleteMutation.mutateAsync(itemToDelete.id);
             setDeleteDialogOpen(false);
@@ -57,21 +60,13 @@ const ZonesPage = () => {
     return (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
             {/* Header */}
-            <PageHeader 
+            <PageHeader
                 icon={Navigation}
                 title={t('zones')}
                 subtitle={t('manage_zones')}
-                actions={
-                    <>
-                        <Button 
-                            onClick={() => navigate("/zones/add")}
-                            size="sm"
-                            className={`${THEME.colors.secondary} ${THEME.colors.accent} font-bold shadow-md hover:opacity-90 hover:text-white h-9`}
-                        >
-                            <Plus className="mr-2 h-4 w-4" /> {t('add_new_zone')}
-                        </Button>
-                    </>
-                }
+                addPath="/zones/add"
+                addText={t('add_new_zone')}
+                moduleName={moduleName}
             />
 
             {/* Table Content */}
@@ -92,7 +87,12 @@ const ZonesPage = () => {
                     </div>
                 ) : (
                     <div className="p-2">
-                        <GenericDataTable columns={columns} data={zonesData} onEdit={handleEdit} onDelete={handleDeleteClick} />
+                        <GenericDataTable
+                            columns={columns}
+                            data={zonesData}
+                            onEdit={canEdit(moduleName) ? handleEdit : null}
+                            onDelete={canDelete(moduleName) ? handleDeleteClick : null}
+                        />
                     </div>
                 )}
             </div>
@@ -104,7 +104,7 @@ const ZonesPage = () => {
             )}
 
             {/* Delete Confirmation Dialog */}
-            <DeleteConfirmDialog 
+            <DeleteConfirmDialog
                 isOpen={deleteDialogOpen}
                 onClose={() => setDeleteDialogOpen(false)}
                 onConfirm={handleConfirmDelete}

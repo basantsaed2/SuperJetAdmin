@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { Loader2, AlertCircle, Plus, UserCircle } from "lucide-react";
+import { Loader2, AlertCircle, UserCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GenericDataTable } from "@/components/custom/GenericDataTable";
 import { getUsersColumns } from "./UsersColumns";
@@ -10,12 +10,16 @@ import { useDelete } from "@/hooks/useDelete";
 import PageHeader from "@/components/custom/PageHeader";
 import DeleteConfirmDialog from "@/components/custom/DeleteConfirmDialog";
 import { useTranslation } from "react-i18next";
+import { usePermissions } from "@/hooks/usePermissions";
+import { NAV_ITEMS } from "@/utils/navigation";
 
 const UsersPage = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const { canEdit, canDelete } = usePermissions();
+    const moduleName = "admins"; // Based on navigation.jsx
     const { data, isLoading, error, refetch } = useGet(["users"], "/api/admin/users");
-    
+
     // Deletion State
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
     const [itemToDelete, setItemToDelete] = React.useState(null);
@@ -33,7 +37,7 @@ const UsersPage = () => {
 
     const handleConfirmDelete = async () => {
         if (!itemToDelete) return;
-        
+
         try {
             await deleteMutation.mutateAsync(itemToDelete.id);
             setDeleteDialogOpen(false);
@@ -56,21 +60,13 @@ const UsersPage = () => {
     return (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
             {/* Header */}
-            <PageHeader 
+            <PageHeader
                 icon={UserCircle}
                 title={t('users')}
                 subtitle={t('manage_users')}
-                actions={
-                    <>
-                        <Button 
-                            onClick={() => navigate("/users/add")}
-                            size="sm"
-                            className={`${THEME.colors.secondary} ${THEME.colors.accent} font-bold shadow-md hover:opacity-90 hover:text-white h-9`}
-                        >
-                            <Plus className="mr-2 h-4 w-4" /> {t('add_new_user')}
-                        </Button>
-                    </>
-                }
+                addPath="/users/add"
+                addText={t('add_new_user')}
+                moduleName={moduleName}
             />
 
             {/* Table Content */}
@@ -91,7 +87,12 @@ const UsersPage = () => {
                     </div>
                 ) : (
                     <div className="p-2">
-                        <GenericDataTable columns={columns} data={usersData} onEdit={handleEdit} onDelete={handleDeleteClick} />
+                        <GenericDataTable
+                            columns={columns}
+                            data={usersData}
+                            onEdit={canEdit(moduleName) ? handleEdit : null}
+                            onDelete={canDelete(moduleName) ? handleDeleteClick : null}
+                        />
                     </div>
                 )}
             </div>
@@ -103,7 +104,7 @@ const UsersPage = () => {
             )}
 
             {/* Delete Confirmation Dialog */}
-            <DeleteConfirmDialog 
+            <DeleteConfirmDialog
                 isOpen={deleteDialogOpen}
                 onClose={() => setDeleteDialogOpen(false)}
                 onConfirm={handleConfirmDelete}

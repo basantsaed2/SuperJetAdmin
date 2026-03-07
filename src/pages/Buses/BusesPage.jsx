@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
-import { AlertCircle, Plus, Bus } from "lucide-react";
+import { AlertCircle, Bus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { GenericDataTable } from "@/components/custom/GenericDataTable";
 import { getBusesColumns } from "./BusesColumns";
@@ -11,10 +11,13 @@ import { useDelete } from "@/hooks/useDelete";
 import PageHeader from "@/components/custom/PageHeader";
 import DeleteConfirmDialog from "@/components/custom/DeleteConfirmDialog";
 import { useTranslation } from "react-i18next";
+import { usePermissions } from "@/hooks/usePermissions";
 
 const BusesPage = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const { canEdit, canDelete } = usePermissions();
+    const moduleName = "buses"; // Based on navigation.jsx
 
     // لجلب البيانات
     const { data, isLoading, error, refetch } = useGet(["buses"], "/api/admin/buses");
@@ -61,15 +64,9 @@ const BusesPage = () => {
                 icon={Bus}
                 title={t('buses')}
                 subtitle={t('manage_buses')}
-                actions={
-                    <Button
-                        onClick={() => navigate("/buses/add")}
-                        size="sm"
-                        className={`${THEME.colors.secondary} ${THEME.colors.accent} font-bold shadow-md hover:opacity-90 hover:text-white h-9`}
-                    >
-                        <Plus className="mr-2 h-4 w-4" /> {t('add_new_bus')}
-                    </Button>
-                }
+                addPath="/buses/add"
+                addText={t('add_new_bus')}
+                moduleName={moduleName}
             />
 
             <div className="bg-white rounded-xl shadow-sm border border-slate-100 min-h-[300px] relative overflow-hidden">
@@ -88,8 +85,8 @@ const BusesPage = () => {
                         <GenericDataTable
                             columns={columns}
                             data={busesData}
-                            onEdit={handleEdit}
-                            onDelete={handleDeleteClick}
+                            onEdit={canEdit(moduleName) ? handleEdit : null}
+                            onDelete={canDelete(moduleName) ? handleDeleteClick : null}
                         />
                     </div>
                 )}

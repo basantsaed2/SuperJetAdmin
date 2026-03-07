@@ -20,13 +20,14 @@ export function AppSidebar() {
     const { i18n } = useTranslation();
     const isRtl = i18n.language === "ar";
     const adminInfo = JSON.parse(localStorage.getItem("admin_info") || "{}");
+    const userType = adminInfo.type;
     const permissions = adminInfo.permissions || [];
 
     return (
-        <Sidebar 
+        <Sidebar
             side={isRtl ? "right" : "left"}
-            variant="sidebar" 
-            collapsible="icon" 
+            variant="sidebar"
+            collapsible="icon"
             className={`border-r border-blue-900/50 ${THEME.colors.primary}`}
         >
             {/* Header: شعار سوبر جيت */}
@@ -46,7 +47,7 @@ export function AppSidebar() {
                     <SidebarGroupContent>
                         <SidebarMenu className="gap-1.5">
                             {NAV_ITEMS.map((item) => (
-                                hasPermission(permissions, item.permission) && (
+                                hasPermission(userType, permissions, item.permission) && (
                                     <SidebarMenuItem key={item.title}>
                                         <NavLink
                                             to={item.path}

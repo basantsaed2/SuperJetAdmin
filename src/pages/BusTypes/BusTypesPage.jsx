@@ -10,14 +10,17 @@ import { useGet } from "@/hooks/useGet";
 import { useDelete } from "@/hooks/useDelete";
 import PageHeader from "@/components/custom/PageHeader";
 import DeleteConfirmDialog from "@/components/custom/DeleteConfirmDialog";
-import { Plus, BusFront } from "lucide-react";
+import { BusFront } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { usePermissions } from "@/hooks/usePermissions";
 
 const BusTypesPage = () => {
     const { t } = useTranslation();
     const navigate = useNavigate(); // 2. تعريف التوجيه
+    const { canEdit, canDelete } = usePermissions();
+    const moduleName = "bus_types";
     const { data, isLoading, error, refetch } = useGet(["busTypes"], "/api/admin/busTypes");
-    
+
     // Deletion State
     const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
     const [itemToDelete, setItemToDelete] = React.useState(null);
@@ -37,7 +40,7 @@ const BusTypesPage = () => {
 
     const handleConfirmDelete = async () => {
         if (!itemToDelete) return;
-        
+
         try {
             await deleteMutation.mutateAsync(itemToDelete.id);
             setDeleteDialogOpen(false);
@@ -60,21 +63,13 @@ const BusTypesPage = () => {
     return (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
             {/* Header */}
-            <PageHeader 
+            <PageHeader
                 icon={BusFront}
                 title={t('bus_types')}
                 subtitle={t('manage_fleet')}
-                actions={
-                    <>
-                        <Button 
-                            onClick={() => navigate("/bus_types/add")}
-                            size="sm"
-                            className={`${THEME.colors.secondary} ${THEME.colors.accent} font-bold shadow-md hover:opacity-90 hover:text-white h-9`}
-                        >
-                            <Plus className="mr-2 h-4 w-4" /> {t('add_new_type')}
-                        </Button>
-                    </>
-                }
+                addPath="/bus_types/add"
+                addText={t('add_new_type')}
+                moduleName={moduleName}
             />
 
             {/* Table Content */}
@@ -95,7 +90,12 @@ const BusTypesPage = () => {
                     </div>
                 ) : (
                     <div className="p-2">
-                        <GenericDataTable columns={columns} data={busTypesData} onEdit={handleEdit} onDelete={handleDeleteClick} />
+                        <GenericDataTable
+                            columns={columns}
+                            data={busTypesData}
+                            onEdit={canEdit(moduleName) ? handleEdit : null}
+                            onDelete={canDelete(moduleName) ? handleDeleteClick : null}
+                        />
                     </div>
                 )}
             </div>
@@ -107,7 +107,7 @@ const BusTypesPage = () => {
             )}
 
             {/* Delete Confirmation Dialog */}
-            <DeleteConfirmDialog 
+            <DeleteConfirmDialog
                 isOpen={deleteDialogOpen}
                 onClose={() => setDeleteDialogOpen(false)}
                 onConfirm={handleConfirmDelete}

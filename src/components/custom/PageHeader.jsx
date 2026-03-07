@@ -1,14 +1,24 @@
-// src/components/ui/custom/PageHeader.jsx
 import React from "react";
 import { THEME } from "@/utils/theme";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { usePermissions } from "@/hooks/usePermissions";
 
-const PageHeader = ({ 
-  icon: Icon, 
-  title, 
-  subtitle, 
+const PageHeader = ({
+  icon: Icon,
+  title,
+  subtitle,
   actions,
-  className = "" 
+  addPath,
+  addText,
+  addIcon: AddIcon = Plus,
+  moduleName,
+  className = ""
 }) => {
+  const navigate = useNavigate();
+  const { canAdd } = usePermissions();
+
   return (
     <div className={`flex flex-col md:flex-row md:items-center justify-between gap-4 ${className}`}>
       <div className="flex items-center gap-3">
@@ -27,11 +37,18 @@ const PageHeader = ({
         </div>
       </div>
 
-      {actions && (
-        <div className="flex items-center gap-2">
-          {actions}
-        </div>
-      )}
+      <div className="flex items-center gap-2">
+        {addPath && canAdd(moduleName) && (
+          <Button
+            onClick={() => navigate(addPath)}
+            size="sm"
+            className={`${THEME.colors.secondary} ${THEME.colors.accent} font-bold shadow-md hover:opacity-90 hover:text-white h-9`}
+          >
+            <AddIcon className="mr-2 h-4 w-4" /> {addText}
+          </Button>
+        )}
+        {actions && actions}
+      </div>
     </div>
   );
 };

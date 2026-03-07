@@ -306,7 +306,10 @@ const resources = {
       "update_failed": "Update failed",
       "delete_item_warning": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
       "operation_failed": "Operation failed",
-      "an_error_occurred": "An error occurred"
+      "an_error_occurred": "An error occurred",
+      "inactive_buses": "Inactive Buses",
+      "driver_name": "Driver Name",
+      "maintenance_reports": "Maintenance Reports",
     }
   },
   ar: {
@@ -612,7 +615,10 @@ const resources = {
       "update_failed": "فشل التحديث",
       "delete_item_warning": "هل أنت متأكد أنك تريد حذف \"{{name}}\"؟ لا يمكن التراجع عن هذا الإجراء.",
       "operation_failed": "فشلت العملية",
-      "an_error_occurred": "حدث خطأ ما"
+      "an_error_occurred": "حدث خطأ ما",
+      "inactive_buses": "الحافلات غير النشطه",
+      "driver_name": "اسم السائق",
+      "maintenance_reports": "تقارير الصيانة",
     }
   }
 };

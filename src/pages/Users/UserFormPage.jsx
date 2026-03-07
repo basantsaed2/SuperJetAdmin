@@ -10,14 +10,14 @@ import { THEME } from "@/utils/theme";
 import { useGet } from "@/hooks/useGet";
 import { usePost } from "@/hooks/usePost";
 import { useUpdate } from "@/hooks/useUpdate";
-import { toast } from "sonner";
 import FormHeader from "@/components/custom/FormHeader";
 import { useTranslation } from "react-i18next";
+import i18n from "@/i18n";
 
 const userSchema = z.object({
-  name: z.string().min(2, "Name is too short"),
-  phone: z.string().min(10, "Invalid phone number"),
-  role: z.string().min(1, "Please select a role"),
+  name: z.string().min(2, i18n.t("name_too_short")),
+  phone: z.string().min(10, i18n.t("invalid_phone")),
+  role: z.string().min(1, i18n.t("role_required")),
   garageId: z.string().optional(),
   hasAccount: z.boolean().default(false),
   username: z.string().optional(),
@@ -26,7 +26,7 @@ const userSchema = z.object({
   if (data.role === "security" && !data.garageId) return false;
   return true;
 }, {
-  message: "Please select a garage for security role",
+  message: i18n.t("garage_required_for_security"),
   path: ["garageId"]
 }).refine((data) => {
   if (data.hasAccount) {
@@ -34,7 +34,7 @@ const userSchema = z.object({
   }
   return true;
 }, {
-  message: "Username and password are required when creating an account",
+  message: i18n.t("account_credentials_required"),
   path: ["username"]
 });
 
@@ -130,19 +130,16 @@ const UserFormPage = () => {
 
     try {
       if (isEditMode && id) {
-        // التعديل 2: نمرر الكائن بالشكل الذي يتوقعه الـ Hook (id و updatedData)
         await updateMutation.mutateAsync({
           id: id,
           updatedData: payload
         });
       } else {
         await postMutation.mutateAsync(payload);
-        toast.success(t('created_successfully'));
       }
       navigate("/users");
     } catch (error) {
-      // الـ Hook يعالج الخطأ تلقائياً عبر Toasts، لذا لا حاجة لتكراره هنا إلا للـ logging
-      console.error("Submission error:", error);
+      // Handled by hook
     }
   };
 

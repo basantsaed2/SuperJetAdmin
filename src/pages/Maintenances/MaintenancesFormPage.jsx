@@ -11,9 +11,10 @@ import { FormInput } from "@/components/custom/FormInput";
 import { THEME } from "@/utils/theme";
 import { useGet } from "@/hooks/useGet";
 import axiosInstance from "@/api/axiosInstance";
-import { toast } from "sonner";
 import FormHeader from "@/components/custom/FormHeader";
 import { useTranslation } from "react-i18next";
+import { usePost } from "@/hooks/usePost";
+import { useUpdate } from "@/hooks/useUpdate";
 
 const maintenanceSchema = (t) => z.object({
   name: z.string().min(3, t("name_min_length")),
@@ -37,6 +38,9 @@ const MaintenancesFormPage = () => {
     ["maintenanceTypes"],
     "/api/admin/maintenanceTypes"
   );
+
+  const postMutation = usePost("/api/admin/maintenances", ["maintenances"]);
+  const updateMutation = useUpdate("/api/admin/maintenances", ["maintenances"]);
 
   const maintenanceTypesOptions = React.useMemo(() => {
     const typesData = typesResponse?.data?.maintenanceTypes || typesResponse?.maintenanceTypes || [];
@@ -74,16 +78,13 @@ const MaintenancesFormPage = () => {
   const onSubmit = async (formData) => {
     try {
       if (isEditMode) {
-        await axiosInstance.put(`/api/admin/maintenances/${id}`, formData);
-        toast.success(t('updated_successfully'));
+        await updateMutation.mutateAsync({ id, updatedData: formData });
       } else {
-        await axiosInstance.post("/api/admin/maintenances", formData);
-        toast.success(t('created_successfully'));
+        await postMutation.mutateAsync(formData);
       }
       navigate("/maintenances");
     } catch (error) {
-      const msg = error.response?.data?.message || t("an_error_occurred");
-      toast.error(msg);
+      // Handled by hook
     }
   };
 
@@ -153,11 +154,11 @@ const MaintenancesFormPage = () => {
 
           <Button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || postMutation.isPending || updateMutation.isPending}
             size="sm"
             className={`min-w-[120px] h-9 text-sm font-bold transition-all text-white ${THEME.colors.primary} hover:opacity-90 shadow-md shadow-yellow-400/10`}
           >
-            {isSubmitting ? (
+            {isSubmitting || postMutation.isPending || updateMutation.isPending ? (
               <Loader2 className="animate-spin mr-2" size={16} />
             ) : (
               <Save className="mr-2" size={16} />

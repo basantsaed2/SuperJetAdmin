@@ -10,17 +10,18 @@ import { THEME } from "@/utils/theme";
 import { useGet } from "@/hooks/useGet";
 import { usePost } from "@/hooks/usePost";
 import { useUpdate } from "@/hooks/useUpdate";
-import { toast } from "sonner";
 import FormHeader from "@/components/custom/FormHeader";
 import { useTranslation } from "react-i18next";
 
+import i18n from "@/i18n";
+
 const adminSchema = z.object({
-  name: z.string().min(2, "Name is too short"),
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters").optional().or(z.literal("")),
-  phone: z.string().min(10, "Invalid phone number"),
-  roleId: z.string().uuid("Please select a role"),
-  type: z.string().min(1, "Please select type")
+  name: z.string().min(2, i18n.t("name_too_short")),
+  email: z.string().email(i18n.t("invalid_email")),
+  password: z.string().min(6, i18n.t("password_too_short")).optional().or(z.literal("")),
+  phone: z.string().min(10, i18n.t("invalid_phone")),
+  roleId: z.string().min(1, i18n.t("role_required")),
+  type: z.string().min(1, i18n.t("type_required"))
 });
 
 const AdminFormPage = () => {
@@ -94,14 +95,12 @@ const AdminFormPage = () => {
     try {
       if (isEditMode) {
         await updateMutation.mutateAsync(data);
-        toast.success(t('admin_updated_successfully'));
       } else {
         await postMutation.mutateAsync(data);
-        toast.success(t('admin_added_successfully'));
       }
       navigate("/admins");
     } catch (error) {
-      toast.error(error?.response?.data?.message || t('operation_failed'));
+      // Handled by hook
     }
   };
 

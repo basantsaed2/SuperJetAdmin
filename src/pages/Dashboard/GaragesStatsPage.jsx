@@ -2,29 +2,57 @@ import { useNavigate } from "react-router-dom";
 import FormHeader from "@/components/custom/FormHeader";
 import { useTranslation } from "react-i18next";
 import { useGet } from "@/hooks/useGet";
-import { Warehouse, Bus, Power, PowerOff, Wrench, ChevronRight } from "lucide-react";
+import { Warehouse, Bus, Power, PowerOff, Wrench, ChevronRight, Filter } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import * as React from "react";
+import DashboardFilter from "@/components/custom/DashboardFilter";
+import { Button } from "@/components/ui/button";
 
 const GaragesStatsPage = () => {
     const { data, isLoading } = useGet(["garages-stats"], "/api/admin/dashboard/garages-stats");
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const garages = data?.data?.garages || [];
+    const [filter, setFilter] = React.useState('all'); // 'all' or specific maintenance item
+
+    const maintenanceOptions = React.useMemo(() => {
+        const list = data?.data?.garages || [];
+        const items = new Set();
+        list.forEach(g => {
+            (g.reportedMaintenances || []).forEach(m => items.add(m));
+        });
+        return Array.from(items).sort();
+    }, [data]);
+
+
+
+    const garages = React.useMemo(() => {
+        let list = data?.data?.garages || [];
+        if (filter === 'all') return list;
+        return list.filter(g => (g.reportedMaintenances || []).includes(filter));
+    }, [data, filter]);
 
     return (
         <div className="p-6 space-y-8 animate-in fade-in duration-500">
-            <FormHeader
-                title={
-                    <div className="flex items-center gap-3">
-                        <div className="p-2 rounded-xl bg-blue-50 text-blue-600">
-                            <Warehouse size={24} />
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <FormHeader
+                    title={
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 rounded-xl bg-blue-50 text-blue-600">
+                                <Warehouse size={24} />
+                            </div>
+                            {t('garages_distribution')}
                         </div>
-                        {t('garages_distribution')}
-                    </div>
-                }
-                onBackClick={() => navigate("/dashboard")}
-            />
+                    }
+                    onBackClick={() => navigate("/dashboard")}
+                />
+
+                <DashboardFilter
+                    value={filter}
+                    onChange={setFilter}
+                    options={maintenanceOptions}
+                />
+            </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
                 {garages.map((garage) => (
@@ -54,12 +82,12 @@ const GaragesStatsPage = () => {
                         </div>
 
                         {/* Stats Grid */}
-                        <div className="grid grid-cols-3 gap-3">
-                            <div className="flex flex-col items-center p-3 rounded-xl bg-green-50/50 border border-green-100/30">
+                        <div className="grid grid-cols-2 gap-3">
+                            {/* <div className="flex flex-col items-center p-3 rounded-xl bg-green-50/50 border border-green-100/30">
                                 <Power className="w-4 h-4 text-green-500 mb-1" />
                                 <span className="text-lg font-bold text-green-700 leading-none">{garage.activeCount}</span>
                                 <span className="text-[10px] uppercase font-black tracking-tighter text-green-600/70 mt-1">{t('active')}</span>
-                            </div>
+                            </div> */}
 
                             <div className="flex flex-col items-center p-3 rounded-xl bg-orange-50/50 border border-orange-100/30">
                                 <Wrench className="w-4 h-4 text-orange-500 mb-1" />

@@ -11,17 +11,19 @@ import { Button } from "@/components/ui/button";
 import { FormInput } from "@/components/custom/FormInput";
 import { THEME } from "@/utils/theme";
 import { useGet } from "@/hooks/useGet";
+import { usePost } from "@/hooks/usePost";
+import { useUpdate } from "@/hooks/useUpdate";
 import axiosInstance from "@/api/axiosInstance";
-import { toast } from "sonner";
 import FormHeader from "@/components/custom/FormHeader";
+import i18n from "@/i18n";
 
 const busSchema = z.object({
-  busTypeId: z.string().min(1, "Bus type is required"),
-  plateNumber: z.string().min(3, "Plate number is required"),
-  busNumber: z.string().min(2, "Bus number is required"),
-  maxSeats: z.coerce.number().min(1, "Seats must be at least 1"),
-  licenseNumber: z.string().min(3, "License number is required"),
-  licenseExpiryDate: z.string().min(1, "Expiry date is required"),
+  busTypeId: z.string().min(1, i18n.t("bus_type_required")),
+  plateNumber: z.string().min(3, i18n.t("plate_number_required")),
+  busNumber: z.string().min(2, i18n.t("bus_number_required")),
+  maxSeats: z.coerce.number().min(1, i18n.t("seats_min")).max(100, i18n.t("seats_max")),
+  licenseNumber: z.string().min(3, i18n.t("license_number_required")),
+  licenseExpiryDate: z.string().min(1, i18n.t("expiry_date_required")),
   licenseImage: z.string().optional(),
   busImage: z.string().optional(),
   status: z.enum(["active", "inactive"]).default("active"),
@@ -47,11 +49,14 @@ const BusesFormPage = () => {
   }, [busTypesResponse]);
 
   // Fetch Bus details if in edit mode
-  const { data: busResponse, isLoading: isFetching, error: fetchError } = useGet(
+  const { data: response, isLoading: isFetching, error: fetchError } = useGet(
     ["bus", id],
     `/api/admin/buses/${id}`,
     { enabled: isEditMode }
   );
+
+  const postMutation = usePost("/api/admin/buses", ["buses"]);
+  const updateMutation = useUpdate("/api/admin/buses", ["buses"]);
 
   const {
     register,
@@ -76,8 +81,8 @@ const BusesFormPage = () => {
   });
 
   React.useEffect(() => {
-    if (isEditMode && busResponse?.data?.bus) {
-      const bus = busResponse.data.bus;
+    if (isEditMode && response?.data?.bus) {
+      const bus = response.data.bus;
       reset({
         busTypeId: bus.busTypeId || bus.busType?.id || "",
         plateNumber: bus.plateNumber,
@@ -92,7 +97,7 @@ const BusesFormPage = () => {
       setBusImagePreview(bus.busImage);
       setLicenseImagePreview(bus.licenseImage);
     }
-  }, [busResponse, reset, isEditMode]);
+  }, [response, reset, isEditMode]);
 
   const handleFileChange = (e, fieldName, setPreview) => {
     const file = e.target.files[0];
@@ -107,19 +112,28 @@ const BusesFormPage = () => {
     }
   };
 
-  const onSubmit = async (formData) => {
+  const onSubmit = async (data) => {
+    const payload = { ...data };
+
+    if (!(payload.busImage instanceof File)) {
+      delete payload.busImage;
+    }
+    if (!(payload.licenseImage instanceof File)) {
+      delete payload.licenseImage;
+    }
+
     try {
       if (isEditMode) {
-        await axiosInstance.put(`/api/admin/buses/${id}`, formData);
-        toast.success(t('updated_bus'));
+        await updateMutation.mutateAsync({
+          id: `${id}/data`,
+          updatedData: payload
+        });
       } else {
-        await axiosInstance.post("/api/admin/buses", formData);
-        toast.success(t('created_bus'));
+        await postMutation.mutateAsync(payload);
       }
       navigate("/buses");
     } catch (error) {
-      const msg = error.response?.data?.message || t("an_error_occurred");
-      toast.error(msg);
+      // Error is handled by the hook's onError
     }
   };
 
@@ -280,11 +294,11 @@ const BusesFormPage = () => {
 
           <Button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || postMutation.isPending || updateMutation.isPending}
             size="sm"
-            className={`min-w-[140px] h-10 text-sm font-bold transition-all text-white ${THEME.colors.primary} hover:opacity-90 shadow-md`}
+            className={`min-w-[120px] h-9 text-sm font-bold transition-all text-white ${THEME.colors.primary} hover:opacity-90 shadow-md shadow-yellow-400/10`}
           >
-            {isSubmitting ? (
+            {isSubmitting || postMutation.isPending || updateMutation.isPending ? (
               <Loader2 className="animate-spin mr-2" size={18} />
             ) : (
               <Save className="mr-2" size={18} />

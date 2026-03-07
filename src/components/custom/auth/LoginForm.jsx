@@ -7,9 +7,10 @@ import { usePost } from "@/hooks/usePost";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import i18n from "@/i18n";
 
 const loginSchema = z.object({
-    email: z.string().email("Invalid email address"),
+    email: z.string().email(i18n.t("invalid_email")),
     password: z.string(),
 });
 

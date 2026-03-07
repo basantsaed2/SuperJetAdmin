@@ -10,13 +10,16 @@ import { Button } from "@/components/ui/button";
 import { FormInput } from "@/components/custom/FormInput";
 import { THEME } from "@/utils/theme";
 import { useGet } from "@/hooks/useGet";
+import { usePost } from "@/hooks/usePost";
+import { useUpdate } from "@/hooks/useUpdate";
 import axiosInstance from "@/api/axiosInstance";
-import { toast } from "sonner";
 import FormHeader from "@/components/custom/FormHeader";
 import { useTranslation } from "react-i18next";
 
+import i18n from "@/i18n";
+
 const roleSchema = z.object({
-  name: z.string().min(2, "Name is too short"),
+  name: z.string().min(2, i18n.t("name_too_short")),
   permissions: z.array(z.object({
     module: z.string(),
     actions: z.array(z.object({
@@ -44,6 +47,9 @@ const RoleFormPage = () => {
     ["permissions-structure"],
     "/api/admin/roles/permissions"
   );
+
+  const postMutation = usePost("/api/admin/roles", ["roles"]);
+  const updateMutation = useUpdate("/api/admin/roles", ["roles"]);
 
   const modules = permissionsResponse?.data?.modules || [];
   const allActions = permissionsResponse?.data?.actions || [];
@@ -159,15 +165,13 @@ const RoleFormPage = () => {
   const onSubmit = async (formData) => {
     try {
       if (isEditMode) {
-        await axiosInstance.put(`/api/admin/roles/${id}`, formData);
-        toast.success(t('updated_successfully'));
+        await updateMutation.mutateAsync({ id, updatedData: formData });
       } else {
-        await axiosInstance.post("/api/admin/roles", formData);
-        toast.success(t('created_successfully'));
+        await postMutation.mutateAsync(formData);
       }
       navigate("/roles");
     } catch (error) {
-      toast.error(error.response?.data?.message || t("an_error_occurred"));
+      // Handled by hook
     }
   };
 
@@ -290,8 +294,8 @@ const RoleFormPage = () => {
                             type="button"
                             onClick={() => handleTogglePermission(modulePerm.module, action.action, action.id)}
                             className={`flex items-center gap-2 px-3 py-2 rounded-xl border transition-all duration-300 select-none ${isSelected
-                                ? 'bg-blue-600 border-blue-600 text-white shadow-md shadow-blue-500/20'
-                                : 'bg-slate-50 border-slate-100 text-slate-500 hover:bg-white hover:border-blue-200'
+                              ? 'bg-blue-600 border-blue-600 text-white shadow-md shadow-blue-500/20'
+                              : 'bg-slate-50 border-slate-100 text-slate-500 hover:bg-white hover:border-blue-200'
                               }`}
                           >
                             {isSelected ? (
@@ -331,11 +335,11 @@ const RoleFormPage = () => {
 
           <Button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || postMutation.isPending || updateMutation.isPending}
             size="sm"
             className={`min-w-[120px] h-9 text-sm font-bold transition-all text-white ${THEME.colors.primary} hover:opacity-90 shadow-md shadow-yellow-400/10`}
           >
-            {isSubmitting ? (
+            {isSubmitting || postMutation.isPending || updateMutation.isPending ? (
               <Loader2 className="animate-spin mr-2" size={16} />
             ) : (
               <Save className="mr-2" size={16} />

@@ -7,7 +7,6 @@ import { BusDetailsView } from "./BusDetailsView";
 const BusDetailsModalContent = ({ busId }) => {
     const { t } = useTranslation();
 
-    // الطلب لا يتم إلا إذا كان الـ busId موجود
     const { data, isLoading, error } = useGet(
         ["bus-details-modal", busId],
         `/api/admin/dashboard/buses/${busId}/checkin-details`,

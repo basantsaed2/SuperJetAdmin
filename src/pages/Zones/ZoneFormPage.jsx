@@ -10,14 +10,17 @@ import { Button } from "@/components/ui/button";
 import { FormInput } from "@/components/custom/FormInput";
 import { THEME } from "@/utils/theme";
 import { useGet } from "@/hooks/useGet";
+import { usePost } from "@/hooks/usePost";
+import { useUpdate } from "@/hooks/useUpdate";
 import axiosInstance from "@/api/axiosInstance";
-import { toast } from "sonner";
 import FormHeader from "@/components/custom/FormHeader";
 import { useTranslation } from "react-i18next";
 
+import i18n from "@/i18n";
+
 const zoneSchema = z.object({
-  name: z.string().min(2, "Name is too short"),
-  cityId: z.string().uuid("Please select a valid city"),
+  name: z.string().min(2, i18n.t("name_too_short")),
+  cityId: z.string().min(1, i18n.t("invalid_city")),
 });
 
 const ZoneFormPage = () => {
@@ -37,6 +40,9 @@ const ZoneFormPage = () => {
     ["cities"],
     "/api/admin/cities"
   );
+
+  const postMutation = usePost("/api/admin/zones", ["zones"]);
+  const updateMutation = useUpdate("/api/admin/zones", ["zones"]);
 
   const cityOptions = React.useMemo(() => {
     const citiesData = citiesResponse?.data?.cities || citiesResponse?.cities || [];
@@ -74,16 +80,13 @@ const ZoneFormPage = () => {
   const onSubmit = async (formData) => {
     try {
       if (isEditMode) {
-        await axiosInstance.put(`/api/admin/zones/${id}`, formData);
-        toast.success(t('updated_successfully'));
+        await updateMutation.mutateAsync({ id, updatedData: formData });
       } else {
-        await axiosInstance.post("/api/admin/zones", formData);
-        toast.success(t('created_successfully'));
+        await postMutation.mutateAsync(formData);
       }
       navigate("/zones");
     } catch (error) {
-      const msg = error.response?.data?.message || t("an_error_occurred");
-      toast.error(msg);
+      // Handled by hook
     }
   };
 
@@ -153,11 +156,11 @@ const ZoneFormPage = () => {
 
           <Button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || postMutation.isPending || updateMutation.isPending}
             size="sm"
             className={`min-w-[120px] h-9 text-sm font-bold transition-all text-white ${THEME.colors.primary} hover:opacity-90 shadow-md shadow-yellow-400/10`}
           >
-            {isSubmitting ? (
+            {isSubmitting || postMutation.isPending || updateMutation.isPending ? (
               <Loader2 className="animate-spin mr-2" size={16} />
             ) : (
               <Save className="mr-2" size={16} />

@@ -10,18 +10,20 @@ import { Button } from "@/components/ui/button";
 import { FormInput } from "@/components/custom/FormInput";
 import { THEME } from "@/utils/theme";
 import { useGet } from "@/hooks/useGet";
+import { usePost } from "@/hooks/usePost";
+import { useUpdate } from "@/hooks/useUpdate";
 import axiosInstance from "@/api/axiosInstance";
-import { toast } from "sonner";
 import FormHeader from "@/components/custom/FormHeader";
 import { useTranslation } from "react-i18next";
+import i18n from "@/i18n";
 
 // 1. تعريف الـ Validation Schema باستخدام Zod
 const busTypeSchema = z.object({
-  name: z.string().min(3, "Name must be at least 3 characters"),
+  name: z.string().min(3, i18n.t("name_min_length")),
   capacity: z.coerce
     .number()
-    .min(1, "Capacity must be at least 1 seat"),
-  description: z.string().min(5, "Description is too short").optional().or(z.literal("")),
+    .min(1, i18n.t("capacity_min")),
+  description: z.string().min(5, i18n.t("description_too_short")).optional().or(z.literal("")),
 });
 
 const BusTypeFormPage = () => {
@@ -36,6 +38,9 @@ const BusTypeFormPage = () => {
     `/api/admin/busTypes/${id}`,
     { enabled: isEditMode }
   );
+
+  const postMutation = usePost("/api/admin/busTypes", ["busTypes"]);
+  const updateMutation = useUpdate("/api/admin/busTypes", ["busTypes"]);
 
   // 3. إعداد React Hook Form مع Zod
   const {
@@ -68,16 +73,13 @@ const BusTypeFormPage = () => {
   const onSubmit = async (formData) => {
     try {
       if (isEditMode) {
-        await axiosInstance.put(`/api/admin/busTypes/${id}`, formData);
-        toast.success(t('updated_successfully'));
+        await updateMutation.mutateAsync({ id, updatedData: formData });
       } else {
-        await axiosInstance.post("/api/admin/busTypes", formData);
-        toast.success(t('created_successfully'));
+        await postMutation.mutateAsync(formData);
       }
-      navigate("/bus_types"); // العودة للجدول
+      navigate("/bus_types");
     } catch (error) {
-      const msg = error.response?.data?.message || t("an_error_occurred");
-      toast.error(msg);
+      // Handled by hook
     }
   };
 
@@ -155,11 +157,11 @@ const BusTypeFormPage = () => {
 
           <Button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || postMutation.isPending || updateMutation.isPending}
             size="sm"
             className={`min-w-[120px] h-9 text-sm font-bold transition-all text-white ${THEME.colors.primary} hover:opacity-90 shadow-md shadow-yellow-400/10`}
           >
-            {isSubmitting ? (
+            {isSubmitting || postMutation.isPending || updateMutation.isPending ? (
               <Loader2 className="animate-spin mr-2" size={16} />
             ) : (
               <Save className="mr-2" size={16} />

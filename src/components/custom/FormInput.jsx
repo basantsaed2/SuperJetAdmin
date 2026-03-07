@@ -20,6 +20,7 @@ import { cn } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
 import { Search, X, Check, ChevronDown, CheckSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import i18n from "@/i18n";
 
 // --- Searchable Single Select ---
 const SearchableSelect = ({ options, onValueChange, value, placeholder, t, hasError }) => {
@@ -62,17 +63,17 @@ const SearchableSelect = ({ options, onValueChange, value, placeholder, t, hasEr
           <span className="truncate">
             {selectedOption ? selectedOption.label : placeholder}
           </span>
-          <ChevronDown className="h-4 w-4 opacity-40 shrink-0 ml-2 transition-transform duration-300 group-data-[state=open]:rotate-180" />
+          <ChevronDown className="h-4 w-4 opacity-40 shrink-0 ltr:ml-2 rtl:mr-2 transition-transform duration-300 group-data-[state=open]:rotate-180" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         side="bottom"
-        align="start"
+        align={i18n.dir() === "rtl" ? "end" : "start"}
         className="w-[var(--radix-dropdown-menu-trigger-width)] z-[150] bg-white/80 backdrop-blur-xl border-slate-200 p-0 shadow-2xl overflow-hidden rounded-2xl animate-in fade-in zoom-in-95 duration-200"
       >
         <div className="sticky top-0 bg-white/50 backdrop-blur-md p-2 border-b border-slate-100 z-40">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search className="absolute ltr:left-3 rtl:right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <Input
               ref={inputRef}
               placeholder={t('search_by')}
@@ -81,7 +82,7 @@ const SearchableSelect = ({ options, onValueChange, value, placeholder, t, hasEr
               onKeyDown={(e) => {
                 if (e.key === ' ') e.stopPropagation();
               }}
-              className="h-9 text-xs pl-9 pr-3 focus-visible:ring-0 focus-visible:ring-offset-0 bg-slate-100/50 border-transparent rounded-lg"
+              className="h-9 text-xs ltr:pl-9 ltr:pr-3 rtl:pr-9 rtl:pl-3 focus-visible:ring-0 focus-visible:ring-offset-0 bg-slate-100/50 border-transparent rounded-lg"
             />
           </div>
         </div>
@@ -95,14 +96,14 @@ const SearchableSelect = ({ options, onValueChange, value, placeholder, t, hasEr
                   setIsOpen(false);
                 }}
                 className={cn(
-                  "relative flex cursor-pointer select-none items-center rounded-lg px-3 py-2 text-sm outline-none transition-colors",
+                  "relative flex cursor-pointer select-none items-center rounded-lg px-3 py-2 text-sm outline-none transition-colors ltr:text-left rtl:text-right",
                   "hover:bg-blue-50 hover:text-blue-700 focus:bg-blue-50 focus:text-blue-700",
                   value === opt.value && "bg-blue-50 text-blue-700 font-medium"
                 )}
               >
                 {opt.label}
                 {value === opt.value && (
-                  <Check className="ml-auto h-4 w-4" />
+                  <Check className="ltr:ml-auto rtl:mr-auto h-4 w-4" />
                 )}
               </div>
             ))
@@ -185,17 +186,17 @@ const MultiSelect = ({ options, value = [], onChange, placeholder, t, hasError }
               <span className="text-sm">{placeholder}</span>
             )}
           </div>
-          <ChevronDown className="h-4 w-4 opacity-40 shrink-0 ml-2 group-data-[state=open]:rotate-180 transition-transform" />
+          <ChevronDown className="h-4 w-4 opacity-40 shrink-0 ltr:ml-2 rtl:mr-2 group-data-[state=open]:rotate-180 transition-transform" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
         side="bottom"
-        align="start"
+        align={i18n.dir() === "rtl" ? "end" : "start"}
         className="w-[var(--radix-dropdown-menu-trigger-width)] z-[150] bg-white/80 backdrop-blur-xl border-slate-200 p-0 shadow-2xl overflow-hidden rounded-2xl animate-in fade-in zoom-in-95 duration-200"
       >
         <div className="sticky top-0 bg-white/50 backdrop-blur-md p-2 border-b border-slate-100 z-40">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search className="absolute ltr:left-3 rtl:right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <Input
               ref={inputRef}
               placeholder={t('search_by')}
@@ -204,7 +205,7 @@ const MultiSelect = ({ options, value = [], onChange, placeholder, t, hasError }
               onKeyDown={(e) => {
                 if (e.key === ' ') e.stopPropagation();
               }}
-              className="h-9 text-xs pl-9 pr-3 focus-visible:ring-0 focus-visible:ring-offset-0 bg-slate-100/50 border-transparent rounded-lg"
+              className="h-9 text-xs ltr:pl-9 ltr:pr-3 rtl:pr-9 rtl:pl-3 focus-visible:ring-0 focus-visible:ring-offset-0 bg-slate-100/50 border-transparent rounded-lg"
             />
           </div>
           {filteredOptions.length > 0 && (
@@ -234,7 +235,7 @@ const MultiSelect = ({ options, value = [], onChange, placeholder, t, hasError }
                 checked={value.includes(opt.value)}
                 onCheckedChange={() => toggleOption(opt.value)}
                 onSelect={(e) => e.preventDefault()}
-                className="text-sm py-2.5 rounded-lg focus:bg-blue-50 focus:text-blue-700 transition-colors cursor-pointer"
+                className="text-sm py-2.5 rounded-lg focus:bg-blue-50 focus:text-blue-700 transition-colors cursor-pointer ltr:text-left rtl:text-right"
               >
                 <div className="flex-1 font-medium">{opt.label}</div>
               </DropdownMenuCheckboxItem>
@@ -295,7 +296,7 @@ export const FormInput = (props) => {
             placeholder={placeholder}
             rows={rows}
             className={cn(
-              "bg-slate-50/50 border-slate-200 shadow-sm transition-all duration-300 rounded-xl p-4 min-h-[120px] text-start",
+              "bg-slate-50/50 border-slate-200 shadow-sm transition-all duration-300 rounded-xl p-4 min-h-[120px] ltr:text-start rtl:text-right",
               "hover:border-blue-300 hover:bg-white hover:shadow-md",
               "focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500 focus:shadow-lg focus:bg-white",
               hasError && "border-red-500 focus:border-red-500 focus:ring-red-500/10"
@@ -352,26 +353,13 @@ export const FormInput = (props) => {
 
         return (
           <div className={cn(
-            "flex items-center gap-4 py-3.5 px-5 transition-all duration-300 rounded-2xl border",
+            "flex items-center justify-between gap-4 py-3.5 px-5 transition-all duration-300 rounded-2xl border",
             isChecked
               ? "bg-green-50/20 border-green-100/50 shadow-sm"
               : "bg-slate-50/50 border-slate-100 shadow-inner",
             "hover:shadow-md hover:bg-white active:scale-[0.98]"
           )}>
-            <Switch
-              checked={isChecked}
-              onCheckedChange={(checked) => {
-                const newValue = typeof internalValue === "boolean" ? checked : (checked ? "active" : "inactive");
-                setInternalValue(newValue);
-                if (setValue) {
-                  setValue(name, newValue, { shouldValidate: true });
-                }
-                if (props.onChange) props.onChange(newValue);
-              }}
-              className="data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-slate-300 shadow-lg"
-              {...rest}
-            />
-            <div className="flex flex-col">
+            <div className="flex flex-col ltr:text-left rtl:text-right">
               {placeholder && (
                 <span className="text-sm font-bold text-slate-700 tracking-tight leading-none mb-1">
                   {placeholder}
@@ -384,6 +372,19 @@ export const FormInput = (props) => {
                 {isChecked ? t('active') : t('inactive')}
               </span>
             </div>
+            <Switch
+              checked={isChecked}
+              onCheckedChange={(checked) => {
+                const newValue = typeof internalValue === "boolean" ? checked : (checked ? "active" : "inactive");
+                setInternalValue(newValue);
+                if (setValue) {
+                  setValue(name, newValue, { shouldValidate: true });
+                }
+                if (props.onChange) props.onChange(newValue);
+              }}
+              className="data-[state=checked]:bg-green-500 data-[state=unchecked]:bg-slate-300 shadow-lg shrink-0"
+              {...rest}
+            />
           </div>
         );
       }
@@ -395,7 +396,7 @@ export const FormInput = (props) => {
             {...(register ? register(name) : {})}
             placeholder={placeholder}
             className={cn(
-              "w-full h-[48px] px-4 bg-slate-50/50 border-slate-200 shadow-sm transition-all duration-300 rounded-xl text-start",
+              "w-full h-[48px] px-4 bg-slate-50/50 border-slate-200 shadow-sm transition-all duration-300 rounded-xl ltr:text-start rtl:text-right",
               "hover:border-blue-300 hover:bg-white hover:shadow-md",
               "focus:ring-4 focus:ring-blue-500/5 focus:border-blue-500 focus:shadow-lg focus:bg-white",
               hasError && "border-red-500 focus:border-red-500 focus:ring-red-500/10"
@@ -407,9 +408,9 @@ export const FormInput = (props) => {
   };
 
   return (
-    <div className={cn("space-y-2.5 w-full group", className)}>
+    <div className={cn("space-y-2.5 w-full group", className)} dir={i18n.dir()}>
       {label && (
-        <div className="flex items-center gap-1.5 ml-1 select-none">
+        <div className="flex items-center gap-1.5 ltr:ml-1 rtl:mr-1 select-none">
           <div className="w-0.5 h-3 bg-slate-300 rounded-full group-focus-within:h-4 group-focus-within:bg-blue-500 transition-all duration-300" />
           <label className="text-xs font-bold text-slate-500 uppercase tracking-widest opacity-80 group-focus-within:text-blue-600 group-focus-within:opacity-100 transition-all">
             {label}
@@ -422,7 +423,7 @@ export const FormInput = (props) => {
       </div>
 
       {hasError && (
-        <p className="text-[10px] text-red-500 font-bold ml-1.5 flex items-center gap-2 animate-in fade-in slide-in-from-top-1">
+        <p className="text-[10px] text-red-500 font-bold ltr:ml-1.5 rtl:mr-1.5 flex items-center gap-2 animate-in fade-in slide-in-from-top-1">
           <span className="w-1 h-1 bg-red-500 rounded-full shadow-[0_0_8px_rgba(239,68,68,0.6)]" />
           {errors[name]?.message || t('this_field_is_required')}
         </p>

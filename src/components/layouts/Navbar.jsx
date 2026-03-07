@@ -35,7 +35,7 @@ const Navbar = () => {
                 <button
                     onClick={toggleLanguage}
                     className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all font-bold text-sm"
-                    title={i18n.language === "ar" ? "Change language to English" : "تغيير اللغة للعربية"}
+                    title={i18n.language === "ar" ? t("change_language_en") : t("change_language_ar")}
                 >
                     <Globe className="w-4 h-4 text-blue-500" />
                     <span>{i18n.language === "ar" ? "EN" : "AR"}</span>

@@ -26,6 +26,7 @@ import UserFormPage from "@/pages/Users/UserFormPage";
 import Dashboard from "@/pages/Dashboard/Dashboard";
 import GaragesStatsPage from "@/pages/Dashboard/GaragesStatsPage";
 import GarageBusesList from "@/pages/Dashboard/GarageBusesList";
+import MaintenanceReport from "@/pages/Reports/MaintenanceReport";
 
 export const router = createBrowserRouter(
     [
@@ -128,6 +129,12 @@ export const router = createBrowserRouter(
                                         { index: true, element: <UsersPage /> },
                                         { path: "add", element: <UserFormPage /> },
                                         { path: "edit/:id", element: <UserFormPage /> },
+                                    ]
+                                },
+                                {
+                                    path: "reports",
+                                    children: [
+                                        { path: "maintenance", element: <MaintenanceReport /> },
                                     ]
                                 },
                             ],

@@ -27,6 +27,7 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
+import i18n from "@/i18n";
 
 export function GenericDataTable({ columns, data, isLoading, onEdit, onDelete, onView }) {
     const { t } = useTranslation();
@@ -118,11 +119,11 @@ export function GenericDataTable({ columns, data, isLoading, onEdit, onDelete, o
 
     return (
         <div className="space-y-4">
-            <div className="flex items-center gap-2 p-1">
+            <div className="flex items-center gap-2 p-1" dir={i18n.dir()}>
                 <Select value={searchColumn} onValueChange={(val) => {
                     table.getColumn(searchColumn)?.setFilterValue("")
                     setSearchColumn(val)
-                }}>
+                }} dir={i18n.dir()}>
                     <SelectTrigger className="w-[160px] bg-white border-slate-200 shadow-sm">
                         <SelectValue placeholder={t('search_by')} />
                     </SelectTrigger>
@@ -141,7 +142,7 @@ export function GenericDataTable({ columns, data, isLoading, onEdit, onDelete, o
                     onChange={(event) =>
                         table.getColumn(searchColumn)?.setFilterValue(event.target.value)
                     }
-                    className="max-w-sm bg-white border-slate-200 shadow-sm"
+                    className="max-w-sm bg-white border-slate-200 shadow-sm ltr:text-start rtl:text-right"
                 />
             </div>
 

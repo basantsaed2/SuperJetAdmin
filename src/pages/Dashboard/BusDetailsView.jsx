@@ -9,8 +9,6 @@ export const BusDetailsView = ({ busInfo }) => {
     const { t } = useTranslation();
 
     if (!busInfo) return null;
-
-    // دالة لتنسيق التاريخ
     const formatDate = (dateString) => {
         if (!dateString) return "---";
         return new Date(dateString).toLocaleDateString();
@@ -19,10 +17,9 @@ export const BusDetailsView = ({ busInfo }) => {
     return (
         <div className={cn(
             "space-y-6 py-4 border-t",
-            "max-h-[75vh] overflow-y-auto", // تحديد أقصى ارتفاع وتفعيل التمرير
-            "scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]" // إخفاء شريط التمرير تماماً لجميع المتصفحات
+            "max-h-[75vh] overflow-y-auto",
+            "scrollbar-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
         )}>
-            {/* القسم الأول: المعلومات الأساسية (Grid 2 columns) */}
             <div className="grid grid-cols-2 gap-4">
                 <div className="flex items-start gap-3 p-3 rounded-lg bg-slate-50 border border-slate-100">
                     <Hash className="h-5 w-5 text-blue-600 mt-0.5" />
@@ -76,8 +73,15 @@ export const BusDetailsView = ({ busInfo }) => {
                     <Clock className="h-5 w-5 text-blue-600 mt-0.5" />
                     <div>
                         <p className="text-xs text-slate-500">{t('last_check_in')}</p>
-                        <p className="font-bold text-[#003366]">
-                            {busInfo.checkInTime ? new Date(busInfo.checkInTime).toLocaleTimeString() : "---"}
+                        <p className="font-bold text-[#003366] text-sm">
+                            {busInfo.checkInTime ? (
+                                <>
+                                    <span className="block">{new Date(busInfo.checkInTime).toLocaleDateString()}</span>
+                                    <span className="text-xs font-medium text-slate-500">
+                                        {new Date(busInfo.checkInTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                    </span>
+                                </>
+                            ) : "---"}
                         </p>
                     </div>
                 </div>
@@ -96,7 +100,6 @@ export const BusDetailsView = ({ busInfo }) => {
                 </div>
             </div>
 
-            {/* القسم الثاني: بلاغات الصيانة (إن وجدت) */}
             {busInfo.reportedMaintenances?.length > 0 && (
                 <div className="p-4 border rounded-xl bg-red-50/30 border-red-100">
                     <h4 className="text-sm font-semibold mb-3 flex items-center gap-2 text-red-700">
@@ -114,7 +117,6 @@ export const BusDetailsView = ({ busInfo }) => {
                 </div>
             )}
 
-            {/* القسم الثالث: الوصف */}
             <div className="p-4 border rounded-xl border-dashed border-slate-200">
                 <h4 className="text-sm font-semibold mb-2 flex items-center gap-2 text-slate-700">
                     <Bus className="h-4 w-4" />

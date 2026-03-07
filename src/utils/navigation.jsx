@@ -1,4 +1,4 @@
-import { LayoutDashboard, Bus, Settings, Users, ShieldCheck, Wrench ,MapPin, Navigation, Warehouse, UserCircle } from "lucide-react";
+import { LayoutDashboard, Bus, Settings, Users, ShieldCheck, Wrench, MapPin, Navigation, Warehouse, UserCircle, FileText } from "lucide-react";
 
 export const NAV_ITEMS = [
     {
@@ -69,6 +69,13 @@ export const NAV_ITEMS = [
         title: "zones",
         path: "/zones",
         icon: <Navigation size={20} />,
+        permission: null,
+    },
+    // Reports
+    {
+        title: "reports",
+        path: "/reports/maintenance",
+        icon: <FileText size={20} />,
         permission: null,
     },
 ];
